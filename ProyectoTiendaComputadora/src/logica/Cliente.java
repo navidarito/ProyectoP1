@@ -20,7 +20,7 @@ public class Cliente {
 		this.direccion = direccion;
 		misFacturas = new ArrayList<Factura>();
 		this.telefono = telefono;
-		this.cantFacturas =0;
+		this.cantFacturas = 0;
 	}
 
 
