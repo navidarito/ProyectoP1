@@ -1,20 +1,21 @@
 package logica;
 
-import java.util.ArrayList;
+
 
 public class TarjetaMadre extends Producto {
 	
 	
 	private String tipConectorMicro;
 	private String puedeMemoriaRam;
-	private ArrayList<String> conexionesDiscoDuro;
+	private String puedeDiscoDuro;
 	
-	public TarjetaMadre(double precio, int cantidad, String numeroSerie, String marca, String modelo,
-			String tipConectorMicro, String puedeMemoriaRam, ArrayList<String> conexionesDiscoDuro) {
-		super(precio, cantidad, numeroSerie, marca, modelo);
+
+	public TarjetaMadre(double precio, int cantInicial, String numeroSerie, String marca, String modelo,
+			String tipConectorMicro, String puedeMemoriaRam, String puedeDiscoDuro) {
+		super(precio, cantInicial, numeroSerie, marca, modelo);
 		this.tipConectorMicro = tipConectorMicro;
 		this.puedeMemoriaRam = puedeMemoriaRam;
-		this.conexionesDiscoDuro = conexionesDiscoDuro;
+		this.puedeDiscoDuro = puedeDiscoDuro;
 	}
 
 	public String getTipConectorMicro() {
@@ -33,15 +34,15 @@ public class TarjetaMadre extends Producto {
 		this.puedeMemoriaRam = puedeMemoriaRam;
 	}
 
-	public ArrayList<String> getConexionesDiscoDuro() {
-		return conexionesDiscoDuro;
+	public String getPuedeDiscoDuro() {
+		return puedeDiscoDuro;
 	}
 
-	public void setConexionesDiscoDuro(ArrayList<String> conexionesDiscoDuro) {
-		this.conexionesDiscoDuro = conexionesDiscoDuro;
+	public void setPuedeDiscoDuro(String puedeDiscoDuro) {
+		this.puedeDiscoDuro = puedeDiscoDuro;
 	}
-	
-	
+
+
 	
 	
 

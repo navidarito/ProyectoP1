@@ -5,9 +5,11 @@ public class Microprocesador extends Producto {
 	private String tipoConexion;
 	private double velocidadProcesamiento;
 	
-	public Microprocesador(double precio, int cantidad, String numeroSerie, String marca, String modelo,
+	
+
+	public Microprocesador(double precio, int cantInicial, String numeroSerie, String marca, String modelo,
 			String tipoConexion, double velocidadProcesamiento) {
-		super(precio, cantidad, numeroSerie, marca, modelo);
+		super(precio, cantInicial, numeroSerie, marca, modelo);
 		this.tipoConexion = tipoConexion;
 		this.velocidadProcesamiento = velocidadProcesamiento;
 	}
