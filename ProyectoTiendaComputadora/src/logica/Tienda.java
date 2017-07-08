@@ -59,6 +59,15 @@ public class Tienda {
 		misFacturas.add(factu);
 	}
 	
+	public double TotalVentas(){
+		double total = 0;
+		for (int i = 0; i < misFacturas.size(); i++) {
+			for (int j = 0; j < misFacturas.get(i).getMisProductos().size(); j++) {
+				total += misFacturas.get(i).getMisProductos().get(j).precioVenta()*misFacturas.get(i).getMisProductos().get(j).compra;
+			}			
+		}
+		return total;
+	}
 	
 
 }

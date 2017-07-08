@@ -11,14 +11,12 @@ public class Factura {
 	private String codigo;
 	private double precioVenta;
 	
-	public Factura(Cliente client, Date fechaCompra, String codigo,
-			double precioVenta) {
+	
+	public Factura(Cliente client, Date fechaCompra) {
 		super();
 		this.client = client;
 		misProductos = new ArrayList<Producto>();
 		this.fechaCompra = fechaCompra;
-		this.codigo = codigo;
-		this.precioVenta = precioVenta;
 	}
 
 	public Cliente getClient() {
@@ -63,9 +61,15 @@ public class Factura {
 	
 	
 	
-	public void insertarProducto(Producto p1){
+	public void insertarProducto(Producto p1,int cant){
+		
 		misProductos.add(p1);
+		System.out.println(p1.cantReal);
+		p1.setCompra(cant);
+		p1.setCantReal(p1.getCantReal()-cant);
+
 	}
 	
+
 
 }

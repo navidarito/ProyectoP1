@@ -5,6 +5,7 @@ public abstract class Producto {
 	protected double precio;
 	protected int cantInicial;
 	protected int cantReal;
+	protected int compra;
 	protected String numeroSerie;
 	protected String marca;
 	protected String modelo;
@@ -17,6 +18,7 @@ public abstract class Producto {
 		this.numeroSerie = numeroSerie;
 		this.marca = marca;
 		this.modelo = modelo;
+		compra = 0;
 	}
 	public double getPrecio() {
 		return precio;
@@ -55,6 +57,14 @@ public abstract class Producto {
 		this.modelo = modelo;
 	}
 	
+	
+	
+	public int getCompra() {
+		return compra;
+	}
+	public void setCompra(int compra) {
+		this.compra = compra;
+	}
 	public double precioVenta(){
 		double pv = 0;
 		pv = precio + precio * 0.20;
