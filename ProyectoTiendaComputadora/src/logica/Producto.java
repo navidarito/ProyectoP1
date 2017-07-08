@@ -55,7 +55,11 @@ public abstract class Producto {
 		this.modelo = modelo;
 	}
 	
-	
+	public double precioVenta(){
+		double pv = 0;
+		pv = precio + precio * 0.20;
+		return pv;
+	}
 	
 
 	
