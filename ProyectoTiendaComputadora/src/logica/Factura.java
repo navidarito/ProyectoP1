@@ -63,5 +63,9 @@ public class Factura {
 	
 	
 	
+	public void insertarProducto(Producto p1){
+		misProductos.add(p1);
+	}
+	
 
 }
