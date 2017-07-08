@@ -51,6 +51,14 @@ public class Tienda {
 		misProductos.add(produc);
 	}
 	
+	public void InsertarCliente(Cliente clien){
+		misClientes.add(clien);
+	}
+	
+	public void InsertarFactura(Factura factu){
+		misFacturas.add(factu);
+	}
+	
 	
 
 }
