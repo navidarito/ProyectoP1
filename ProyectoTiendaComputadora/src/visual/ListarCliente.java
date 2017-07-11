@@ -30,6 +30,7 @@ public class ListarCliente extends JDialog {
 	private JButton btnEliminar;
 	private JButton okButton;
 	private String cedula = "";
+	private int ind=0;
 
 	/**
 	 * Launch the application.
