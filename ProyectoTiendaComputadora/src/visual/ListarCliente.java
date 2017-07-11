@@ -8,12 +8,16 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
 
 import logica.Tienda;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.ActionEvent;
 
 public class ListarCliente extends JDialog {
@@ -21,6 +25,11 @@ public class ListarCliente extends JDialog {
 	private final JPanel contentPanel = new JPanel();
 	private JTable table;
 	private static Tienda tienda;
+	private static Object[] fila;
+	private static DefaultTableModel model;
+	private JButton btnEliminar;
+	private JButton okButton;
+	private String cedula = "";
 
 	/**
 	 * Launch the application.
@@ -40,7 +49,7 @@ public class ListarCliente extends JDialog {
 	 */
 	public ListarCliente(Tienda t) {
 		tienda=t;
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 572, 456);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -55,6 +64,29 @@ public class ListarCliente extends JDialog {
 				panel.add(scrollPane, BorderLayout.CENTER);
 				{
 					table = new JTable();
+					table = new JTable();
+					table.addMouseListener(new MouseAdapter() {
+						@Override
+						public void mouseClicked(MouseEvent e) {
+							int aux = table.getSelectedRow();
+							cedula = (String) table.getModel().getValueAt(aux, 1);
+							if(aux>-1){
+								 okButton.setEnabled(true);
+								 btnEliminar.setEnabled(true);
+								 
+							}
+							else{
+								 okButton.setEnabled(false);
+								 btnEliminar.setEnabled(false);
+								 cedula="";
+							}
+						}
+					});
+					String[] columnNames = {"Cédula","Nombre","Teléfono","Dirección"};
+					model = new DefaultTableModel();
+					model.setColumnIdentifiers(columnNames);
+					table.setModel(model);
+					loadTable();
 					scrollPane.setViewportView(table);
 				}
 			}
@@ -64,11 +96,11 @@ public class ListarCliente extends JDialog {
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton btnEliminar = new JButton("Eliminar");
+				btnEliminar = new JButton("Eliminar");
 				buttonPane.add(btnEliminar);
 			}
 			{
-				JButton okButton = new JButton("Modificar");
+				okButton = new JButton("Modificar");
 				okButton.setActionCommand("OK");
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);
@@ -84,6 +116,33 @@ public class ListarCliente extends JDialog {
 				buttonPane.add(cancelButton);
 			}
 		}
+	}
+
+	private void loadTable() {
+		model.setRowCount(0);
+		fila = new Object[model.getColumnCount()];
+		for(int i = 0 ; i < tienda.getMisClientes().size(); i++){
+			
+		
+			fila[0] = tienda.getMisClientes().get(i).getCedula();
+			fila[1] = tienda.getMisClientes().get(i).getNombre();
+			fila[2] = tienda.getMisClientes().get(i).getTelefono();
+			fila[3] = tienda.getMisClientes().get(i).getDireccion();
+	
+			model.addRow(fila);
+			
+		}
+		
+		table.setModel(model);
+		//table.setEnabled(false); //deshabilita la seleccion.
+		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		table.getTableHeader().setReorderingAllowed(false);
+		TableColumnModel columModel = table.getColumnModel();
+		columModel.getColumn(0).setPreferredWidth(110);
+		columModel.getColumn(1).setPreferredWidth(120);
+		columModel.getColumn(2).setPreferredWidth(100);
+		columModel.getColumn(3).setPreferredWidth(203);
+		
 	}
 
 }
