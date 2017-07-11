@@ -82,9 +82,23 @@ public class Principal extends JFrame {
 		menuBar.add(mnProducto);
 		
 		JMenuItem mntmRegistrarProducto = new JMenuItem("Registrar Producto");
+		mntmRegistrarProducto.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				RegistrarProducto p = new RegistrarProducto();
+				p.setModal(true);
+				p.setVisible(true);
+			}
+		});
 		mnProducto.add(mntmRegistrarProducto);
 		
 		JMenuItem mntmListaDeProducto = new JMenuItem("Lista de producto");
+		mntmListaDeProducto.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ListarProducto p = new ListarProducto(tienda);
+				p.setModal(true);
+				p.setVisible(true);
+			}
+		});
 		mnProducto.add(mntmListaDeProducto);
 		
 		JMenu mnVenta = new JMenu("Venta");
@@ -94,6 +108,13 @@ public class Principal extends JFrame {
 		mnVenta.add(mntmRealizarVenta);
 		
 		JMenuItem mntmListaDeV = new JMenuItem("Lista de Venta");
+		mntmListaDeV.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ListarVenta v = new ListarVenta();
+				v.setModal(true);
+				v.setVisible(true);
+			}
+		});
 		mnVenta.add(mntmListaDeV);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
