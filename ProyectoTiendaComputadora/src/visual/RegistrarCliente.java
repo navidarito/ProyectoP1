@@ -45,7 +45,7 @@ public class RegistrarCliente extends JDialog {
 	public RegistrarCliente(Tienda t) {
 		tienda=t;
 		setTitle("Registrar Cliente");
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 450, 289);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -53,7 +53,7 @@ public class RegistrarCliente extends JDialog {
 		{
 			JPanel panel = new JPanel();
 			panel.setBorder(new TitledBorder(null, "Informaci\u00F3n del Cliente", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-			panel.setBounds(10, 11, 414, 206);
+			panel.setBounds(10, 11, 414, 195);
 			contentPanel.add(panel);
 			panel.setLayout(null);
 			
