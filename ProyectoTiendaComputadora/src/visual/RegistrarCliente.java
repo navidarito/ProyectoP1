@@ -58,38 +58,38 @@ public class RegistrarCliente extends JDialog {
 			panel.setLayout(null);
 			
 			JLabel lblCdula = new JLabel("C\u00E9dula:");
-			lblCdula.setBounds(10, 27, 46, 14);
+			lblCdula.setBounds(10, 27, 75, 14);
 			panel.add(lblCdula);
 			
 			txtCedula = new JTextField();
-			txtCedula.setBounds(66, 24, 244, 21);
+			txtCedula.setBounds(95, 27, 244, 21);
 			panel.add(txtCedula);
 			txtCedula.setColumns(10);
 			
 			JLabel lblNombre = new JLabel("Nombre:");
-			lblNombre.setBounds(10, 68, 46, 14);
+			lblNombre.setBounds(10, 68, 75, 14);
 			panel.add(lblNombre);
 			
 			txtNombre = new JTextField();
-			txtNombre.setBounds(66, 65, 244, 21);
+			txtNombre.setBounds(95, 68, 244, 21);
 			panel.add(txtNombre);
 			txtNombre.setColumns(10);
 			
 			JLabel lblDireccin = new JLabel("Direcci\u00F3n:");
-			lblDireccin.setBounds(10, 108, 59, 14);
+			lblDireccin.setBounds(10, 108, 75, 14);
 			panel.add(lblDireccin);
 			
 			txtDireccion = new JTextField();
-			txtDireccion.setBounds(66, 105, 244, 21);
+			txtDireccion.setBounds(95, 108, 244, 21);
 			panel.add(txtDireccion);
 			txtDireccion.setColumns(10);
 			
 			JLabel lblTelfono = new JLabel("Tel\u00E9fono:");
-			lblTelfono.setBounds(10, 147, 46, 14);
+			lblTelfono.setBounds(10, 147, 75, 14);
 			panel.add(lblTelfono);
 			
 			txtTelefono = new JTextField();
-			txtTelefono.setBounds(66, 144, 244, 21);
+			txtTelefono.setBounds(95, 147, 244, 21);
 			panel.add(txtTelefono);
 			txtTelefono.setColumns(10);
 		}

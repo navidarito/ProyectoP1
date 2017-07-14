@@ -62,6 +62,7 @@ public class Principal extends JFrame {
 		mntmRegistrarCliente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				RegistrarCliente r1 = new RegistrarCliente(tienda);
+				r1.setLocationRelativeTo(null);
 				r1.setModal(true);
 				r1.setVisible(true);
 			}
@@ -72,6 +73,7 @@ public class Principal extends JFrame {
 		mntmListarCliente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ListarCliente l1 = new ListarCliente(tienda);
+				l1.setLocationRelativeTo(null);
 				l1.setModal(true);
 				l1.setVisible(true);
 			}
@@ -85,6 +87,7 @@ public class Principal extends JFrame {
 		mntmRegistrarProducto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				RegistrarProducto p = new RegistrarProducto();
+				p.setLocationRelativeTo(null);
 				p.setModal(true);
 				p.setVisible(true);
 			}
@@ -95,6 +98,7 @@ public class Principal extends JFrame {
 		mntmListaDeProducto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ListarProducto p = new ListarProducto(tienda);
+				p.setLocationRelativeTo(null);
 				p.setModal(true);
 				p.setVisible(true);
 			}
@@ -111,6 +115,7 @@ public class Principal extends JFrame {
 		mntmListaDeV.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ListarVenta v = new ListarVenta();
+				v.setLocationRelativeTo(null);
 				v.setModal(true);
 				v.setVisible(true);
 			}

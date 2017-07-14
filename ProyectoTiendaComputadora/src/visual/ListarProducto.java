@@ -71,7 +71,7 @@ public class ListarProducto extends JDialog {
 				panel.add(scrollPane);
 				{
 					
-					String[] columnNames = {"Número de serie","Marca","Modelo","Tipo"};
+					String[] columnNames = {"Número de serie","Marca","Modelo","Tipo","Cantidad Inicial","Cantidad Real"};
 					table = new JTable();
 					model = new DefaultTableModel();
 					model.setColumnIdentifiers(columnNames);
@@ -88,7 +88,7 @@ public class ListarProducto extends JDialog {
 					
 					if(cbOpcion.getSelectedIndex() == 0){
 						//Todo
-						String[] columnNames = {"Número de serie","Marca","Modelo","Tipo"};
+						String[] columnNames = {"Número de serie","Marca","Modelo","Tipo","Cantidad Inicial","Cantidad Real"};
 						model = new DefaultTableModel();
 						model.setColumnIdentifiers(columnNames);
 						table.setModel(model);
@@ -190,6 +190,7 @@ public class ListarProducto extends JDialog {
 			else if(tienda.getMisProductos().get(i) instanceof DiscoDuro){
 				fila[3] = "Disco Duro";
 			}
+			fila[4] = tienda.getMisProductos().get(i).getCantReal();
 			
 	
 			model.addRow(fila);
@@ -204,7 +205,9 @@ public class ListarProducto extends JDialog {
 			columModel.getColumn(0).setPreferredWidth(130);
 			columModel.getColumn(1).setPreferredWidth(95);
 			columModel.getColumn(2).setPreferredWidth(130);
-			columModel.getColumn(3).setPreferredWidth(150);
+			columModel.getColumn(3).setPreferredWidth(110);
+			columModel.getColumn(4).setPreferredWidth(126);
+			columModel.getColumn(5).setPreferredWidth(126);
 		
 		
 	}
@@ -230,10 +233,10 @@ public class ListarProducto extends JDialog {
 			TableColumnModel columModel = table.getColumnModel();
 			columModel.getColumn(0).setPreferredWidth(130);
 			columModel.getColumn(1).setPreferredWidth(95);
-			columModel.getColumn(2).setPreferredWidth(130);
-			columModel.getColumn(3).setPreferredWidth(150);
-			columModel.getColumn(4).setPreferredWidth(128);
-			columModel.getColumn(5).setPreferredWidth(128);
+			columModel.getColumn(2).setPreferredWidth(120);
+			columModel.getColumn(3).setPreferredWidth(131);
+			columModel.getColumn(4).setPreferredWidth(118);
+			columModel.getColumn(5).setPreferredWidth(123);
 		
 	}
 	private void loadTableMicro() {
@@ -257,10 +260,10 @@ public class ListarProducto extends JDialog {
 			table.getTableHeader().setReorderingAllowed(false);
 			TableColumnModel columModel = table.getColumnModel();
 			columModel.getColumn(0).setPreferredWidth(130);
-			columModel.getColumn(1).setPreferredWidth(95);
+			columModel.getColumn(1).setPreferredWidth(100);
 			columModel.getColumn(2).setPreferredWidth(130);
 			columModel.getColumn(3).setPreferredWidth(150);
-			columModel.getColumn(4).setPreferredWidth(128);
+			columModel.getColumn(4).setPreferredWidth(207);
 		
 		
 	}
@@ -284,11 +287,11 @@ public class ListarProducto extends JDialog {
 			table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 			table.getTableHeader().setReorderingAllowed(false);
 			TableColumnModel columModel = table.getColumnModel();
-			columModel.getColumn(0).setPreferredWidth(130);
-			columModel.getColumn(1).setPreferredWidth(95);
-			columModel.getColumn(2).setPreferredWidth(130);
+			columModel.getColumn(0).setPreferredWidth(140);
+			columModel.getColumn(1).setPreferredWidth(140);
+			columModel.getColumn(2).setPreferredWidth(137);
 			columModel.getColumn(3).setPreferredWidth(150);
-			columModel.getColumn(4).setPreferredWidth(128);
+			columModel.getColumn(4).setPreferredWidth(150);
 		
 	}
 	private void loadTableDiscoDuro() {
@@ -311,11 +314,11 @@ public class ListarProducto extends JDialog {
 			table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 			table.getTableHeader().setReorderingAllowed(false);
 			TableColumnModel columModel = table.getColumnModel();
-			columModel.getColumn(0).setPreferredWidth(130);
-			columModel.getColumn(1).setPreferredWidth(95);
-			columModel.getColumn(2).setPreferredWidth(130);
+			columModel.getColumn(0).setPreferredWidth(140);
+			columModel.getColumn(1).setPreferredWidth(135);
+			columModel.getColumn(2).setPreferredWidth(140);
 			columModel.getColumn(3).setPreferredWidth(150);
-			columModel.getColumn(4).setPreferredWidth(128);
+			columModel.getColumn(4).setPreferredWidth(152);
 		
 	}
 }
