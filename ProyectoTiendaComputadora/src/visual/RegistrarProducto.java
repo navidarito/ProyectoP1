@@ -79,7 +79,7 @@ public class RegistrarProducto extends JDialog {
 				
 			}
 		});
-		setBounds(100, 100, 588, 769);
+		setBounds(100, 100, 588, 408);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -226,118 +226,118 @@ public class RegistrarProducto extends JDialog {
 						label.setIcon(new ImageIcon(RegistrarProducto.class.getResource("/imagenes/if_drive-harddisk_118849.png")));
 					}
 				}
-			}
-			{
-				panelRam = new JPanel();
-				panelRam.setBounds(30, 324, 522, 104);
-				panelPrincipal.add(panelRam);
-				panelRam.setLayout(null);
 				{
-					JLabel lblTipo_1 = new JLabel("Tipo");
-					lblTipo_1.setBounds(10, 25, 46, 21);
-					panelRam.add(lblTipo_1);
+					panelRam = new JPanel();
+					panelRam.setBounds(10, 49, 522, 104);
+					panel.add(panelRam);
+					panelRam.setLayout(null);
+					{
+						JLabel lblTipo_1 = new JLabel("Tipo");
+						lblTipo_1.setBounds(10, 25, 46, 21);
+						panelRam.add(lblTipo_1);
+					}
+					{
+						JComboBox cbtipodelram = new JComboBox();
+						cbtipodelram.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "DRAM", "SRAM"}));
+						cbtipodelram.setBounds(115, 25, 157, 21);
+						panelRam.add(cbtipodelram);
+					}
+					{
+						JLabel lblCapacidadmb = new JLabel("Capacidad:");
+						lblCapacidadmb.setBounds(10, 64, 95, 21);
+						panelRam.add(lblCapacidadmb);
+					}
+					{
+						JComboBox cbCapacidadmbRam = new JComboBox();
+						cbCapacidadmbRam.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "4 GB", "6 GB", "8 GB", "12 GB "}));
+						cbCapacidadmbRam.setBounds(115, 64, 157, 21);
+						panelRam.add(cbCapacidadmbRam);
+					}
+					{
+						JLabel label = new JLabel("");
+						label.setIcon(new ImageIcon(RegistrarProducto.class.getResource("/imagenes/if_hardware_random_access_memory_ram_computer_card_998239.png")));
+						label.setBounds(427, 20, 64, 64);
+						panelRam.add(label);
+					}
 				}
 				{
-					JComboBox cbtipodelram = new JComboBox();
-					cbtipodelram.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "DRAM", "SRAM"}));
-					cbtipodelram.setBounds(115, 25, 157, 21);
-					panelRam.add(cbtipodelram);
+					panelTarjetaMadre = new JPanel();
+					panelTarjetaMadre.setBounds(10, 49, 522, 104);
+					panel.add(panelTarjetaMadre);
+					panelTarjetaMadre.setLayout(null);
+					{
+						JLabel lblTipoRam = new JLabel("Tipo RAM:");
+						lblTipoRam.setBounds(10, 42, 95, 21);
+						panelTarjetaMadre.add(lblTipoRam);
+					}
+					{
+						JComboBox cbTipoRam = new JComboBox();
+						cbTipoRam.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "DDR", "DDR-2", "DDR-3", "DDR-4"}));
+						cbTipoRam.setBounds(115, 41, 148, 21);
+						panelTarjetaMadre.add(cbTipoRam);
+					}
+					{
+						JLabel lblTipoSocket = new JLabel("Tipo Socket:");
+						lblTipoSocket.setBounds(10, 73, 95, 21);
+						panelTarjetaMadre.add(lblTipoSocket);
+					}
+					{
+						JComboBox cbTipoSocket = new JComboBox();
+						cbTipoSocket.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "Socket 7", "Socket370", "Socket 423", "Socket 478", "Socket 771"}));
+						cbTipoSocket.setBounds(115, 72, 148, 21);
+						panelTarjetaMadre.add(cbTipoSocket);
+					}
+					{
+						JLabel lblTipoDiscoDuro = new JLabel("Tipo Disco Duro:");
+						lblTipoDiscoDuro.setBounds(10, 11, 108, 21);
+						panelTarjetaMadre.add(lblTipoDiscoDuro);
+					}
+					{
+						JComboBox cbTipoDisco = new JComboBox();
+						cbTipoDisco.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "IDE", "SATA", "SATA-2", "SATA-3"}));
+						cbTipoDisco.setBounds(115, 10, 148, 21);
+						panelTarjetaMadre.add(cbTipoDisco);
+					}
+					{
+						JLabel lblNewLabel_1 = new JLabel("");
+						lblNewLabel_1.setIcon(new ImageIcon(RegistrarProducto.class.getResource("/imagenes/if_1_graphic_card_electronic_device_motherboard_smps_hardware_chip_998234.png")));
+						lblNewLabel_1.setBounds(437, 20, 64, 64);
+						panelTarjetaMadre.add(lblNewLabel_1);
+					}
 				}
 				{
-					JLabel lblCapacidadmb = new JLabel("Capacidad:");
-					lblCapacidadmb.setBounds(10, 64, 95, 21);
-					panelRam.add(lblCapacidadmb);
-				}
-				{
-					JComboBox cbCapacidadmbRam = new JComboBox();
-					cbCapacidadmbRam.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "4 GB", "6 GB", "8 GB", "12 GB "}));
-					cbCapacidadmbRam.setBounds(115, 64, 157, 21);
-					panelRam.add(cbCapacidadmbRam);
-				}
-				{
-					JLabel label = new JLabel("");
-					label.setIcon(new ImageIcon(RegistrarProducto.class.getResource("/imagenes/if_hardware_random_access_memory_ram_computer_card_998239.png")));
-					label.setBounds(427, 20, 64, 64);
-					panelRam.add(label);
-				}
-			}
-			{
-				panelTarjetaMadre = new JPanel();
-				panelTarjetaMadre.setBounds(30, 441, 522, 104);
-				panelPrincipal.add(panelTarjetaMadre);
-				panelTarjetaMadre.setLayout(null);
-				{
-					JLabel lblTipoRam = new JLabel("Tipo RAM:");
-					lblTipoRam.setBounds(10, 42, 95, 21);
-					panelTarjetaMadre.add(lblTipoRam);
-				}
-				{
-					JComboBox cbTipoRam = new JComboBox();
-					cbTipoRam.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "DDR", "DDR-2", "DDR-3", "DDR-4"}));
-					cbTipoRam.setBounds(115, 41, 148, 21);
-					panelTarjetaMadre.add(cbTipoRam);
-				}
-				{
-					JLabel lblTipoSocket = new JLabel("Tipo Socket:");
-					lblTipoSocket.setBounds(10, 73, 95, 21);
-					panelTarjetaMadre.add(lblTipoSocket);
-				}
-				{
-					JComboBox cbTipoSocket = new JComboBox();
-					cbTipoSocket.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "Socket 7", "Socket370", "Socket 423", "Socket 478", "Socket 771"}));
-					cbTipoSocket.setBounds(115, 72, 148, 21);
-					panelTarjetaMadre.add(cbTipoSocket);
-				}
-				{
-					JLabel lblTipoDiscoDuro = new JLabel("Tipo Disco Duro:");
-					lblTipoDiscoDuro.setBounds(10, 11, 108, 21);
-					panelTarjetaMadre.add(lblTipoDiscoDuro);
-				}
-				{
-					JComboBox cbTipoDisco = new JComboBox();
-					cbTipoDisco.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "IDE", "SATA", "SATA-2", "SATA-3"}));
-					cbTipoDisco.setBounds(115, 10, 148, 21);
-					panelTarjetaMadre.add(cbTipoDisco);
-				}
-				{
-					JLabel lblNewLabel_1 = new JLabel("");
-					lblNewLabel_1.setIcon(new ImageIcon(RegistrarProducto.class.getResource("/imagenes/if_1_graphic_card_electronic_device_motherboard_smps_hardware_chip_998234.png")));
-					lblNewLabel_1.setBounds(437, 20, 64, 64);
-					panelTarjetaMadre.add(lblNewLabel_1);
-				}
-			}
-			{
-				panelMicroprocesador = new JPanel();
-				panelMicroprocesador.setBounds(30, 558, 522, 104);
-				panelPrincipal.add(panelMicroprocesador);
-				panelMicroprocesador.setLayout(null);
-				{
-					JLabel label = new JLabel("Tipo Socket:");
-					label.setBounds(10, 25, 95, 21);
-					panelMicroprocesador.add(label);
-				}
-				{
-					JComboBox cbtiposocketmicro = new JComboBox();
-					cbtiposocketmicro.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "Socket 7", "Socket370", "Socket 423", "Socket 478", "Socket 771"}));
-					cbtiposocketmicro.setBounds(115, 25, 148, 21);
-					panelMicroprocesador.add(cbtiposocketmicro);
-				}
-				{
-					JLabel lblVelocidadmhz = new JLabel("Velocidad (MHz):");
-					lblVelocidadmhz.setBounds(10, 62, 97, 21);
-					panelMicroprocesador.add(lblVelocidadmhz);
-				}
-				{
-					JComboBox cbVelocidadmicro = new JComboBox();
-					cbVelocidadmicro.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "8", "33", "100", "800", "1300", "2600", "3000"}));
-					cbVelocidadmicro.setBounds(115, 62, 148, 21);
-					panelMicroprocesador.add(cbVelocidadmicro);
-				}
-				{
-					JLabel lblNewLabel = new JLabel("");
-					lblNewLabel.setIcon(new ImageIcon(RegistrarProducto.class.getResource("/imagenes/if_chip_circuit_ic_microchip_microprocessor_semiconductor_integratedcircuit_1_998236.png")));
-					lblNewLabel.setBounds(437, 16, 64, 64);
-					panelMicroprocesador.add(lblNewLabel);
+					panelMicroprocesador = new JPanel();
+					panelMicroprocesador.setBounds(10, 49, 522, 104);
+					panel.add(panelMicroprocesador);
+					panelMicroprocesador.setLayout(null);
+					{
+						JLabel label = new JLabel("Tipo Socket:");
+						label.setBounds(10, 25, 95, 21);
+						panelMicroprocesador.add(label);
+					}
+					{
+						JComboBox cbtiposocketmicro = new JComboBox();
+						cbtiposocketmicro.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "Socket 7", "Socket370", "Socket 423", "Socket 478", "Socket 771"}));
+						cbtiposocketmicro.setBounds(115, 25, 148, 21);
+						panelMicroprocesador.add(cbtiposocketmicro);
+					}
+					{
+						JLabel lblVelocidadmhz = new JLabel("Velocidad (MHz):");
+						lblVelocidadmhz.setBounds(10, 62, 97, 21);
+						panelMicroprocesador.add(lblVelocidadmhz);
+					}
+					{
+						JComboBox cbVelocidadmicro = new JComboBox();
+						cbVelocidadmicro.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "8", "33", "100", "800", "1300", "2600", "3000"}));
+						cbVelocidadmicro.setBounds(115, 62, 148, 21);
+						panelMicroprocesador.add(cbVelocidadmicro);
+					}
+					{
+						JLabel lblNewLabel = new JLabel("");
+						lblNewLabel.setIcon(new ImageIcon(RegistrarProducto.class.getResource("/imagenes/if_chip_circuit_ic_microchip_microprocessor_semiconductor_integratedcircuit_1_998236.png")));
+						lblNewLabel.setBounds(437, 16, 64, 64);
+						panelMicroprocesador.add(lblNewLabel);
+					}
 				}
 			}
 		}
