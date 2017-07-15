@@ -204,6 +204,7 @@ public class RegistrarProducto extends JDialog {
 					}
 					{
 						JComboBox cbCapacidadAlmacenamiento = new JComboBox();
+						cbCapacidadAlmacenamiento.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "160 GB", "250 GB", "320 GB", "500 GB", "1 TB", "2 TB"}));
 						cbCapacidadAlmacenamiento.setBounds(242, 25, 143, 21);
 						panelDiscoDuro.add(cbCapacidadAlmacenamiento);
 					}
@@ -214,6 +215,7 @@ public class RegistrarProducto extends JDialog {
 					}
 					{
 						JComboBox cbTipoConexionDisco = new JComboBox();
+						cbTipoConexionDisco.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "SSD", "SATA", "SAS", "SCSI"}));
 						cbTipoConexionDisco.setBounds(242, 64, 143, 21);
 						panelDiscoDuro.add(cbTipoConexionDisco);
 					}
@@ -237,16 +239,18 @@ public class RegistrarProducto extends JDialog {
 				}
 				{
 					JComboBox cbtipodelram = new JComboBox();
+					cbtipodelram.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "DRAM", "SRAM"}));
 					cbtipodelram.setBounds(115, 25, 157, 21);
 					panelRam.add(cbtipodelram);
 				}
 				{
-					JLabel lblCapacidadmb = new JLabel("Capacidad (MB):");
+					JLabel lblCapacidadmb = new JLabel("Capacidad:");
 					lblCapacidadmb.setBounds(10, 64, 95, 21);
 					panelRam.add(lblCapacidadmb);
 				}
 				{
 					JComboBox cbCapacidadmbRam = new JComboBox();
+					cbCapacidadmbRam.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "4 GB", "6 GB", "8 GB", "12 GB "}));
 					cbCapacidadmbRam.setBounds(115, 64, 157, 21);
 					panelRam.add(cbCapacidadmbRam);
 				}
@@ -269,6 +273,7 @@ public class RegistrarProducto extends JDialog {
 				}
 				{
 					JComboBox cbTipoRam = new JComboBox();
+					cbTipoRam.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "DDR", "DDR-2", "DDR-3", "DDR-4"}));
 					cbTipoRam.setBounds(115, 41, 148, 21);
 					panelTarjetaMadre.add(cbTipoRam);
 				}
@@ -279,6 +284,7 @@ public class RegistrarProducto extends JDialog {
 				}
 				{
 					JComboBox cbTipoSocket = new JComboBox();
+					cbTipoSocket.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "Socket 7", "Socket370", "Socket 423", "Socket 478", "Socket 771"}));
 					cbTipoSocket.setBounds(115, 72, 148, 21);
 					panelTarjetaMadre.add(cbTipoSocket);
 				}
@@ -289,6 +295,7 @@ public class RegistrarProducto extends JDialog {
 				}
 				{
 					JComboBox cbTipoDisco = new JComboBox();
+					cbTipoDisco.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "IDE", "SATA", "SATA-2", "SATA-3"}));
 					cbTipoDisco.setBounds(115, 10, 148, 21);
 					panelTarjetaMadre.add(cbTipoDisco);
 				}
@@ -311,6 +318,7 @@ public class RegistrarProducto extends JDialog {
 				}
 				{
 					JComboBox cbtiposocketmicro = new JComboBox();
+					cbtiposocketmicro.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "Socket 7", "Socket370", "Socket 423", "Socket 478", "Socket 771"}));
 					cbtiposocketmicro.setBounds(115, 25, 148, 21);
 					panelMicroprocesador.add(cbtiposocketmicro);
 				}
@@ -321,6 +329,7 @@ public class RegistrarProducto extends JDialog {
 				}
 				{
 					JComboBox cbVelocidadmicro = new JComboBox();
+					cbVelocidadmicro.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "8", "33", "100", "800", "1300", "2600", "3000"}));
 					cbVelocidadmicro.setBounds(115, 62, 148, 21);
 					panelMicroprocesador.add(cbVelocidadmicro);
 				}
@@ -345,6 +354,11 @@ public class RegistrarProducto extends JDialog {
 			}
 			{
 				JButton cancelButton = new JButton("Cancelar");
+				cancelButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						dispose();
+					}
+				});
 				cancelButton.setSize(75, 20);
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);

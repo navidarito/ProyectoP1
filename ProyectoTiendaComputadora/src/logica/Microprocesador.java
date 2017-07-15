@@ -3,12 +3,12 @@ package logica;
 public class Microprocesador extends Producto {
 	
 	private String tipoConexion;
-	private double velocidadProcesamiento;
+	private String velocidadProcesamiento;
 	
 	
 
 	public Microprocesador(double precio, int cantInicial, String numeroSerie, String marca, String modelo,
-			String tipoConexion, double velocidadProcesamiento) {
+			String tipoConexion, String velocidadProcesamiento) {
 		super(precio, cantInicial, numeroSerie, marca, modelo);
 		this.tipoConexion = tipoConexion;
 		this.velocidadProcesamiento = velocidadProcesamiento;
@@ -22,11 +22,11 @@ public class Microprocesador extends Producto {
 		this.tipoConexion = tipoConexion;
 	}
 
-	public double getVelocidadProcesamiento() {
+	public String getVelocidadProcesamiento() {
 		return velocidadProcesamiento;
 	}
 
-	public void setVelocidadProcesamiento(double velocidadProcesamiento) {
+	public void setVelocidadProcesamiento(String velocidadProcesamiento) {
 		this.velocidadProcesamiento = velocidadProcesamiento;
 	}
 	

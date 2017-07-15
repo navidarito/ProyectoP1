@@ -6,7 +6,7 @@ import java.util.Date;
 public class Main {
 
 	public static void main(String[] args) {
-		MemoriaRam t1 = new MemoriaRam(100, 20, "A532G2", "Intel", "don", 2000, "DDR5");
+		MemoriaRam t1 = new MemoriaRam(100, 20, "A532G2", "Intel", "don", "2000", "DDR5");
 		TarjetaMadre t2 = new TarjetaMadre(200, 20, "A532G3", "Intel", "AMD", "S1", "2GB", "2GB");
 		Tienda tienda = new Tienda();
 		tienda.InsertarProducto(t1);
