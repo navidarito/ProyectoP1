@@ -10,10 +10,12 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.text.MaskFormatter;
 
+
 import logica.Cliente;
 import logica.Tienda;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -117,13 +119,37 @@ public class RegistrarCliente extends JDialog {
 						String cedu = ftxtCedula.getText();
 						String dire = txtDireccion.getText();
 						String tele = ftxtTelefono.getText();
-						Cliente c1 = new Cliente(nom, cedu, dire, tele);
-						tienda.InsertarCliente(c1);
+						boolean poder = true;
+						
+						if(txtNombre.getText().equalsIgnoreCase("") || ftxtCedula.getText().equalsIgnoreCase("   -       - ")  || txtDireccion.getText().equalsIgnoreCase("") || ftxtTelefono.getText().equalsIgnoreCase("(   )-   -    ") ){
+							JOptionPane.showMessageDialog(null, "No dejes campos vacios", "Información", JOptionPane.WARNING_MESSAGE);
+							poder = false;
+							clean();
+						}
+						
+						for (int i = 0; i < tienda.getMisClientes().size(); i++) {
+							if(tienda.getMisClientes().get(i).getCedula().equalsIgnoreCase(cedu)){
+								JOptionPane.showMessageDialog(null, "No se pudo registrar,\nya existe esta cédula.", "Información", JOptionPane.WARNING_MESSAGE);
+								poder = false;
+								clean();
+							}
+							
+						}
+						if(poder){
+							Cliente c1 = new Cliente(nom, cedu, dire, tele);
+							tienda.InsertarCliente(c1);
+							JOptionPane.showMessageDialog(null, "Operación Exitosa.", "Información", JOptionPane.INFORMATION_MESSAGE);
+						
+							clean();
+						
+						}
 						/*System.out.println(tienda.getMisClientes().get(0).getNombre());
 						System.out.println(tienda.getMisClientes().get(0).getDireccion());
 						System.out.println(tienda.getMisClientes().get(0).getCedula());
 						System.out.println(tienda.getMisClientes().get(0).getTelefono());*/
 					}
+
+					
 				});
 				okButton.setActionCommand("OK");
 				buttonPane.add(okButton);
@@ -140,5 +166,14 @@ public class RegistrarCliente extends JDialog {
 				buttonPane.add(cancelButton);
 			}
 		}
+	}
+	
+	private void clean() {
+		ftxtTelefono.setText("");
+		txtDireccion.setText("");
+		txtNombre.setText("");
+		ftxtCedula.setText("");
+		
+		
 	}
 }
