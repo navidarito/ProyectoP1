@@ -8,23 +8,26 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.text.MaskFormatter;
 
+import logica.Cliente;
 import logica.Tienda;
 
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JFormattedTextField;
 
 public class RegistrarCliente extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
-	private JTextField txtCedula;
-	private JTextField txtNombre;
 	private JTextField txtDireccion;
-	private JTextField txtTelefono;
+	private JFormattedTextField ftxtCedula;
+	private JFormattedTextField ftxtTelefono;
 	
 	private static Tienda tienda;
+	private JTextField txtNombre;
 
 	/**
 	 * Launch the application.
@@ -58,25 +61,15 @@ public class RegistrarCliente extends JDialog {
 			panel.setLayout(null);
 			
 			JLabel lblCdula = new JLabel("C\u00E9dula:");
-			lblCdula.setBounds(10, 27, 75, 14);
+			lblCdula.setBounds(10, 27, 75, 21);
 			panel.add(lblCdula);
 			
-			txtCedula = new JTextField();
-			txtCedula.setBounds(95, 27, 244, 21);
-			panel.add(txtCedula);
-			txtCedula.setColumns(10);
-			
 			JLabel lblNombre = new JLabel("Nombre:");
-			lblNombre.setBounds(10, 68, 75, 14);
+			lblNombre.setBounds(10, 68, 75, 21);
 			panel.add(lblNombre);
 			
-			txtNombre = new JTextField();
-			txtNombre.setBounds(95, 68, 244, 21);
-			panel.add(txtNombre);
-			txtNombre.setColumns(10);
-			
 			JLabel lblDireccin = new JLabel("Direcci\u00F3n:");
-			lblDireccin.setBounds(10, 108, 75, 14);
+			lblDireccin.setBounds(10, 108, 75, 21);
 			panel.add(lblDireccin);
 			
 			txtDireccion = new JTextField();
@@ -85,13 +78,32 @@ public class RegistrarCliente extends JDialog {
 			txtDireccion.setColumns(10);
 			
 			JLabel lblTelfono = new JLabel("Tel\u00E9fono:");
-			lblTelfono.setBounds(10, 147, 75, 14);
+			lblTelfono.setBounds(10, 147, 75, 21);
 			panel.add(lblTelfono);
 			
-			txtTelefono = new JTextField();
-			txtTelefono.setBounds(95, 147, 244, 21);
-			panel.add(txtTelefono);
-			txtTelefono.setColumns(10);
+			
+			try {
+				MaskFormatter mask = new MaskFormatter("###-#########-#");
+				ftxtCedula = new JFormattedTextField(mask);
+				ftxtCedula.setBounds(95, 27, 244, 21);
+				panel.add(ftxtCedula);
+				
+				MaskFormatter mask1 = new MaskFormatter("????????????????????");
+				
+				MaskFormatter mask2 = new MaskFormatter("(###)-###-####");
+				ftxtTelefono = new JFormattedTextField(mask2);
+				ftxtTelefono.setBounds(95, 147, 244, 21);
+				panel.add(ftxtTelefono);
+				
+				txtNombre = new JTextField();
+				txtNombre.setBounds(95, 68, 244, 21);
+				panel.add(txtNombre);
+				txtNombre.setColumns(10);
+				
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+			
 		}
 		{
 			JPanel buttonPane = new JPanel();
@@ -99,6 +111,20 @@ public class RegistrarCliente extends JDialog {
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				JButton okButton = new JButton("Registrar");
+				okButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						String nom = txtNombre.getText();
+						String cedu = ftxtCedula.getText();
+						String dire = txtDireccion.getText();
+						String tele = ftxtTelefono.getText();
+						Cliente c1 = new Cliente(nom, cedu, dire, tele);
+						tienda.InsertarCliente(c1);
+						/*System.out.println(tienda.getMisClientes().get(0).getNombre());
+						System.out.println(tienda.getMisClientes().get(0).getDireccion());
+						System.out.println(tienda.getMisClientes().get(0).getCedula());
+						System.out.println(tienda.getMisClientes().get(0).getTelefono());*/
+					}
+				});
 				okButton.setActionCommand("OK");
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);

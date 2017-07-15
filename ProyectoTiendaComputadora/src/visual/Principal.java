@@ -109,12 +109,21 @@ public class Principal extends JFrame {
 		menuBar.add(mnVenta);
 		
 		JMenuItem mntmRealizarVenta = new JMenuItem("Realizar venta");
+		mntmRealizarVenta.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				RealizarVenta r = new RealizarVenta(tienda);
+				r.setLocationRelativeTo(null);
+				r.setModal(true);
+				r.setVisible(true);
+				
+			}
+		});
 		mnVenta.add(mntmRealizarVenta);
 		
 		JMenuItem mntmListaDeV = new JMenuItem("Lista de Venta");
 		mntmListaDeV.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ListarVenta v = new ListarVenta();
+				ListarVenta v = new ListarVenta(tienda);
 				v.setLocationRelativeTo(null);
 				v.setModal(true);
 				v.setVisible(true);

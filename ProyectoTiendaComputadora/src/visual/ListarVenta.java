@@ -8,6 +8,9 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
+
+import logica.Tienda;
+
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
@@ -15,6 +18,7 @@ public class ListarVenta extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
 	private JTable table;
+	private static Tienda tienda;
 
 	/**
 	 * Launch the application.
@@ -32,7 +36,8 @@ public class ListarVenta extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public ListarVenta() {
+	public ListarVenta(Tienda t) {
+		tienda = t;
 		setTitle("Lista de Ventas");
 		setBounds(100, 100, 534, 341);
 		getContentPane().setLayout(new BorderLayout());
