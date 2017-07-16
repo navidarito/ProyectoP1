@@ -166,7 +166,7 @@ public class RegistrarProducto extends JDialog {
 					panelGeneral.add(lblNmeroDeSerie);
 				}
 				try {
-					MaskFormatter mask = new MaskFormatter("");
+				
 					
 					//MaskFormatter mask1 = new MaskFormatter("????????????????????");
 					
@@ -406,14 +406,16 @@ public class RegistrarProducto extends JDialog {
 					okButton.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent e) {
 							boolean poder = true;
-							Producto p;
+							Producto p = null;
+				
 							double prec = Double.parseDouble(txtPrecioCompra.getText());
-							String numeroSerie = ftxtNumeroSerie.getText();
-							String modelo = txtmodelo.getText();
-							String marca  = txtmarca.getText();
+							String numserie = ftxtNumeroSerie.getText();
+							String marc = txtmarca.getText();
+							String model = txtmarca.getText();
 							int cant = (int) spcantidad.getValue();
 							if(ftxtNumeroSerie.getText().equalsIgnoreCase("") || txtmodelo.getText().equalsIgnoreCase("") || txtmarca.getText().equalsIgnoreCase("") || spcantidad.getValue().equals("")){
 								JOptionPane.showMessageDialog(null, " revise si hay campos vacíos y vuelve a intentarlo", "ERROR", JOptionPane.WARNING_MESSAGE);
+								poder = false;
 							}
 							
 							if(cbTipo.getSelectedIndex()==0){
@@ -422,19 +424,13 @@ public class RegistrarProducto extends JDialog {
 									JOptionPane.showMessageDialog(null,  "hay campos que no están seleccionados", "WARNING", JOptionPane.WARNING_MESSAGE);
 									
 								}else {
-									TarjetaMadre t = new TarjetaMadre();
-									t.setCantReal((int) spcantidad.getValue());
-									t.setCantInicial((int) spcantidad.getValue());
-									t.setMarca(txtmarca.getText());
-									t.setPrecio(Integer.parseInt(txtPrecioCompra.getText()));
-									t.setModelo(txtmodelo.getText());
-									t.setNumeroSerie(ftxtNumeroSerie.getText());
-									t.setTipConectorMicro(cbTipoSocket.getSelectedItem().toString());
-									t.setPuedeMemoriaRam(cbtipodelram.getSelectedItem().toString());
-									t.setPuedeDiscoDuro(cbTipoDisco.getSelectedItem().toString());
-									tienda.InsertarProducto(t);
-									JOptionPane.showMessageDialog(null, "Se ha registrado satisfactoriamente", null, JOptionPane.INFORMATION_MESSAGE);
-									Clean();
+									
+									String tipsock = cbTipoSocket.getSelectedItem().toString();
+									String tipram = cbTipoRam.getSelectedItem().toString();
+									String tipdisc = cbTipoDisco.getSelectedItem().toString();
+									TarjetaMadre t = new TarjetaMadre(prec, cant, numserie, marc, model, tipsock, tipram, tipdisc);
+									
+									p = t;
 									
 								}
 								
@@ -444,18 +440,12 @@ public class RegistrarProducto extends JDialog {
 									JOptionPane.showMessageDialog(null,  "hay campos que no están seleccionados", "WARNING", JOptionPane.WARNING_MESSAGE);
 								}
 								else{
-										Microprocesador m = new Microprocesador();
-										m.setCantReal((int) spcantidad.getValue());
-										m.setCantInicial((int) spcantidad.getValue());
-										m.setMarca(txtmarca.getText());
-										m.setPrecio(Integer.parseInt(txtPrecioCompra.getText()));
-										m.setModelo(txtmodelo.getText());
-										m.setNumeroSerie(ftxtNumeroSerie.getText());
-										m.setVelocidadProcesamiento(cbVelocidadmicro.getSelectedItem().toString());
-										m.setTipoConexion(cbtiposocketmicro.getSelectedItem().toString());
-										tienda.InsertarProducto(m);
-										JOptionPane.showMessageDialog(null, "Se ha registrado satisfactoriamente", null, JOptionPane.INFORMATION_MESSAGE);
-										Clean();
+										String velomic = cbVelocidadmicro.getSelectedItem().toString();
+										String tiposockmi = cbtiposocketmicro.getSelectedItem().toString();
+										Microprocesador m = new Microprocesador(prec, cant, numserie, marc, model, velomic,tiposockmi );
+										p = m;
+										
+										
 									}
 								
 							}else if(cbTipo.getSelectedIndex()==2){
@@ -464,17 +454,13 @@ public class RegistrarProducto extends JDialog {
 									JOptionPane.showMessageDialog(null,  "hay campos que no están seleccionados", "WARNING", JOptionPane.WARNING_MESSAGE);
 								}
 								else{
-									MemoriaRam r = new MemoriaRam();
-									r.setCantReal((int) spcantidad.getValue());
-									r.setCantInicial((int) spcantidad.getValue());
-									r.setMarca(txtmarca.getText());
-									r.setPrecio(Integer.parseInt(txtPrecioCompra.getText()));
-									r.setModelo(txtmodelo.getText());
-									r.setCantidadMemoria(cbCapacidadmbRam.getSelectedItem().toString());
-									r.setTipoMemoria(cbTipoRam.getSelectedItem().toString());
-									tienda.InsertarProducto(r);
-									JOptionPane.showMessageDialog(null, "Se ha registrado satisfactoriamente", null, JOptionPane.INFORMATION_MESSAGE);
-									Clean();
+									
+									String capram = cbCapacidadmbRam.getSelectedItem().toString();
+									String tipram = cbtipodelram.getSelectedItem().toString();
+									MemoriaRam r = new MemoriaRam(prec, cant, numserie, marc, model, capram, tipram);
+									p = r;
+									
+								
 
 								}
 								
@@ -485,42 +471,28 @@ public class RegistrarProducto extends JDialog {
 									JOptionPane.showMessageDialog(null,  "hay campos que no están seleccionados", "WARNING", JOptionPane.WARNING_MESSAGE);
 								}
 								else{
-									DiscoDuro d = new DiscoDuro();
-									d.setCantReal((int) spcantidad.getValue());
-									d.setCantInicial((int) spcantidad.getValue());
-									d.setMarca(txtmarca.getText());
-									d.setPrecio(Integer.parseInt(txtPrecioCompra.getText()));
-									d.setModelo(txtmodelo.getText());
-									d.setCapacidadAlmacenamiento(cbCapacidadAlmacenamiento.getSelectedItem().toString());
-									d.setTipoConexion(cbTipoConexionDisco.getSelectedItem().toString());
-									tienda.InsertarProducto(d);
-									JOptionPane.showMessageDialog(null, "Se ha registrado satisfactoriamente", null, JOptionPane.INFORMATION_MESSAGE);
-									Clean();
+									
+									String capdis = cbCapacidadAlmacenamiento.getSelectedItem().toString();
+									String conecdis = cbTipoConexionDisco.getSelectedItem().toString();
+									DiscoDuro d = new DiscoDuro(prec, cant, numserie, marc, model, capdis, conecdis);
+									p = d;
+									
+								
 								}
 								
 								
 								
 							}
+							if(poder){
+								tienda.InsertarProducto(p);
+								Clean();
+								ftxtNumeroSerie.setText("   -        -  ");
+								JOptionPane.showMessageDialog(null, "Se ha registrado satisfactoriamente", null, JOptionPane.INFORMATION_MESSAGE);
+							}
 
 						}
 
-						private void Clean() {
-							txtmarca.setText("");
-							txtmodelo.setText("");
-							txtPrecioCompra.setText("");
-							spcantidad.setValue(1);
-							cbCapacidadAlmacenamiento.setSelectedIndex(0);
-							cbCapacidadmbRam.setSelectedIndex(0);
-							cbTipo.setSelectedIndex(0);
-							cbTipoConexionDisco.setSelectedIndex(0);
-							cbtipodelram.setSelectedIndex(0);
-							cbTipoDisco.setSelectedIndex(0);
-							cbTipoRam.setSelectedIndex(0);
-							cbTipoSocket.setSelectedIndex(0);
-							cbtiposocketmicro.setSelectedIndex(0);
-							cbVelocidadmicro.setSelectedIndex(0);
-							
-						}
+						
 					});
 					okButton.setSize(77, 20);
 					okButton.setActionCommand("OK");
@@ -532,5 +504,23 @@ public class RegistrarProducto extends JDialog {
 				}
 			}
 		}
+	}
+	private void Clean() {
+		txtmarca.setText("");
+		txtmodelo.setText("");
+		txtPrecioCompra.setText("");
+		ftxtNumeroSerie.setText("   -         -  ");
+		spcantidad.setValue(1);
+		cbCapacidadAlmacenamiento.setSelectedIndex(0);
+		cbCapacidadmbRam.setSelectedIndex(0);
+		cbTipo.setSelectedIndex(0);
+		cbTipoConexionDisco.setSelectedIndex(0);
+		cbtipodelram.setSelectedIndex(0);
+		cbTipoDisco.setSelectedIndex(0);
+		cbTipoRam.setSelectedIndex(0);
+		cbTipoSocket.setSelectedIndex(0);
+		cbtiposocketmicro.setSelectedIndex(0);
+		cbVelocidadmicro.setSelectedIndex(0);
+		
 	}
 }

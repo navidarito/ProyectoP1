@@ -1,7 +1,10 @@
 package logica;
 
-public abstract class Producto {
+import java.io.Serializable;
+
+public abstract class Producto implements Serializable{
 	
+	private static final long serialVersionUID = 1L;
 	protected static double precio;
 	protected static int cantInicial;
 	protected int cantReal;

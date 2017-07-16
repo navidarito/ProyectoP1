@@ -1,16 +1,16 @@
 package logica;
 
+import java.io.Serializable;
 
-
-public class TarjetaMadre extends Producto {
+public class TarjetaMadre extends Producto implements Serializable{
 	
-	
+	private static final long serialVersionUID = 1L;
 	private String tipConectorMicro;
 	private String puedeMemoriaRam;
 	private String puedeDiscoDuro;
-	
 
-	public TarjetaMadre() {
+	public TarjetaMadre(double precio, int cantInicial, String numeroSerie, String marca, String modelo,
+			String tipConectorMicro, String puedeMemoriaRam, String puedeDiscoDuro) {
 		super(precio, cantInicial, numeroSerie, marca, modelo);
 		this.tipConectorMicro = tipConectorMicro;
 		this.puedeMemoriaRam = puedeMemoriaRam;

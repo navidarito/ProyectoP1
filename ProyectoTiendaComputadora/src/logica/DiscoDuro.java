@@ -1,11 +1,17 @@
 package logica;
 
-public class DiscoDuro extends Producto {
+import java.io.Serializable;
+
+public class DiscoDuro extends Producto implements Serializable {
 	
+	private static final long serialVersionUID = 1L;
 	private String capacidadAlmacenamiento;
 	private String tipoConexion;
 	
-	public DiscoDuro() {
+	
+
+	public DiscoDuro(double precio, int cantInicial, String numeroSerie, String marca, String modelo,
+			String capacidadAlmacenamiento, String tipoConexion) {
 		super(precio, cantInicial, numeroSerie, marca, modelo);
 		this.capacidadAlmacenamiento = capacidadAlmacenamiento;
 		this.tipoConexion = tipoConexion;

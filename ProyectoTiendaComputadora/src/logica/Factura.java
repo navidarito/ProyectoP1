@@ -1,10 +1,12 @@
 package logica;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class Factura {
+public class Factura implements Serializable{
 	
+	private static final long serialVersionUID = 1L;
 	private Cliente client;
 	private ArrayList<Producto> misProductos;
 	private Date fechaCompra;
