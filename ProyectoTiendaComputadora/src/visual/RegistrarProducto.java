@@ -433,6 +433,7 @@ public class RegistrarProducto extends JDialog {
 									t.setPuedeDiscoDuro(cbTipoDisco.getSelectedItem().toString());
 									Tienda.getInstance().getMisProductos();
 									JOptionPane.showMessageDialog(null, "Se ha registrado satisfactoriamente", null, JOptionPane.INFORMATION_MESSAGE);
+									Clean();
 									
 								}
 								
@@ -452,6 +453,7 @@ public class RegistrarProducto extends JDialog {
 										m.setTipoConexion(cbtiposocketmicro.getSelectedItem().toString());
 										Tienda.getInstance().getMisProductos();
 										JOptionPane.showMessageDialog(null, "Se ha registrado satisfactoriamente", null, JOptionPane.INFORMATION_MESSAGE);
+										Clean();
 									}
 								
 							}else if(cbTipo.getSelectedIndex()==2){
@@ -469,6 +471,7 @@ public class RegistrarProducto extends JDialog {
 									r.setTipoMemoria(cbTipoRam.getSelectedItem().toString());
 									Tienda.getInstance().getMisProductos();
 									JOptionPane.showMessageDialog(null, "Se ha registrado satisfactoriamente", null, JOptionPane.INFORMATION_MESSAGE);
+									Clean();
 
 								}
 								
@@ -488,12 +491,31 @@ public class RegistrarProducto extends JDialog {
 									d.setTipoConexion(cbTipoConexionDisco.getSelectedItem().toString());
 									Tienda.getInstance().getMisProductos();
 									JOptionPane.showMessageDialog(null, "Se ha registrado satisfactoriamente", null, JOptionPane.INFORMATION_MESSAGE);
+									Clean();
 								}
 								
 								
 								
 							}
 
+						}
+
+						private void Clean() {
+							txtmarca.setText("");
+							txtmodelo.setText("");
+							txtPrecioCompra.setText("");
+							spcantidad.setValue(1);
+							cbCapacidadAlmacenamiento.setSelectedIndex(0);
+							cbCapacidadmbRam.setSelectedIndex(0);
+							cbTipo.setSelectedIndex(0);
+							cbTipoConexionDisco.setSelectedIndex(0);
+							cbtipodelram.setSelectedIndex(0);
+							cbTipoDisco.setSelectedIndex(0);
+							cbTipoRam.setSelectedIndex(0);
+							cbTipoSocket.setSelectedIndex(0);
+							cbtiposocketmicro.setSelectedIndex(0);
+							cbVelocidadmicro.setSelectedIndex(0);
+							
 						}
 					});
 					okButton.setSize(77, 20);
