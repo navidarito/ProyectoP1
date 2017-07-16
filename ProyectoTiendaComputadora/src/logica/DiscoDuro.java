@@ -5,9 +5,8 @@ public class DiscoDuro extends Producto {
 	private String capacidadAlmacenamiento;
 	private String tipoConexion;
 	
-	public DiscoDuro(double precio, int cantidad, String numeroSerie, String marca, String modelo,
-			String capacidadAlmacenamiento, String tipoConexion) {
-		super(precio, cantidad, numeroSerie, marca, modelo);
+	public DiscoDuro() {
+		super(precio, cantInicial, numeroSerie, marca, modelo);
 		this.capacidadAlmacenamiento = capacidadAlmacenamiento;
 		this.tipoConexion = tipoConexion;
 	}

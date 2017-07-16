@@ -18,6 +18,8 @@ import javax.swing.JTextField;
 import javax.swing.JLabel;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Toolkit;
+import javax.swing.ImageIcon;
 
 public class RealizarVenta extends JDialog {
 	private JTable tableListaCompra;
@@ -43,6 +45,7 @@ public class RealizarVenta extends JDialog {
 	 * Create the dialog.
 	 */
 	public RealizarVenta(Tienda t) {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(RealizarVenta.class.getResource("/imagenes/vender.png")));
 		tienda = t;
 		setTitle("Realizar Compra");
 		setBounds(100, 100, 882, 576);
@@ -125,15 +128,17 @@ public class RealizarVenta extends JDialog {
 			txtFechaActual.setColumns(10);
 			
 			JButton btnAgregar = new JButton("Agregar");
-			btnAgregar.setBounds(388, 240, 89, 21);
+			btnAgregar.setIcon(new ImageIcon(RealizarVenta.class.getResource("/imagenes/agregaralCarrito.png")));
+			btnAgregar.setBounds(382, 241, 101, 21);
 			panel.add(btnAgregar);
 			
 			JButton btnQuitar = new JButton("Quitar");
+			btnQuitar.setIcon(new ImageIcon(RealizarVenta.class.getResource("/imagenes/cancel.png")));
 			btnQuitar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 				}
 			});
-			btnQuitar.setBounds(388, 381, 89, 21);
+			btnQuitar.setBounds(382, 381, 101, 21);
 			panel.add(btnQuitar);
 		}
 	}

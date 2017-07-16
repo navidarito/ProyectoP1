@@ -13,6 +13,8 @@ import logica.Tienda;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.ImageIcon;
+import java.awt.Toolkit;
 
 public class ListarVenta extends JDialog {
 
@@ -37,6 +39,7 @@ public class ListarVenta extends JDialog {
 	 * Create the dialog.
 	 */
 	public ListarVenta(Tienda t) {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(ListarVenta.class.getResource("/imagenes/listaVenta.png")));
 		tienda = t;
 		setTitle("Lista de Ventas");
 		setBounds(100, 100, 534, 341);
@@ -64,16 +67,21 @@ public class ListarVenta extends JDialog {
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				JButton btnEliminar = new JButton("Eliminar");
+				btnEliminar.setEnabled(false);
+				btnEliminar.setIcon(new ImageIcon(ListarVenta.class.getResource("/imagenes/cancel.png")));
 				buttonPane.add(btnEliminar);
 			}
 			{
 				JButton btnModificar = new JButton("Modificar");
+				btnModificar.setEnabled(false);
+				btnModificar.setIcon(new ImageIcon(ListarVenta.class.getResource("/imagenes/modificar.png")));
 				btnModificar.setActionCommand("modidficarButton");
 				buttonPane.add(btnModificar);
 				getRootPane().setDefaultButton(btnModificar);
 			}
 			{
-				JButton btnCancelar = new JButton("Cancelar");
+				JButton btnCancelar = new JButton("Salir");
+				btnCancelar.setIcon(new ImageIcon(ListarVenta.class.getResource("/imagenes/salir.png")));
 				btnCancelar.setActionCommand("Cancel");
 				buttonPane.add(btnCancelar);
 			}

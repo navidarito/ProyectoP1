@@ -2,13 +2,13 @@ package logica;
 
 public abstract class Producto {
 	
-	protected double precio;
-	protected int cantInicial;
+	protected static double precio;
+	protected static int cantInicial;
 	protected int cantReal;
 	protected int compra;
-	protected String numeroSerie;
-	protected String marca;
-	protected String modelo;
+	protected static String numeroSerie;
+	protected static String marca;
+	protected static String modelo;
 	
 	public Producto(double precio, int cantInicial, String numeroSerie, String marca, String modelo) {
 		super();
@@ -70,6 +70,7 @@ public abstract class Producto {
 		pv = precio + precio * 0.20;
 		return pv;
 	}
+	
 	
 
 	

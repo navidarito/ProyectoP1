@@ -69,5 +69,9 @@ public class Tienda {
 		return total;
 	}
 	
+	
+		
+		
+	}
 
-}
+

@@ -26,6 +26,9 @@ import javax.swing.JComboBox;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
+import java.awt.Toolkit;
+import javax.swing.JLabel;
 
 public class ListarProducto extends JDialog {
 
@@ -53,6 +56,7 @@ public class ListarProducto extends JDialog {
 	 * Create the dialog.
 	 */
 	public ListarProducto(Tienda t) {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(ListarProducto.class.getResource("/imagenes/pcparts.png")));
 		setTitle("Lista de Productos");
 		tienda = t;
 		setBounds(100, 100, 758, 467);
@@ -154,16 +158,21 @@ public class ListarProducto extends JDialog {
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				JButton btnEliminar = new JButton("Eliminar");
+				btnEliminar.setEnabled(false);
+				btnEliminar.setIcon(new ImageIcon(ListarProducto.class.getResource("/imagenes/cancel.png")));
 				buttonPane.add(btnEliminar);
 			}
 			{
 				JButton okButton = new JButton("Modificar");
+				okButton.setEnabled(false);
+				okButton.setIcon(new ImageIcon(ListarProducto.class.getResource("/imagenes/modificar.png")));
 				okButton.setActionCommand("OK");
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);
 			}
 			{
-				JButton cancelButton = new JButton("Cancelar");
+				JButton cancelButton = new JButton("Salir");
+				cancelButton.setIcon(new ImageIcon(ListarProducto.class.getResource("/imagenes/salir.png")));
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);
 			}

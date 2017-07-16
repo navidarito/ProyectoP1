@@ -19,6 +19,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.ActionEvent;
+import javax.swing.ImageIcon;
+import java.awt.Toolkit;
 
 public class ListarCliente extends JDialog {
 
@@ -49,6 +51,8 @@ public class ListarCliente extends JDialog {
 	 * Create the dialog.
 	 */
 	public ListarCliente(Tienda t) {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(ListarCliente.class.getResource("/imagenes/listCliente.png")));
+		setTitle("Listar Cliente");
 		tienda=t;
 		setBounds(100, 100, 572, 456);
 		getContentPane().setLayout(new BorderLayout());
@@ -98,16 +102,21 @@ public class ListarCliente extends JDialog {
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				btnEliminar = new JButton("Eliminar");
+				btnEliminar.setEnabled(false);
+				btnEliminar.setIcon(new ImageIcon(ListarCliente.class.getResource("/imagenes/cancel.png")));
 				buttonPane.add(btnEliminar);
 			}
 			{
 				okButton = new JButton("Modificar");
+				okButton.setEnabled(false);
+				okButton.setIcon(new ImageIcon(ListarCliente.class.getResource("/imagenes/modificar.png")));
 				okButton.setActionCommand("OK");
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);
 			}
 			{
 				JButton cancelButton = new JButton("Salir");
+				cancelButton.setIcon(new ImageIcon(ListarCliente.class.getResource("/imagenes/salir.png")));
 				cancelButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						dispose();

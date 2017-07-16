@@ -20,6 +20,10 @@ import javax.swing.JTextField;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JFormattedTextField;
+import javax.swing.ImageIcon;
+import java.awt.Toolkit;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class RegistrarCliente extends JDialog {
 
@@ -48,6 +52,7 @@ public class RegistrarCliente extends JDialog {
 	 * Create the dialog.
 	 */
 	public RegistrarCliente(Tienda t) {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(RegistrarCliente.class.getResource("/imagenes/cliente.png")));
 		tienda=t;
 		setTitle("Registrar Cliente");
 		setBounds(100, 100, 450, 289);
@@ -98,9 +103,36 @@ public class RegistrarCliente extends JDialog {
 				panel.add(ftxtTelefono);
 				
 				txtNombre = new JTextField();
+				txtNombre.addKeyListener(new KeyAdapter() {
+					@Override
+					public void keyTyped(KeyEvent e) {
+						char c = e.getKeyChar();
+						if((c<'a' || c>'z')&& (c<'A' || c>'Z')&& c!= KeyEvent.VK_SPACE) e.consume();
+					}
+				});
 				txtNombre.setBounds(95, 68, 244, 21);
 				panel.add(txtNombre);
 				txtNombre.setColumns(10);
+				
+				JLabel lblL = new JLabel("");
+				lblL.setIcon(new ImageIcon(RegistrarCliente.class.getResource("/imagenes/id.png")));
+				lblL.setBounds(345, 30, 46, 14);
+				panel.add(lblL);
+				
+				JLabel label = new JLabel("");
+				label.setIcon(new ImageIcon(RegistrarCliente.class.getResource("/imagenes/escribir.png")));
+				label.setBounds(345, 71, 46, 14);
+				panel.add(label);
+				
+				JLabel label_1 = new JLabel("");
+				label_1.setIcon(new ImageIcon(RegistrarCliente.class.getResource("/imagenes/locationn.png")));
+				label_1.setBounds(345, 111, 46, 14);
+				panel.add(label_1);
+				
+				JLabel label_2 = new JLabel("");
+				label_2.setIcon(new ImageIcon(RegistrarCliente.class.getResource("/imagenes/telefono.png")));
+				label_2.setBounds(345, 150, 46, 14);
+				panel.add(label_2);
 				
 			} catch (Exception e) {
 				// TODO: handle exception
@@ -113,6 +145,7 @@ public class RegistrarCliente extends JDialog {
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				JButton okButton = new JButton("Registrar");
+				okButton.setIcon(new ImageIcon(RegistrarCliente.class.getResource("/imagenes/savee.png")));
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						String nom = txtNombre.getText();
@@ -157,6 +190,7 @@ public class RegistrarCliente extends JDialog {
 			}
 			{
 				JButton cancelButton = new JButton("Cancelar");
+				cancelButton.setIcon(new ImageIcon(RegistrarCliente.class.getResource("/imagenes/cancel.png")));
 				cancelButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						dispose();

@@ -10,8 +10,7 @@ public class TarjetaMadre extends Producto {
 	private String puedeDiscoDuro;
 	
 
-	public TarjetaMadre(double precio, int cantInicial, String numeroSerie, String marca, String modelo,
-			String tipConectorMicro, String puedeMemoriaRam, String puedeDiscoDuro) {
+	public TarjetaMadre() {
 		super(precio, cantInicial, numeroSerie, marca, modelo);
 		this.tipConectorMicro = tipConectorMicro;
 		this.puedeMemoriaRam = puedeMemoriaRam;
