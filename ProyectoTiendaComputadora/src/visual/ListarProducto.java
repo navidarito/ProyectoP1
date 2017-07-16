@@ -199,7 +199,8 @@ public class ListarProducto extends JDialog {
 			else if(tienda.getMisProductos().get(i) instanceof DiscoDuro){
 				fila[3] = "Disco Duro";
 			}
-			fila[4] = tienda.getMisProductos().get(i).getCantReal();
+			fila[4] = tienda.getMisProductos().get(i).getCantInicial();
+			fila[5] = tienda.getMisProductos().get(i).getCantReal();
 			
 	
 			model.addRow(fila);

@@ -424,6 +424,7 @@ public class RegistrarProducto extends JDialog {
 								}else {
 									TarjetaMadre t = new TarjetaMadre();
 									t.setCantReal((int) spcantidad.getValue());
+									t.setCantInicial((int) spcantidad.getValue());
 									t.setMarca(txtmarca.getText());
 									t.setPrecio(Integer.parseInt(txtPrecioCompra.getText()));
 									t.setModelo(txtmodelo.getText());
@@ -431,7 +432,7 @@ public class RegistrarProducto extends JDialog {
 									t.setTipConectorMicro(cbTipoSocket.getSelectedItem().toString());
 									t.setPuedeMemoriaRam(cbtipodelram.getSelectedItem().toString());
 									t.setPuedeDiscoDuro(cbTipoDisco.getSelectedItem().toString());
-									Tienda.getInstance().getMisProductos();
+									tienda.InsertarProducto(t);
 									JOptionPane.showMessageDialog(null, "Se ha registrado satisfactoriamente", null, JOptionPane.INFORMATION_MESSAGE);
 									Clean();
 									
@@ -445,13 +446,14 @@ public class RegistrarProducto extends JDialog {
 								else{
 										Microprocesador m = new Microprocesador();
 										m.setCantReal((int) spcantidad.getValue());
+										m.setCantInicial((int) spcantidad.getValue());
 										m.setMarca(txtmarca.getText());
 										m.setPrecio(Integer.parseInt(txtPrecioCompra.getText()));
 										m.setModelo(txtmodelo.getText());
 										m.setNumeroSerie(ftxtNumeroSerie.getText());
 										m.setVelocidadProcesamiento(cbVelocidadmicro.getSelectedItem().toString());
 										m.setTipoConexion(cbtiposocketmicro.getSelectedItem().toString());
-										Tienda.getInstance().getMisProductos();
+										tienda.InsertarProducto(m);
 										JOptionPane.showMessageDialog(null, "Se ha registrado satisfactoriamente", null, JOptionPane.INFORMATION_MESSAGE);
 										Clean();
 									}
@@ -464,12 +466,13 @@ public class RegistrarProducto extends JDialog {
 								else{
 									MemoriaRam r = new MemoriaRam();
 									r.setCantReal((int) spcantidad.getValue());
+									r.setCantInicial((int) spcantidad.getValue());
 									r.setMarca(txtmarca.getText());
 									r.setPrecio(Integer.parseInt(txtPrecioCompra.getText()));
 									r.setModelo(txtmodelo.getText());
 									r.setCantidadMemoria(cbCapacidadmbRam.getSelectedItem().toString());
 									r.setTipoMemoria(cbTipoRam.getSelectedItem().toString());
-									Tienda.getInstance().getMisProductos();
+									tienda.InsertarProducto(r);
 									JOptionPane.showMessageDialog(null, "Se ha registrado satisfactoriamente", null, JOptionPane.INFORMATION_MESSAGE);
 									Clean();
 
@@ -484,12 +487,13 @@ public class RegistrarProducto extends JDialog {
 								else{
 									DiscoDuro d = new DiscoDuro();
 									d.setCantReal((int) spcantidad.getValue());
+									d.setCantInicial((int) spcantidad.getValue());
 									d.setMarca(txtmarca.getText());
 									d.setPrecio(Integer.parseInt(txtPrecioCompra.getText()));
 									d.setModelo(txtmodelo.getText());
 									d.setCapacidadAlmacenamiento(cbCapacidadAlmacenamiento.getSelectedItem().toString());
 									d.setTipoConexion(cbTipoConexionDisco.getSelectedItem().toString());
-									Tienda.getInstance().getMisProductos();
+									tienda.InsertarProducto(d);
 									JOptionPane.showMessageDialog(null, "Se ha registrado satisfactoriamente", null, JOptionPane.INFORMATION_MESSAGE);
 									Clean();
 								}
