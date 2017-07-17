@@ -16,6 +16,7 @@ import javax.swing.JMenuItem;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
+import java.awt.Toolkit;
 
 public class Principal extends JFrame {
 
@@ -45,6 +46,7 @@ public class Principal extends JFrame {
 	 * Create the frame.
 	 */
 	public Principal(Tienda t1) {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(Principal.class.getResource("/imagenes/pc.png")));
 		tienda=t1;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 613, 387);

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class Tienda {
 	private ArrayList<Producto> misProductos;
+	private int cantProductos=0;
 	private ArrayList<Cliente> misClientes;
 	private ArrayList<Factura> misFacturas;
 	private static Tienda tienda = null;
@@ -13,6 +14,7 @@ public class Tienda {
 		misProductos = new ArrayList<Producto>();
 		misClientes = new ArrayList<Cliente>();
 		misFacturas = new ArrayList<Factura>();
+		this.cantProductos=0;
 	}
 	
 	public static Tienda getInstance(){
@@ -43,6 +45,14 @@ public class Tienda {
 		return misFacturas;
 	}
 
+	public int getCantProductos() {
+		return cantProductos;
+	}
+
+	public void setCantProductos(int cantProductos) {
+		this.cantProductos = cantProductos;
+	}
+
 	public void setMisFacturas(ArrayList<Factura> misFacturas) {
 		this.misFacturas = misFacturas;
 	}
@@ -67,6 +77,35 @@ public class Tienda {
 			}			
 		}
 		return total;
+	}
+	private Producto indexProducto(String numeroSerie){
+		Producto ind = null;
+		for (Producto aux : misProductos) {
+			if(aux.getNumeroSerie().equalsIgnoreCase(numeroSerie)){
+				ind = aux;
+			}
+		}
+		return ind;
+	}
+	private Cliente indexCliente(String cedula){
+		Cliente ind = null;
+		for (Cliente aux : misClientes) {
+			if(aux.getCedula().equalsIgnoreCase(cedula)){
+				ind = aux;
+			}
+		}
+		return ind;
+	}
+
+	public void eliminiarProducto(String numeroSerie) {
+		Producto index = indexProducto(numeroSerie);
+			misProductos.remove(index);
+	}
+
+	public void eliminiarCliente(String cedula) {
+		Cliente index =indexCliente(cedula);
+		misClientes.remove(index);
+		
 	}
 	
 	

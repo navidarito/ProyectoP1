@@ -29,15 +29,22 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import java.awt.Toolkit;
 import javax.swing.JLabel;
+import javax.swing.ListSelectionModel;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class ListarProducto extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
 	private static Tienda tienda;
-	private JTable table;
+	private static JTable table;
 	private static Object[] fila;
 	private static DefaultTableModel model;
 	private JScrollPane scrollPane;
+	private JButton btnEliminar;
+	private JButton btnModificar;
+	private JButton cancelButton;
+	private String numeroSerie = "";
 
 	/**
 	 * Launch the application.
@@ -56,9 +63,9 @@ public class ListarProducto extends JDialog {
 	 * Create the dialog.
 	 */
 	public ListarProducto(Tienda t) {
+		tienda = t;
 		setIconImage(Toolkit.getDefaultToolkit().getImage(ListarProducto.class.getResource("/imagenes/pcparts.png")));
 		setTitle("Lista de Productos");
-		tienda = t;
 		setBounds(100, 100, 758, 467);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -77,6 +84,25 @@ public class ListarProducto extends JDialog {
 					
 					String[] columnNames = {"Número de serie","Marca","Modelo","Tipo","Cantidad Inicial","Cantidad Real"};
 					table = new JTable();
+					table.addMouseListener(new MouseAdapter() {
+						@Override
+						public void mouseClicked(MouseEvent e) {
+							int aux=table.getSelectedRow();
+							if(aux>-1){
+								btnModificar.setEnabled(true);
+								btnEliminar.setEnabled(true);
+							    numeroSerie  = (String) table.getModel().getValueAt(aux, 0);
+							   
+							}
+							else{
+								btnEliminar.setEnabled(false);
+								btnModificar.setEnabled(false);
+								numeroSerie = "";
+							}
+						
+						}
+					});
+					table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 					model = new DefaultTableModel();
 					model.setColumnIdentifiers(columnNames);
 					table.setModel(model);
@@ -157,21 +183,36 @@ public class ListarProducto extends JDialog {
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton btnEliminar = new JButton("Eliminar");
+				btnEliminar = new JButton("Eliminar");
+				btnEliminar.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						if(!numeroSerie.equalsIgnoreCase("")){
+						 tienda.eliminiarProducto(numeroSerie);
+						    loadTable();
+						    btnEliminar.setEnabled(false);
+						    btnModificar.setEnabled(false);
+						}
+					}
+				});
 				btnEliminar.setEnabled(false);
 				btnEliminar.setIcon(new ImageIcon(ListarProducto.class.getResource("/imagenes/cancel.png")));
 				buttonPane.add(btnEliminar);
 			}
 			{
-				JButton okButton = new JButton("Modificar");
-				okButton.setEnabled(false);
-				okButton.setIcon(new ImageIcon(ListarProducto.class.getResource("/imagenes/modificar.png")));
-				okButton.setActionCommand("OK");
-				buttonPane.add(okButton);
-				getRootPane().setDefaultButton(okButton);
+				btnModificar = new JButton("Modificar");
+				btnModificar.setEnabled(false);
+				btnModificar.setIcon(new ImageIcon(ListarProducto.class.getResource("/imagenes/modificar.png")));
+				btnModificar.setActionCommand("OK");
+				buttonPane.add(btnModificar);
+				getRootPane().setDefaultButton(btnModificar);
 			}
 			{
-				JButton cancelButton = new JButton("Salir");
+				cancelButton = new JButton("Salir");
+				cancelButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						dispose();
+					}
+				});
 				cancelButton.setIcon(new ImageIcon(ListarProducto.class.getResource("/imagenes/salir.png")));
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);
@@ -179,7 +220,7 @@ public class ListarProducto extends JDialog {
 		}
 	}
 
-	private void loadTable() {
+	public static void loadTable() {
 		model.setRowCount(0);
 		fila = new Object[model.getColumnCount()];
 		for(int i = 0 ; i < tienda.getMisProductos().size(); i++){
@@ -205,6 +246,17 @@ public class ListarProducto extends JDialog {
 	
 			model.addRow(fila);
 			
+			/*switch (selection){
+			case 0:
+				for (Producto aux : tienda.getInstance().getMisProductos()) {
+					if(aux instanceof T){
+						
+					}
+					
+				}
+			}
+			*/
+			
 			}
 	
 			table.setModel(model);
@@ -219,13 +271,14 @@ public class ListarProducto extends JDialog {
 			columModel.getColumn(4).setPreferredWidth(126);
 			columModel.getColumn(5).setPreferredWidth(126);
 		
-		
 	}
+	
+	
 	private void loadTabletTarjeta() {
 		model.setRowCount(0);
 		fila = new Object[model.getColumnCount()];
-		for (Producto aux : tienda.getMisProductos()) {
-			if(aux instanceof TarjetaMadre){
+		for (Producto aux : Tienda.getInstance().getMisProductos()) {
+		 if(aux instanceof TarjetaMadre){
 				fila[0] = aux.getNumeroSerie();
 				fila[1] = aux.getMarca();
 				fila[2] = aux.getModelo();
@@ -252,7 +305,7 @@ public class ListarProducto extends JDialog {
 	private void loadTableMicro() {
 		model.setRowCount(0);
 		fila = new Object[model.getColumnCount()];
-		for (Producto aux : tienda.getMisProductos()) {
+		for (Producto aux : Tienda.getInstance().getMisProductos()) {
 			if(aux instanceof Microprocesador){
 				fila[0] = aux.getNumeroSerie();
 				fila[1] = aux.getMarca();
@@ -280,7 +333,7 @@ public class ListarProducto extends JDialog {
 	private void loadTableMemoriaRam() {
 		model.setRowCount(0);
 		fila = new Object[model.getColumnCount()];
-		for (Producto aux : tienda.getMisProductos()) {
+		for (Producto aux : Tienda.getInstance().getMisProductos()) {
 			if(aux instanceof MemoriaRam){
 				fila[0] = aux.getNumeroSerie();
 				fila[1] = aux.getMarca();
@@ -307,7 +360,7 @@ public class ListarProducto extends JDialog {
 	private void loadTableDiscoDuro() {
 		model.setRowCount(0);
 		fila = new Object[model.getColumnCount()];
-		for (Producto aux : tienda.getMisProductos()) {
+		for (Producto aux : Tienda.getInstance().getMisProductos()) {
 			if(aux instanceof DiscoDuro){
 				fila[0] = aux.getNumeroSerie();
 				fila[1] = aux.getMarca();

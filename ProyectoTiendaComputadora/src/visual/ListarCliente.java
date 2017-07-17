@@ -21,18 +21,21 @@ import java.awt.event.MouseEvent;
 import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
 import java.awt.Toolkit;
+import javax.swing.ListSelectionModel;
 
 public class ListarCliente extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
-	private JTable table;
+	private static JTable table;
+	private static JTable table_1;
 	private static Tienda tienda;
 	private static Object[] fila;
 	private static DefaultTableModel model;
 	private JButton btnEliminar;
-	private JButton okButton;
+	private JButton btnModificar;
 	private String cedula = "";
 	private int ind=0;
+	//private  String nombreCliente= "";
 
 	/**
 	 * Launch the application.
@@ -50,7 +53,7 @@ public class ListarCliente extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public ListarCliente(Tienda t) {
+	public ListarCliente(Tienda t ) {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(ListarCliente.class.getResource("/imagenes/listCliente.png")));
 		setTitle("Listar Cliente");
 		tienda=t;
@@ -69,19 +72,20 @@ public class ListarCliente extends JDialog {
 				panel.add(scrollPane, BorderLayout.CENTER);
 				{
 					table = new JTable();
-					table = new JTable();
-					table.addMouseListener(new MouseAdapter() {
+					table_1 = new JTable();
+					table_1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+					table_1.addMouseListener(new MouseAdapter() {
 						@Override
 						public void mouseClicked(MouseEvent e) {
-							int aux = table.getSelectedRow();
-							cedula = (String) table.getModel().getValueAt(aux, 1);
+							int aux = table_1.getSelectedRow();
 							if(aux>-1){
-								 okButton.setEnabled(true);
+								 btnModificar.setEnabled(true);
 								 btnEliminar.setEnabled(true);
+								 cedula= (String) table_1.getModel().getValueAt(aux, 0);
 								 
 							}
 							else{
-								 okButton.setEnabled(false);
+								 btnModificar.setEnabled(false);
 								 btnEliminar.setEnabled(false);
 								 cedula="";
 							}
@@ -90,9 +94,9 @@ public class ListarCliente extends JDialog {
 					String[] columnNames = {"Cédula","Nombre","Teléfono","Dirección"};
 					model = new DefaultTableModel();
 					model.setColumnIdentifiers(columnNames);
-					table.setModel(model);
+					table_1.setModel(model);
 					loadTable();
-					scrollPane.setViewportView(table);
+					scrollPane.setViewportView(table_1);
 				}
 			}
 		}
@@ -102,17 +106,27 @@ public class ListarCliente extends JDialog {
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				btnEliminar = new JButton("Eliminar");
+				btnEliminar.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+					  if(!cedula.equalsIgnoreCase("")){
+						  tienda.eliminiarCliente(cedula);
+						  loadTable();
+						  btnEliminar.setEnabled(false);
+						  btnModificar.setEnabled(false);
+					  }
+					}
+				});
 				btnEliminar.setEnabled(false);
 				btnEliminar.setIcon(new ImageIcon(ListarCliente.class.getResource("/imagenes/cancel.png")));
 				buttonPane.add(btnEliminar);
 			}
 			{
-				okButton = new JButton("Modificar");
-				okButton.setEnabled(false);
-				okButton.setIcon(new ImageIcon(ListarCliente.class.getResource("/imagenes/modificar.png")));
-				okButton.setActionCommand("OK");
-				buttonPane.add(okButton);
-				getRootPane().setDefaultButton(okButton);
+				btnModificar = new JButton("Modificar");
+				btnModificar.setEnabled(false);
+				btnModificar.setIcon(new ImageIcon(ListarCliente.class.getResource("/imagenes/modificar.png")));
+				btnModificar.setActionCommand("OK");
+				buttonPane.add(btnModificar);
+				getRootPane().setDefaultButton(btnModificar);
 			}
 			{
 				JButton cancelButton = new JButton("Salir");
@@ -143,11 +157,11 @@ public class ListarCliente extends JDialog {
 			
 		}
 		
-		table.setModel(model);
+		table_1.setModel(model);
 		//table.setEnabled(false); //deshabilita la seleccion.
-		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-		table.getTableHeader().setReorderingAllowed(false);
-		TableColumnModel columModel = table.getColumnModel();
+		table_1.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		table_1.getTableHeader().setReorderingAllowed(false);
+		TableColumnModel columModel = table_1.getColumnModel();
 		columModel.getColumn(0).setPreferredWidth(110);
 		columModel.getColumn(1).setPreferredWidth(120);
 		columModel.getColumn(2).setPreferredWidth(100);

@@ -15,12 +15,19 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ImageIcon;
 import java.awt.Toolkit;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class ListarVenta extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
 	private JTable table;
 	private static Tienda tienda;
+	private JButton btnEliminar;
+	private JButton btnCancelar;
+	private JButton btnModificar;
 
 	/**
 	 * Launch the application.
@@ -57,6 +64,20 @@ public class ListarVenta extends JDialog {
 				panel.add(scrollPane, BorderLayout.CENTER);
 				{
 					table = new JTable();
+					table.addMouseListener(new MouseAdapter() {
+						@Override
+						public void mouseClicked(MouseEvent e) {
+							int aux=table.getSelectedRow();
+							if(aux>-1){
+								btnEliminar.setEnabled(true);
+								btnModificar.setEnabled(true);
+							}
+							else{
+								btnEliminar.setEnabled(false);
+								btnModificar.setEnabled(false);
+							}
+						}
+					});
 					scrollPane.setViewportView(table);
 				}
 			}
@@ -66,13 +87,13 @@ public class ListarVenta extends JDialog {
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton btnEliminar = new JButton("Eliminar");
+				btnEliminar = new JButton("Eliminar");
 				btnEliminar.setEnabled(false);
 				btnEliminar.setIcon(new ImageIcon(ListarVenta.class.getResource("/imagenes/cancel.png")));
 				buttonPane.add(btnEliminar);
 			}
 			{
-				JButton btnModificar = new JButton("Modificar");
+				btnModificar = new JButton("Modificar");
 				btnModificar.setEnabled(false);
 				btnModificar.setIcon(new ImageIcon(ListarVenta.class.getResource("/imagenes/modificar.png")));
 				btnModificar.setActionCommand("modidficarButton");
@@ -80,7 +101,12 @@ public class ListarVenta extends JDialog {
 				getRootPane().setDefaultButton(btnModificar);
 			}
 			{
-				JButton btnCancelar = new JButton("Salir");
+				btnCancelar = new JButton("Salir");
+				btnCancelar.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						dispose();
+					}
+				});
 				btnCancelar.setIcon(new ImageIcon(ListarVenta.class.getResource("/imagenes/salir.png")));
 				btnCancelar.setActionCommand("Cancel");
 				buttonPane.add(btnCancelar);

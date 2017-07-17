@@ -510,7 +510,7 @@ public class RegistrarProducto extends JDialog {
 		txtmarca.setText("");
 		txtmodelo.setText("");
 		txtPrecioCompra.setText("");
-		ftxtNumeroSerie.setText("   -         -  ");
+		ftxtNumeroSerie.setText(null);
 		spcantidad.setValue(1);
 		cbCapacidadAlmacenamiento.setSelectedIndex(0);
 		cbCapacidadmbRam.setSelectedIndex(0);
