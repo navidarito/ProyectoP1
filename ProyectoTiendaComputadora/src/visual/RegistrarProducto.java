@@ -431,6 +431,7 @@ public class RegistrarProducto extends JDialog {
 									TarjetaMadre t = new TarjetaMadre(prec, cant, numserie, marc, model, tipsock, tipram, tipdisc);
 
 									tienda.InsertarProducto(t);
+									
 
 								}
 
@@ -486,7 +487,7 @@ public class RegistrarProducto extends JDialog {
 							if(poder){
 								
 								Clean();
-								
+								System.out.println(tienda.getMisProductos().get(0).getMarca());
 								JOptionPane.showMessageDialog(null, "Se ha registrado satisfactoriamente", null, JOptionPane.INFORMATION_MESSAGE);
 							}
 
