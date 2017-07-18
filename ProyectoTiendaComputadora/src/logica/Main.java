@@ -17,6 +17,7 @@ public class Main {
 		Date j1= new Date(1900, 2, 20);
 		Factura f1 = new Factura(c1,j1);
 		f1.insertarProducto(t1,3);
+		f1.insertarProducto(t2, 2);
 		//f1.insertarProducto(t2, 5);
 		tienda.InsertarFactura(f1);
 		
@@ -24,8 +25,20 @@ public class Main {
 		for (int i = 0; i < tienda.getMisProductos().size(); i++) {
 			System.out.println(tienda.getMisProductos().get(i).getMarca());
 		}
+		for (int i = 0; i < tienda.getMisFacturas().size(); i++) {
+			for (int j = 0; j < tienda.getMisFacturas().get(i).getMisProductos().size(); j++) {
+				System.out.println(tienda.getMisFacturas().get(i).getMisProductos().get(j).precioVenta());
+			}
+		}
 		
-		
+		System.out.println("");
+		System.out.println(tienda.getMisFacturas().get(0).totalFactura());
+		System.out.println("");
+		System.out.println("");
+		for (int i = 0; i < tienda.getMisProductos().size(); i++) {
+			System.out.println(tienda.getMisProductos().get(i).getCantInicial()+"  <--Cantidad Inicial");
+			System.out.println(tienda.getMisProductos().get(i).getCantReal()+"  <--Cantidad Real");
+		}
 		/*System.out.println(tienda.getMisFacturas().get(0).getMisProductos().get(0).compra);
 		System.out.println();
 		System.out.println(tienda.getMisProductos().get(0).getCantReal());

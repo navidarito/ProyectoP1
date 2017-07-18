@@ -3,16 +3,16 @@ package logica;
 import java.io.Serializable;
 
 public abstract class Producto implements Serializable{
-	
+
 	private static final long serialVersionUID = 1L;
-	protected static double precio;
-	protected static int cantInicial;
-	protected int cantReal;
-	protected int compra;
-	protected static String numeroSerie;
-	protected static String marca;
-	protected static String modelo;
-	
+	protected  double precio;
+	protected  int cantInicial;
+	protected  int cantReal;
+	protected  int compra;
+	protected  String numeroSerie;
+	protected  String marca;
+	protected  String modelo;
+
 	public Producto(double precio, int cantInicial, String numeroSerie, String marca, String modelo) {
 		super();
 		this.precio = precio;
@@ -59,9 +59,9 @@ public abstract class Producto implements Serializable{
 	public void setModelo(String modelo) {
 		this.modelo = modelo;
 	}
-	
-	
-	
+
+
+
 	public int getCompra() {
 		return compra;
 	}
@@ -73,8 +73,8 @@ public abstract class Producto implements Serializable{
 		pv = precio + precio * 0.20;
 		return pv;
 	}
-	
-	
 
-	
+
+
+
 }
