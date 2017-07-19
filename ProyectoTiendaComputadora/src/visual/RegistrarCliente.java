@@ -10,6 +10,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.text.MaskFormatter;
 
+import com.sun.security.ntlm.Client;
 
 import logica.Cliente;
 import logica.Tienda;
@@ -28,12 +29,15 @@ import java.awt.event.KeyEvent;
 public class RegistrarCliente extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
-	private JTextField txtDireccion;
-	private JFormattedTextField ftxtCedula;
-	private JFormattedTextField ftxtTelefono;
+	private static JTextField txtDireccion;
+	private static JFormattedTextField ftxtCedula;
+	private static JFormattedTextField ftxtTelefono;
 	
 	private static Tienda tienda;
-	private JTextField txtNombre;
+	private static JTextField txtNombre;
+	private boolean poder;
+	private JButton btnRegistrar;
+	private boolean modificar;
 
 	/**
 	 * Launch the application.
@@ -51,10 +55,18 @@ public class RegistrarCliente extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public RegistrarCliente(Tienda t) {
+	public RegistrarCliente(Tienda t, Cliente clien, boolean modif) {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(RegistrarCliente.class.getResource("/imagenes/cliente.png")));
 		tienda=t;
-		setTitle("Registrar Cliente");
+		modificar = modif;
+		
+		if(modificar == true){
+			cargar(clien);
+			setTitle("Modificar Cliente");
+		}else{
+			setTitle("Registrar Cliente");
+		}
+		
 		setBounds(100, 100, 450, 289);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -144,15 +156,17 @@ public class RegistrarCliente extends JDialog {
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton okButton = new JButton("Registrar");
-				okButton.setIcon(new ImageIcon(RegistrarCliente.class.getResource("/imagenes/savee.png")));
-				okButton.addActionListener(new ActionListener() {
+				btnRegistrar = new JButton("Registrar");
+				if(modificar == true){
+					btnRegistrar = new JButton("Modificar");
+				}
+				btnRegistrar.setIcon(new ImageIcon(RegistrarCliente.class.getResource("/imagenes/savee.png")));
+				btnRegistrar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						String nom = txtNombre.getText();
 						String cedu = ftxtCedula.getText();
 						String dire = txtDireccion.getText();
 						String tele = ftxtTelefono.getText();
-						boolean poder = true;
 						
 						if(txtNombre.getText().equalsIgnoreCase("") || ftxtCedula.getText().equalsIgnoreCase("   -       - ")  || txtDireccion.getText().equalsIgnoreCase("") || ftxtTelefono.getText().equalsIgnoreCase("(   )-   -    ") ){
 							JOptionPane.showMessageDialog(null, "No dejes campos vacios", "Información", JOptionPane.WARNING_MESSAGE);
@@ -160,21 +174,27 @@ public class RegistrarCliente extends JDialog {
 							clean();
 						}
 						
-						for (int i = 0; i < tienda.getMisClientes().size(); i++) {
+					/*	for (int i = 0; i < tienda.getMisClientes().size(); i++) {
 							if(tienda.getMisClientes().get(i).getCedula().equalsIgnoreCase(cedu)){
 								JOptionPane.showMessageDialog(null, "No se pudo registrar,\nya existe esta cédula.", "Información", JOptionPane.WARNING_MESSAGE);
 								poder = false;
 								clean();
 							}
-							
-						}
-						if(poder){
-							Cliente c1 = new Cliente(nom, cedu, dire, tele);
-							tienda.InsertarCliente(c1);
-							JOptionPane.showMessageDialog(null, "Operación Exitosa.", "Información", JOptionPane.INFORMATION_MESSAGE);
-						
-							clean();
-						
+						}*/
+						if(poder==false){
+							if(modificar == false){
+								Cliente c1 = new Cliente(nom, cedu, dire, tele);
+								tienda.InsertarCliente(c1);
+								JOptionPane.showMessageDialog(null, "Operación Exitosa.", "Información", JOptionPane.INFORMATION_MESSAGE);
+							     tienda.getMisClientes() ;
+								clean();
+						     }else if(modificar == true){
+								clien.setCedula(cedu);
+								clien.setNombre(nom);
+								clien.setDireccion(dire);
+								clien.setTelefono(tele);
+								dispose();
+							}
 						}
 						/*System.out.println(tienda.getMisClientes().get(0).getNombre());
 						System.out.println(tienda.getMisClientes().get(0).getDireccion());
@@ -184,20 +204,20 @@ public class RegistrarCliente extends JDialog {
 
 					
 				});
-				okButton.setActionCommand("OK");
-				buttonPane.add(okButton);
-				getRootPane().setDefaultButton(okButton);
+				btnRegistrar.setActionCommand("OK");
+				buttonPane.add(btnRegistrar);
+				getRootPane().setDefaultButton(btnRegistrar);
 			}
 			{
-				JButton cancelButton = new JButton("Cancelar");
-				cancelButton.setIcon(new ImageIcon(RegistrarCliente.class.getResource("/imagenes/cancel.png")));
-				cancelButton.addActionListener(new ActionListener() {
+				JButton btnCancelar = new JButton("Cancelar");
+				btnCancelar.setIcon(new ImageIcon(RegistrarCliente.class.getResource("/imagenes/cancel.png")));
+				btnCancelar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						dispose();
 					}
 				});
-				cancelButton.setActionCommand("Cancel");
-				buttonPane.add(cancelButton);
+				btnCancelar.setActionCommand("Cancel");
+				buttonPane.add(btnCancelar);
 			}
 		}
 	}
@@ -207,7 +227,12 @@ public class RegistrarCliente extends JDialog {
 		txtDireccion.setText("");
 		txtNombre.setText("");
 		ftxtCedula.setText("");
-		
-		
+	}
+	
+	private static void cargar(Cliente clien){
+		ftxtTelefono.setText(""+clien.getTelefono());
+		txtDireccion.setText(""+clien.getDireccion());
+		txtNombre.setText(""+clien.getNombre());
+		ftxtCedula.setText(""+clien.getCedula());
 	}
 }

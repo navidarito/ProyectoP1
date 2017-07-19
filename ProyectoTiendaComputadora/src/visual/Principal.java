@@ -66,7 +66,7 @@ public class Principal extends JFrame {
 		mntmRegistrarCliente.setIcon(new ImageIcon(Principal.class.getResource("/imagenes/registrarCliente.png")));
 		mntmRegistrarCliente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				RegistrarCliente r1 = new RegistrarCliente(tienda);
+				RegistrarCliente r1 = new RegistrarCliente(tienda, null, false);
 				r1.setLocationRelativeTo(null);
 				r1.setModal(true);
 				r1.setVisible(true);

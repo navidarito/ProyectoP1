@@ -90,7 +90,7 @@ public class Tienda implements Serializable{
 		}
 		return ind;
 	}
-	private Cliente indexCliente(String cedula){
+	public Cliente indexCliente(String cedula){
 		Cliente ind = null;
 		for (Cliente aux : misClientes) {
 			if(aux.getCedula().equalsIgnoreCase(cedula)){
@@ -110,6 +110,8 @@ public class Tienda implements Serializable{
 		misClientes.remove(index);
 		
 	}
+	
+
 	
 	
 		

@@ -11,6 +11,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
+import logica.Cliente;
 import logica.Tienda;
 
 import javax.swing.JScrollPane;
@@ -35,6 +36,7 @@ public class ListarCliente extends JDialog {
 	private JButton btnModificar;
 	private String cedula = "";
 	private int ind=0;
+	private Cliente clien = null;
 	//private  String nombreCliente= "";
 
 	/**
@@ -82,6 +84,7 @@ public class ListarCliente extends JDialog {
 								 btnModificar.setEnabled(true);
 								 btnEliminar.setEnabled(true);
 								 cedula= (String) table_1.getModel().getValueAt(aux, 0);
+								 clien = tienda.indexCliente(cedula);
 								 
 							}
 							else{
@@ -122,6 +125,15 @@ public class ListarCliente extends JDialog {
 			}
 			{
 				btnModificar = new JButton("Modificar");
+				btnModificar.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						RegistrarCliente cli = new RegistrarCliente(t, clien, true);
+						cli.setModal(true);
+						cli.setLocationRelativeTo(null);
+						cli.setVisible(true);
+						loadTable();
+					}
+				});
 				btnModificar.setEnabled(false);
 				btnModificar.setIcon(new ImageIcon(ListarCliente.class.getResource("/imagenes/modificar.png")));
 				btnModificar.setActionCommand("OK");
