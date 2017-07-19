@@ -8,7 +8,13 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
 
+import logica.DiscoDuro;
+import logica.MemoriaRam;
+import logica.Microprocesador;
+import logica.TarjetaMadre;
 import logica.Tienda;
 
 import javax.swing.JScrollPane;
@@ -29,6 +35,8 @@ public class ListarVenta extends JDialog {
 	private JButton btnEliminar;
 	private JButton btnCancelar;
 	private JButton btnModificar;
+	private static Object[] fila;
+	private static DefaultTableModel models;
 
 	/**
 	 * Launch the application.
@@ -47,10 +55,11 @@ public class ListarVenta extends JDialog {
 	 * Create the dialog.
 	 */
 	public ListarVenta(Tienda t) {
+		
 		setIconImage(Toolkit.getDefaultToolkit().getImage(ListarVenta.class.getResource("/imagenes/listaVenta.png")));
 		tienda = t;
 		setTitle("Lista de Ventas");
-		setBounds(100, 100, 534, 341);
+		setBounds(100, 100, 641, 433);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -65,6 +74,16 @@ public class ListarVenta extends JDialog {
 				panel.add(scrollPane, BorderLayout.CENTER);
 				{
 					table = new JTable();
+					String[] columnNamess = {"Nombre del Cliente","Cédula del Cliente","Cant.Productos","Total"};
+					models = new DefaultTableModel(){
+
+						@Override
+						public boolean isCellEditable(int row, int column){
+							return false;
+						}
+					};
+					models.setColumnIdentifiers(columnNamess);
+					table.setModel(models);
 					table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 					table.addMouseListener(new MouseAdapter() {
 						@Override
@@ -80,6 +99,7 @@ public class ListarVenta extends JDialog {
 							}
 						}
 					});
+					loadVentas();
 					scrollPane.setViewportView(table);
 				}
 			}
@@ -114,6 +134,42 @@ public class ListarVenta extends JDialog {
 				buttonPane.add(btnCancelar);
 			}
 		}
+	}
+
+	private void loadVentas() {
+	
+		
+
+		models.setRowCount(0);
+		fila = new Object[models.getColumnCount()];
+
+		for (int i=0; i<tienda.getMisFacturas().size();i++) {
+			/*for (int j = 0; j < tienda.getMisFacturas().get(i).getMisProductos().size(); j++) {
+				
+			}*/
+			fila[0] = tienda.getMisFacturas().get(i).getClient().getNombre();
+			fila[1] = tienda.getMisFacturas().get(i).getClient().getCedula();
+			fila[2] = tienda.getMisFacturas().get(i).getMisProductos().size();
+			fila[3] = tienda.getMisFacturas().get(i).totalFactura();
+
+			models.addRow(fila);
+			
+		}
+		
+
+		table.setModel(models);
+		//table.setEnabled(false); //deshabilita la seleccion.
+		//table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		table.getTableHeader().setReorderingAllowed(false);
+		table.getTableHeader().setResizingAllowed(false);
+		//TableColumnModel columModel = table.getColumnModel();
+		/*columModel.getColumn(0).setPreferredWidth(100);
+		columModel.getColumn(1).setPreferredWidth(100);
+		columModel.getColumn(2).setPreferredWidth(100);
+		columModel.getColumn(3).setPreferredWidth(100);*/
+	
+
+		
 	}
 
 }

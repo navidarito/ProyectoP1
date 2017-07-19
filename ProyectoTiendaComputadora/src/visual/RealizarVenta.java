@@ -12,8 +12,11 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
+import com.sun.security.ntlm.Client;
 
+import logica.Cliente;
 import logica.DiscoDuro;
+import logica.Factura;
 import logica.MemoriaRam;
 import logica.Microprocesador;
 import logica.Producto;
@@ -57,6 +60,8 @@ public class RealizarVenta extends JDialog {
 	private ArrayList<Producto> productosEnVenta;
 	private JButton btnQuitar;
 	private JButton btnAgregar;
+	private JButton comprarbtn;
+	private Date current;
 
 	/**
 	 * Launch the application.
@@ -79,40 +84,22 @@ public class RealizarVenta extends JDialog {
 
 			@Override
 			public void windowActivated(WindowEvent e) {
-				miCarrito = new ArrayList<Producto>();
-				productosEnVenta = new ArrayList<Producto>();
-				tableListaCompra.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-				String[] columnNames = {"Disponible","Producto","Marca","Precio Unitario","# de Serie"};
-				model = new DefaultTableModel(){
-
-					@Override
-					public boolean isCellEditable(int row, int column){
-						return false;
-					}
-				};
-				model.setColumnIdentifiers(columnNames);
-				tableListaCompra.setModel(model);
-				loadTable();//Lista de productos a vender
+				
+				
 				int n = cbCliente.getSelectedIndex();
 				if(n>-1){
 					nombreCliente.setText(tienda.getMisClientes().get(n).getNombre());
 				}
-				String[] columnNamess = {"Cantidad","Producto","Marca","Precio Unitario"};
-				models = new DefaultTableModel(){
-
-					@Override
-					public boolean isCellEditable(int row, int column){
-						return false;
-					}
-				};
-				models.setColumnIdentifiers(columnNamess);
-				tableCarrito.setModel(model);
-				loadCarrito();
-
-				Date current = new Date();
+				
+				//loadCarrito();
+				loadTable();
+				current = new Date();
 				SimpleDateFormat d1 = new SimpleDateFormat("dd/MM/yyyy, HH:mm:ss");
 				System.out.println(d1.format(current));
 				fechaxlabel.setText(d1.format(current));
+				if(miCarrito.size()>0 && nombreCliente.getText()!=""){
+					comprarbtn.setEnabled(true);
+				}
 
 			}
 
@@ -122,6 +109,8 @@ public class RealizarVenta extends JDialog {
 		});
 		setIconImage(Toolkit.getDefaultToolkit().getImage(RealizarVenta.class.getResource("/imagenes/vender.png")));
 		tienda = t;
+		miCarrito = new ArrayList<Producto>();
+		productosEnVenta = new ArrayList<Producto>();
 		setTitle("Realizar Compra");
 		setBounds(100, 100, 882, 576);
 		getContentPane().setLayout(new BorderLayout());
@@ -130,14 +119,33 @@ public class RealizarVenta extends JDialog {
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton okButton = new JButton("Comprar");
-				okButton.setSize(73, 21);
-				okButton.setActionCommand("OK");
-				buttonPane.add(okButton);
-				getRootPane().setDefaultButton(okButton);
+				comprarbtn = new JButton("Comprar");
+				comprarbtn.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						int n = cbCliente.getSelectedIndex();
+						Cliente aux = tienda.getMisClientes().get(n);
+						Factura f1 = new Factura(aux, current);
+						for (int i = 0; i < miCarrito.size(); i++) {
+							f1.insertarProducto(miCarrito.get(i), miCarrito.get(i).getCompra());
+						}
+						tienda.InsertarFactura(f1);
+						JOptionPane.showMessageDialog(null, tienda.getMisClientes().get(n).getNombre()+ " Realizo una compra", "Información", JOptionPane.INFORMATION_MESSAGE);
+						
+					}
+				});
+				comprarbtn.setEnabled(false);
+				comprarbtn.setSize(73, 21);
+				comprarbtn.setActionCommand("OK");
+				buttonPane.add(comprarbtn);
+				getRootPane().setDefaultButton(comprarbtn);
 			}
 			{
 				JButton cancelButton = new JButton("Cancelar");
+				cancelButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						dispose();
+					}
+				});
 				cancelButton.setSize(75, 21);
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);
@@ -158,6 +166,18 @@ public class RealizarVenta extends JDialog {
 				panelCompra.add(scrollPane, BorderLayout.CENTER);
 
 				tableListaCompra = new JTable();
+				tableListaCompra.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+				String[] columnNames = {"Disponible","Producto","Marca","Precio Unitario","# de Serie"};
+				model = new DefaultTableModel(){
+
+					@Override
+					public boolean isCellEditable(int row, int column){
+						return false;
+					}
+				};
+				model.setColumnIdentifiers(columnNames);
+				tableListaCompra.setModel(model);
+				//loadTable();//Lista de productos a vender
 				tableListaCompra.addMouseListener(new MouseAdapter() {
 					@Override
 					public void mouseClicked(MouseEvent e) {
@@ -185,6 +205,20 @@ public class RealizarVenta extends JDialog {
 				panelCarrito.add(scrollPane, BorderLayout.CENTER);
 
 				tableCarrito = new JTable();
+				tableCarrito.addMouseListener(new MouseAdapter() {
+					@Override
+					public void mouseClicked(MouseEvent e) {
+						int aux = tableCarrito.getSelectedRow();
+						if(aux>-1){
+							btnAgregar.setEnabled(false);
+							btnQuitar.setEnabled(true);
+						}
+						else{
+							btnAgregar.setEnabled(false);
+							btnQuitar.setEnabled(false);
+						}
+					}
+				});
 				scrollPane.setViewportView(tableCarrito);
 			}
 
@@ -229,15 +263,15 @@ public class RealizarVenta extends JDialog {
 											miCarrito.get(j).setCompra(miCarrito.get(j).getCompra()+n);
 											productosEnVenta.get(i).setCantReal(productosEnVenta.get(i).getCantReal()-n);
 											//loadCarrito();
-											//JOptionPane.showMessageDialog(null,  "Se agregó de nuevo exitosamente", "Información", JOptionPane.INFORMATION_MESSAGE);
+											JOptionPane.showMessageDialog(null,  "Se agregó de nuevo exitosamente", "Información", JOptionPane.INFORMATION_MESSAGE);
 											break;
 
-										}else{
+										}else if(j==miCarrito.size()-1){
 											miCarrito.add(productosEnVenta.get(i));
 											miCarrito.get(miCarrito.size()-1).setCompra(n);
 											productosEnVenta.get(i).setCantReal(productosEnVenta.get(i).getCantReal()-n);
 											//loadCarrito();
-											//JOptionPane.showMessageDialog(null,  "Se agregó exitosamente-1", "Información", JOptionPane.INFORMATION_MESSAGE);
+											JOptionPane.showMessageDialog(null,  "Se agregó exitosamente-1", "Información", JOptionPane.INFORMATION_MESSAGE);
 											//loadCarrito();
 											break;
 
@@ -248,7 +282,7 @@ public class RealizarVenta extends JDialog {
 									miCarrito.get(miCarrito.size()-1).setCompra(n);
 									productosEnVenta.get(i).setCantReal(productosEnVenta.get(i).getCantReal()-n);
 									//loadCarrito();
-									//JOptionPane.showMessageDialog(null,  "Se agregó exitosamente-0", "Información", JOptionPane.INFORMATION_MESSAGE);
+									JOptionPane.showMessageDialog(null,  "Se agregó exitosamente-0", "Información", JOptionPane.INFORMATION_MESSAGE);
 									//loadCarrito();
 									break;
 
@@ -257,6 +291,7 @@ public class RealizarVenta extends JDialog {
 							}
 						}
 					}
+					System.out.println(miCarrito.size()+"<---Tamano del carrito");
 					loadCarrito();
 					//loadTable();
 					//JOptionPane.showMessageDialog(null,  "Se agregó exitosamente-0", "Información", JOptionPane.INFORMATION_MESSAGE);
@@ -272,6 +307,51 @@ public class RealizarVenta extends JDialog {
 			btnQuitar.setIcon(new ImageIcon(RealizarVenta.class.getResource("/imagenes/cancel.png")));
 			btnQuitar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					int n = (int)spCantComprar.getValue();
+					if(n>(int)tableCarrito.getModel().getValueAt(tableCarrito.getSelectedRow(), 0)){
+						JOptionPane.showMessageDialog(null,  "La cantidad que pide\nes mayor a lo disponible", "WARNING", JOptionPane.WARNING_MESSAGE);
+					}else{
+						for (int i = 0; i < miCarrito.size(); i++) {
+							if(miCarrito.get(i).getNumeroSerie().equalsIgnoreCase((String)tableCarrito.getModel().getValueAt(tableCarrito.getSelectedRow(), 4))){
+								if(productosEnVenta.size()>0){
+									for (int j = 0; j < productosEnVenta.size(); j++) {
+										if(miCarrito.get(i).getNumeroSerie().equalsIgnoreCase(productosEnVenta.get(j).getNumeroSerie())){
+											productosEnVenta.get(j).setCantReal(productosEnVenta.get(j).getCantReal()+n);
+											miCarrito.get(i).setCompra(miCarrito.get(i).getCompra()-n);
+											//loadCarrito();
+											JOptionPane.showMessageDialog(null,  "Se devolvio de nuevo exitosamente", "Información", JOptionPane.INFORMATION_MESSAGE);
+											break;
+
+										}else if(j==productosEnVenta.size()-1){
+											productosEnVenta.add(miCarrito.get(i));
+											productosEnVenta.get(productosEnVenta.size()-1).setCantReal(n);
+											miCarrito.get(i).setCompra(miCarrito.get(i).getCompra()-n);
+											//loadCarrito();
+											JOptionPane.showMessageDialog(null,  "Se devolvio exitosamente - z", "Información", JOptionPane.INFORMATION_MESSAGE);
+											//loadCarrito();
+											break;
+
+										}
+									}
+								}else{
+									productosEnVenta.add(miCarrito.get(i));
+									productosEnVenta.get(productosEnVenta.size()-1).setCantReal(n);
+									miCarrito.get(i).setCompra(miCarrito.get(i).getCompra()-n);
+									//loadCarrito();
+									JOptionPane.showMessageDialog(null,  "Se agregó exitosamente-0", "Información", JOptionPane.INFORMATION_MESSAGE);
+									//loadCarrito();
+									break;
+
+								}
+
+							}
+						}
+					}
+					System.out.println(miCarrito.size()+"<---Tamano del carrito");
+					loadCarrito();
+					//loadTable();
+					//JOptionPane.showMessageDialog(null,  "Se agregó exitosamente-0", "Información", JOptionPane.INFORMATION_MESSAGE);
+					btnQuitar.setEnabled(false);
 				}
 			});
 			btnQuitar.setBounds(382, 381, 101, 21);
@@ -285,13 +365,13 @@ public class RealizarVenta extends JDialog {
 			nombreCliente.setBounds(222, 84, 86, 21);
 			panel.add(nombreCliente);
 
-			JLabel lblCantidadDeProducto = new JLabel("Cantidad de Producto a comprar: ");
-			lblCantidadDeProducto.setBounds(93, 135, 194, 21);
+			JLabel lblCantidadDeProducto = new JLabel("Cantidad de Producto a comprar o devolver: ");
+			lblCantidadDeProducto.setBounds(93, 135, 271, 21);
 			panel.add(lblCantidadDeProducto);
 
 			spCantComprar = new JSpinner();
 			spCantComprar.setModel(new SpinnerNumberModel(new Integer(1), new Integer(1), null, new Integer(1)));
-			spCantComprar.setBounds(276, 135, 49, 21);
+			spCantComprar.setBounds(374, 135, 49, 21);
 			panel.add(spCantComprar);
 		}
 	}
@@ -300,9 +380,11 @@ public class RealizarVenta extends JDialog {
 		model.setRowCount(0);
 		fila = new Object[model.getColumnCount()];
 		//System.out.println(Biblioteca.getInstances().getMisPublicaciones().size());
-		for(int i = 0 ; i < (tienda.getMisProductos().size()); i++){
-			productosEnVenta.add(tienda.getMisProductos().get(i));
+		if(productosEnVenta.size()==0){
+			for(int i = 0 ; i < (tienda.getMisProductos().size()); i++){
+				productosEnVenta.add(tienda.getMisProductos().get(i));
 
+			}
 		}
 
 		for (int i = 0; i < productosEnVenta.size(); i++) {
@@ -323,7 +405,11 @@ public class RealizarVenta extends JDialog {
 				fila[4] = productosEnVenta.get(i).getNumeroSerie();
 
 				model.addRow(fila);
-			}
+			}/*else{
+				
+				productosEnVenta.remove(i+1);
+			}*/
+			
 		}
 
 		tableListaCompra.setModel(model);
@@ -334,34 +420,51 @@ public class RealizarVenta extends JDialog {
 		columModel.getColumn(0).setPreferredWidth(100);
 		columModel.getColumn(1).setPreferredWidth(100);
 		columModel.getColumn(2).setPreferredWidth(100);
-		columModel.getColumn(2).setPreferredWidth(100);
+		columModel.getColumn(3).setPreferredWidth(100);
 
 	}
 
 	private void loadCarrito() {
+		int aux = -1;
+		String[] columnNamess = {"Cantidad","Producto","Marca","Precio Unitario","# Serie"};
+		models = new DefaultTableModel(){
+
+			@Override
+			public boolean isCellEditable(int row, int column){
+				return false;
+			}
+		};
+		models.setColumnIdentifiers(columnNamess);
+		tableCarrito.setModel(models);
 
 		models.setRowCount(0);
 		fila = new Object[models.getColumnCount()];
 
 		for (int i=0; i<miCarrito.size();i++) {
-			fila[0] = miCarrito.get(i).getCompra();
-			if(miCarrito.get(i) instanceof TarjetaMadre){
-				fila[1] = "Tarjeta Madre";
+			if(miCarrito.get(i).getCompra()>0){
+				fila[0] = miCarrito.get(i).getCompra();
+				if(miCarrito.get(i) instanceof TarjetaMadre){
+					fila[1] = "Tarjeta Madre";
 
-			}else if(miCarrito.get(i) instanceof Microprocesador){
-				fila[1] = "Microprocesador";
+				}else if(miCarrito.get(i) instanceof Microprocesador){
+					fila[1] = "Microprocesador";
 
-			}else if(miCarrito.get(i) instanceof MemoriaRam){
-				fila[1] = "Memoria Ram";
+				}else if(miCarrito.get(i) instanceof MemoriaRam){
+					fila[1] = "Memoria Ram";
 
-			}else if(miCarrito.get(i) instanceof DiscoDuro){
-				fila[1] = "Disco Duro";
-			}
-			fila[2] = miCarrito.get(i).getMarca();
-			fila[3] = miCarrito.get(i).precioVenta();
+				}else if(miCarrito.get(i) instanceof DiscoDuro){
+					fila[1] = "Disco Duro";
+				}
+				fila[2] = miCarrito.get(i).getMarca();
+				fila[3] = miCarrito.get(i).precioVenta();
+				fila[4] = miCarrito.get(i).getNumeroSerie();
 
-			models.addRow(fila);
+				models.addRow(fila);
+			}/*else{
+				aux = i;
+			}*/
 		}
+		//miCarrito.remove(aux);
 
 		tableCarrito.setModel(models);
 		//table.setEnabled(false); //deshabilita la seleccion.
@@ -372,6 +475,7 @@ public class RealizarVenta extends JDialog {
 		columModel.getColumn(1).setPreferredWidth(100);
 		columModel.getColumn(2).setPreferredWidth(100);
 		columModel.getColumn(3).setPreferredWidth(100);
+		columModel.getColumn(4).setPreferredWidth(100);
 
 	}
 }
