@@ -426,7 +426,7 @@ public class RealizarVenta extends JDialog {
 			panel.add(btnQuitar);
 
 			fechaxlabel = new JLabel("");
-			fechaxlabel.setBounds(560, 62, 123, 21);
+			fechaxlabel.setBounds(847, 40, 123, 21);
 			panel.add(fechaxlabel);
 
 			nombreCliente = new JLabel("");
