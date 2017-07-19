@@ -33,6 +33,7 @@ import javax.swing.JFormattedTextField;
 import java.awt.Toolkit;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.Color;
 
 public class RegistrarProducto extends JDialog {
 
@@ -78,6 +79,8 @@ public class RegistrarProducto extends JDialog {
 	 * Create the dialog.
 	 */
 	public RegistrarProducto(Tienda t) {
+		setForeground(Color.BLUE);
+		setResizable(false);
 		tienda=t;
 		setIconImage(Toolkit.getDefaultToolkit().getImage(RegistrarProducto.class.getResource("/imagenes/pcparts.png")));
 		setTitle("Registrar Producto");
@@ -179,8 +182,17 @@ public class RegistrarProducto extends JDialog {
 						txtPrecioCompra.addKeyListener(new KeyAdapter() {
 							@Override
 							public void keyTyped(KeyEvent e) {
-								char c= e.getKeyChar();
-								if(c<'0' || c>'9') e.consume();
+								//char c= e.getKeyChar();
+								//if(c<'0' || c>'9'  && c!= KeyEvent.VK_PERIOD) e.consume();
+								char c = e.getKeyChar();
+								if (((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)
+								&& (c != '.')) {
+								e.consume();
+								}
+								if (c == '.' && txtPrecioCompra.getText().contains(".")) {
+								e.consume();
+								}
+								
 							}
 						});
 						txtPrecioCompra.setBounds(120, 19, 182, 20);

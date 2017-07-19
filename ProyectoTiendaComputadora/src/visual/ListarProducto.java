@@ -29,9 +29,11 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import java.awt.Toolkit;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.Color;
 
 public class ListarProducto extends JDialog {
 
@@ -45,6 +47,7 @@ public class ListarProducto extends JDialog {
 	private JButton btnModificar;
 	private JButton cancelButton;
 	private String numeroSerie = "";
+	private JLabel label;
 
 	/**
 	 * Launch the application.
@@ -63,6 +66,7 @@ public class ListarProducto extends JDialog {
 	 * Create the dialog.
 	 */
 	public ListarProducto(Tienda t) {
+		setForeground(Color.BLUE);
 		tienda = t;
 		setIconImage(Toolkit.getDefaultToolkit().getImage(ListarProducto.class.getResource("/imagenes/pcparts.png")));
 		setTitle("Lista de Productos");
@@ -175,8 +179,14 @@ public class ListarProducto extends JDialog {
 
 				
 			});
-			cbOpcion.setBounds(559, 30, 127, 21);
+			cbOpcion.setBounds(559, 23, 127, 21);
 			panel.add(cbOpcion);
+			{
+				label = new JLabel("");
+				label.setIcon(new ImageIcon(ListarProducto.class.getResource("/imagenes/alll.png")));
+				label.setBounds(697, 15, 25, 36);
+				panel.add(label);
+			}
 		}
 		{
 			JPanel buttonPane = new JPanel();
@@ -186,11 +196,13 @@ public class ListarProducto extends JDialog {
 				btnEliminar = new JButton("Eliminar");
 				btnEliminar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
+						if(JOptionPane.showConfirmDialog(null,  "Estas seguro de eliminar producto?", "Información", JOptionPane.YES_NO_OPTION)== JOptionPane.YES_OPTION){
 						if(!numeroSerie.equalsIgnoreCase("")){
 						 tienda.eliminiarProducto(numeroSerie);
 						    loadTable();
 						    btnEliminar.setEnabled(false);
 						    btnModificar.setEnabled(false);
+						}
 						}
 					}
 				});

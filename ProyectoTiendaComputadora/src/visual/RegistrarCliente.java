@@ -25,6 +25,7 @@ import javax.swing.ImageIcon;
 import java.awt.Toolkit;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.Color;
 
 public class RegistrarCliente extends JDialog {
 
@@ -56,6 +57,8 @@ public class RegistrarCliente extends JDialog {
 	 * Create the dialog.
 	 */
 	public RegistrarCliente(Tienda t, Cliente clien, boolean modif) {
+		setForeground(Color.BLUE);
+		setResizable(false);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(RegistrarCliente.class.getResource("/imagenes/cliente.png")));
 		tienda=t;
 		modificar = modif;

@@ -45,6 +45,7 @@ import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.Color;
 
 public class RealizarVenta extends JDialog {
 	private JTable tableListaCompra;
@@ -83,6 +84,7 @@ public class RealizarVenta extends JDialog {
 	 * Create the dialog.
 	 */
 	public RealizarVenta(Tienda t) {
+		setForeground(Color.BLUE);
 		addWindowListener(new WindowAdapter() {
 
 			@Override

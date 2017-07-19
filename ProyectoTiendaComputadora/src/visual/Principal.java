@@ -17,12 +17,18 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
 import java.awt.Toolkit;
+import java.awt.Color;
+import javax.swing.JLabel;
+import java.awt.Font;
+import java.awt.SystemColor;
+import javax.swing.UIManager;
 
 public class Principal extends JFrame {
 
 	private JPanel contentPane;
 	private static Tienda tienda;
 	private Dimension dim;
+	
 
 	/**
 	 * Launch the application.
@@ -46,6 +52,7 @@ public class Principal extends JFrame {
 	 * Create the frame.
 	 */
 	public Principal(Tienda t1) {
+		setForeground(Color.BLUE);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Principal.class.getResource("/imagenes/pc.png")));
 		tienda=t1;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -56,6 +63,9 @@ public class Principal extends JFrame {
 		setLocationRelativeTo(null);
 		
 		JMenuBar menuBar = new JMenuBar();
+		menuBar.setBackground(new Color(224, 255, 255));
+		menuBar.setFont(new Font("Calisto MT", Font.PLAIN, 12));
+		menuBar.setForeground(Color.BLUE);
 		setJMenuBar(menuBar);
 		
 		JMenu mnCliente = new JMenu("Cliente");
@@ -144,11 +154,17 @@ public class Principal extends JFrame {
 		mnVenta.add(mntmListaDeV);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		//contentPane.setBackground("background.png");
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
 		
 		JPanel panel = new JPanel();
 		contentPane.add(panel, BorderLayout.CENTER);
 		panel.setLayout(new BorderLayout(0, 0));
+		
+		JLabel lblNewLabel = new JLabel("");
+		lblNewLabel.setForeground(Color.BLUE);
+		lblNewLabel.setIcon(new ImageIcon(Principal.class.getResource("/imagenes/background.jpg")));
+		panel.add(lblNewLabel, BorderLayout.CENTER);
 	}
 }

@@ -5,6 +5,7 @@ import java.awt.FlowLayout;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
@@ -23,6 +24,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
 import java.awt.Toolkit;
 import javax.swing.ListSelectionModel;
+import java.awt.Color;
 
 public class ListarCliente extends JDialog {
 
@@ -56,6 +58,8 @@ public class ListarCliente extends JDialog {
 	 * Create the dialog.
 	 */
 	public ListarCliente(Tienda t ) {
+		setBackground(new Color(253, 245, 230));
+		setForeground(Color.BLUE);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(ListarCliente.class.getResource("/imagenes/listCliente.png")));
 		setTitle("Listar Cliente");
 		tienda=t;
@@ -71,7 +75,7 @@ public class ListarCliente extends JDialog {
 			panel.setLayout(new BorderLayout(0, 0));
 			{
 				JScrollPane scrollPane = new JScrollPane();
-				panel.add(scrollPane, BorderLayout.CENTER);
+				panel.add(scrollPane);
 				{
 					table = new JTable();
 					table_1 = new JTable();
@@ -111,12 +115,14 @@ public class ListarCliente extends JDialog {
 				btnEliminar = new JButton("Eliminar");
 				btnEliminar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
+						if(JOptionPane.showConfirmDialog(null,  "Estas seguro de eliminar cliente?", "Información", JOptionPane.YES_NO_OPTION)== JOptionPane.YES_OPTION){
 					  if(!cedula.equalsIgnoreCase("")){
 						  tienda.eliminiarCliente(cedula);
 						  loadTable();
 						  btnEliminar.setEnabled(false);
 						  btnModificar.setEnabled(false);
 					  }
+						}
 					}
 				});
 				btnEliminar.setEnabled(false);

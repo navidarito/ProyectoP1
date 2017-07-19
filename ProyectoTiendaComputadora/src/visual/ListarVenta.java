@@ -26,6 +26,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.ListSelectionModel;
+import java.awt.Color;
 
 public class ListarVenta extends JDialog {
 
@@ -55,6 +56,7 @@ public class ListarVenta extends JDialog {
 	 * Create the dialog.
 	 */
 	public ListarVenta(Tienda t) {
+		setForeground(Color.BLUE);
 		
 		setIconImage(Toolkit.getDefaultToolkit().getImage(ListarVenta.class.getResource("/imagenes/listaVenta.png")));
 		tienda = t;
