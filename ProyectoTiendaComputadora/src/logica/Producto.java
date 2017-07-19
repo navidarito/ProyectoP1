@@ -73,6 +73,12 @@ public abstract class Producto implements Serializable{
 		pv = precio + precio * 0.20;
 		return pv;
 	}
+	
+	public double precioVXP(){
+		double t = 0;
+		t = precioVenta()*compra;
+		return t;
+	}
 
 
 

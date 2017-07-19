@@ -14,6 +14,7 @@ import javax.swing.table.TableColumnModel;
 
 import com.sun.security.ntlm.Client;
 
+import javafx.scene.shape.ClosePathBuilder;
 import logica.Cliente;
 import logica.DiscoDuro;
 import logica.Factura;
@@ -62,6 +63,8 @@ public class RealizarVenta extends JDialog {
 	private JButton btnAgregar;
 	private JButton comprarbtn;
 	private Date current;
+	private JLabel totallabel;
+	private JButton cancelar;
 
 	/**
 	 * Launch the application.
@@ -84,14 +87,14 @@ public class RealizarVenta extends JDialog {
 
 			@Override
 			public void windowActivated(WindowEvent e) {
-				
-				
+				//ClosePathBuilder<ClosePathBuilder<B>>
+				double z = 0;
 				int n = cbCliente.getSelectedIndex();
 				if(n>-1){
 					nombreCliente.setText(tienda.getMisClientes().get(n).getNombre());
 				}
 				
-				//loadCarrito();
+				loadCarrito();
 				loadTable();
 				current = new Date();
 				SimpleDateFormat d1 = new SimpleDateFormat("dd/MM/yyyy, HH:mm:ss");
@@ -100,19 +103,61 @@ public class RealizarVenta extends JDialog {
 				if(miCarrito.size()>0 && nombreCliente.getText()!=""){
 					comprarbtn.setEnabled(true);
 				}
+				for (int i = 0; i < miCarrito.size(); i++) {
+					z += miCarrito.get(i).precioVXP();
+				}
+				String d = toString().valueOf(z);
+				totallabel.setText(d);
+				/*if(miCarrito.size()>0){
+					cancelar.setEnabled(false);
+				}else{
+					cancelar.setEnabled(true);
+				}*/
 
 			}
 
 
 
 
+			@Override
+			public void windowClosing(WindowEvent e) {
+				if(miCarrito.size()>0){
+					
+					if(JOptionPane.showConfirmDialog(null,  "Estas seguro de salir", "Información", JOptionPane.YES_NO_OPTION)== JOptionPane.YES_OPTION){
+						for (int i = 0; i < miCarrito.size(); i++) {
+									for (int j = 0; j < productosEnVenta.size(); j++) {
+										if(miCarrito.get(i).getNumeroSerie().equalsIgnoreCase(productosEnVenta.get(j).getNumeroSerie())){
+											productosEnVenta.get(j).setCantReal(productosEnVenta.get(j).getCantReal()+miCarrito.get(i).getCompra());
+											miCarrito.get(i).setCompra(0);
+											break;
+
+										}else if(j==productosEnVenta.size()-1){
+											productosEnVenta.add(miCarrito.get(i));
+											productosEnVenta.get(productosEnVenta.size()-1).setCantReal(miCarrito.get(i).getCompra());
+											miCarrito.get(i).setCompra(0);
+											break;
+
+										}
+									}
+								
+
+							}
+						}
+						miCarrito.removeAll(miCarrito);
+						
+						dispose();
+					}
+				else{
+					dispose();
+				}
+			}
 		});
 		setIconImage(Toolkit.getDefaultToolkit().getImage(RealizarVenta.class.getResource("/imagenes/vender.png")));
 		tienda = t;
 		miCarrito = new ArrayList<Producto>();
 		productosEnVenta = new ArrayList<Producto>();
 		setTitle("Realizar Compra");
-		setBounds(100, 100, 882, 576);
+		setBounds(100, 100, 1332, 751);
 		getContentPane().setLayout(new BorderLayout());
 		{
 			JPanel buttonPane = new JPanel();
@@ -129,6 +174,7 @@ public class RealizarVenta extends JDialog {
 							f1.insertarProducto(miCarrito.get(i), miCarrito.get(i).getCompra());
 						}
 						tienda.InsertarFactura(f1);
+						miCarrito.removeAll(miCarrito);
 						JOptionPane.showMessageDialog(null, tienda.getMisClientes().get(n).getNombre()+ " Realizo una compra", "Información", JOptionPane.INFORMATION_MESSAGE);
 						
 					}
@@ -140,15 +186,43 @@ public class RealizarVenta extends JDialog {
 				getRootPane().setDefaultButton(comprarbtn);
 			}
 			{
-				JButton cancelButton = new JButton("Cancelar");
-				cancelButton.addActionListener(new ActionListener() {
+				cancelar = new JButton("Cancelar");
+				cancelar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						dispose();
+						if(miCarrito.size()>0){
+							
+							if(JOptionPane.showConfirmDialog(null,  "Estas seguro de salir", "Información", JOptionPane.YES_NO_OPTION)== JOptionPane.YES_OPTION){
+								for (int i = 0; i < miCarrito.size(); i++) {
+											for (int j = 0; j < productosEnVenta.size(); j++) {
+												if(miCarrito.get(i).getNumeroSerie().equalsIgnoreCase(productosEnVenta.get(j).getNumeroSerie())){
+													productosEnVenta.get(j).setCantReal(productosEnVenta.get(j).getCantReal()+miCarrito.get(i).getCompra());
+													miCarrito.get(i).setCompra(0);
+													break;
+
+												}else if(j==productosEnVenta.size()-1){
+													productosEnVenta.add(miCarrito.get(i));
+													productosEnVenta.get(productosEnVenta.size()-1).setCantReal(miCarrito.get(i).getCompra());
+													miCarrito.get(i).setCompra(0);
+													break;
+
+												}
+											}
+										
+
+									}
+								}
+								miCarrito.removeAll(miCarrito);
+								
+								dispose();
+							}
+						else{
+							dispose();
+						}
 					}
 				});
-				cancelButton.setSize(75, 21);
-				cancelButton.setActionCommand("Cancel");
-				buttonPane.add(cancelButton);
+				cancelar.setSize(75, 21);
+				cancelar.setActionCommand("Cancel");
+				buttonPane.add(cancelar);
 			}
 		}
 		{
@@ -158,7 +232,7 @@ public class RealizarVenta extends JDialog {
 
 			JPanel panelCompra = new JPanel();
 			panelCompra.setBorder(new TitledBorder(null, "Lista de Productos a comprar", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-			panelCompra.setBounds(61, 185, 318, 274);
+			panelCompra.setBounds(80, 200, 524, 371);
 			panel.add(panelCompra);
 			panelCompra.setLayout(new BorderLayout(0, 0));
 			{
@@ -197,11 +271,12 @@ public class RealizarVenta extends JDialog {
 
 			JPanel panelCarrito = new JPanel();
 			panelCarrito.setBorder(new TitledBorder(null, "Carrito de compra", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-			panelCarrito.setBounds(485, 185, 318, 274);
+			panelCarrito.setBounds(711, 200, 524, 371);
 			panel.add(panelCarrito);
 			panelCarrito.setLayout(new BorderLayout(0, 0));
 			{
 				JScrollPane scrollPane = new JScrollPane();
+				scrollPane.setSize(419, 371);
 				panelCarrito.add(scrollPane, BorderLayout.CENTER);
 
 				tableCarrito = new JTable();
@@ -244,7 +319,7 @@ public class RealizarVenta extends JDialog {
 			panel.add(lblNombreDelCliente);
 
 			JLabel lblFechaActual = new JLabel("Fecha actual:");
-			lblFechaActual.setBounds(470, 62, 101, 21);
+			lblFechaActual.setBounds(714, 40, 101, 21);
 			panel.add(lblFechaActual);
 
 			btnAgregar = new JButton("Agregar");
@@ -292,14 +367,14 @@ public class RealizarVenta extends JDialog {
 						}
 					}
 					System.out.println(miCarrito.size()+"<---Tamano del carrito");
-					loadCarrito();
+					//loadCarrito();
 					//loadTable();
 					//JOptionPane.showMessageDialog(null,  "Se agregó exitosamente-0", "Información", JOptionPane.INFORMATION_MESSAGE);
 					btnAgregar.setEnabled(false);
 				}
 			});
 			btnAgregar.setIcon(new ImageIcon(RealizarVenta.class.getResource("/imagenes/agregaralCarrito.png")));
-			btnAgregar.setBounds(382, 241, 101, 21);
+			btnAgregar.setBounds(602, 274, 101, 21);
 			panel.add(btnAgregar);
 
 			btnQuitar = new JButton("Quitar");
@@ -318,7 +393,6 @@ public class RealizarVenta extends JDialog {
 										if(miCarrito.get(i).getNumeroSerie().equalsIgnoreCase(productosEnVenta.get(j).getNumeroSerie())){
 											productosEnVenta.get(j).setCantReal(productosEnVenta.get(j).getCantReal()+n);
 											miCarrito.get(i).setCompra(miCarrito.get(i).getCompra()-n);
-											//loadCarrito();
 											JOptionPane.showMessageDialog(null,  "Se devolvio de nuevo exitosamente", "Información", JOptionPane.INFORMATION_MESSAGE);
 											break;
 
@@ -326,9 +400,7 @@ public class RealizarVenta extends JDialog {
 											productosEnVenta.add(miCarrito.get(i));
 											productosEnVenta.get(productosEnVenta.size()-1).setCantReal(n);
 											miCarrito.get(i).setCompra(miCarrito.get(i).getCompra()-n);
-											//loadCarrito();
 											JOptionPane.showMessageDialog(null,  "Se devolvio exitosamente - z", "Información", JOptionPane.INFORMATION_MESSAGE);
-											//loadCarrito();
 											break;
 
 										}
@@ -337,9 +409,7 @@ public class RealizarVenta extends JDialog {
 									productosEnVenta.add(miCarrito.get(i));
 									productosEnVenta.get(productosEnVenta.size()-1).setCantReal(n);
 									miCarrito.get(i).setCompra(miCarrito.get(i).getCompra()-n);
-									//loadCarrito();
 									JOptionPane.showMessageDialog(null,  "Se agregó exitosamente-0", "Información", JOptionPane.INFORMATION_MESSAGE);
-									//loadCarrito();
 									break;
 
 								}
@@ -348,13 +418,11 @@ public class RealizarVenta extends JDialog {
 						}
 					}
 					System.out.println(miCarrito.size()+"<---Tamano del carrito");
-					loadCarrito();
-					//loadTable();
-					//JOptionPane.showMessageDialog(null,  "Se agregó exitosamente-0", "Información", JOptionPane.INFORMATION_MESSAGE);
+					//loadCarrito();
 					btnQuitar.setEnabled(false);
 				}
 			});
-			btnQuitar.setBounds(382, 381, 101, 21);
+			btnQuitar.setBounds(603, 437, 101, 21);
 			panel.add(btnQuitar);
 
 			fechaxlabel = new JLabel("");
@@ -373,10 +441,19 @@ public class RealizarVenta extends JDialog {
 			spCantComprar.setModel(new SpinnerNumberModel(new Integer(1), new Integer(1), null, new Integer(1)));
 			spCantComprar.setBounds(374, 135, 49, 21);
 			panel.add(spCantComprar);
+			
+			JLabel lblTotalDelCarrito = new JLabel("Total del carrito:");
+			lblTotalDelCarrito.setBounds(714, 610, 101, 21);
+			panel.add(lblTotalDelCarrito);
+			
+			totallabel = new JLabel("");
+			totallabel.setBounds(858, 610, 101, 21);
+			panel.add(totallabel);
 		}
 	}
 
 	private void loadTable() {
+		int aux = -1;
 		model.setRowCount(0);
 		fila = new Object[model.getColumnCount()];
 		//System.out.println(Biblioteca.getInstances().getMisPublicaciones().size());
@@ -405,22 +482,25 @@ public class RealizarVenta extends JDialog {
 				fila[4] = productosEnVenta.get(i).getNumeroSerie();
 
 				model.addRow(fila);
-			}/*else{
+			}else{
 				
-				productosEnVenta.remove(i+1);
-			}*/
+				
+			}
+			if(aux!=-1){
+				productosEnVenta.remove(i);
+			}
 			
 		}
 
 		tableListaCompra.setModel(model);
 		//table.setEnabled(false); //deshabilita la seleccion.
-		tableListaCompra.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		//tableListaCompra.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		tableListaCompra.getTableHeader().setReorderingAllowed(false);
 		TableColumnModel columModel = tableListaCompra.getColumnModel();
-		columModel.getColumn(0).setPreferredWidth(100);
+		/*columModel.getColumn(0).setPreferredWidth(100);
 		columModel.getColumn(1).setPreferredWidth(100);
 		columModel.getColumn(2).setPreferredWidth(100);
-		columModel.getColumn(3).setPreferredWidth(100);
+		columModel.getColumn(3).setPreferredWidth(100);*/
 
 	}
 
@@ -460,22 +540,25 @@ public class RealizarVenta extends JDialog {
 				fila[4] = miCarrito.get(i).getNumeroSerie();
 
 				models.addRow(fila);
-			}/*else{
+			}else{
 				aux = i;
-			}*/
+			}
 		}
-		//miCarrito.remove(aux);
+		if(aux!=-1){
+			miCarrito.remove(aux);
+		}
+		aux = -1;
 
 		tableCarrito.setModel(models);
 		//table.setEnabled(false); //deshabilita la seleccion.
-		tableCarrito.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		//tableCarrito.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		tableCarrito.getTableHeader().setReorderingAllowed(false);
 		TableColumnModel columModel = tableCarrito.getColumnModel();
-		columModel.getColumn(0).setPreferredWidth(100);
+		/*columModel.getColumn(0).setPreferredWidth(100);
 		columModel.getColumn(1).setPreferredWidth(100);
 		columModel.getColumn(2).setPreferredWidth(100);
 		columModel.getColumn(3).setPreferredWidth(100);
-		columModel.getColumn(4).setPreferredWidth(100);
+		columModel.getColumn(4).setPreferredWidth(100);*/
 
 	}
 }
