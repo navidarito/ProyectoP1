@@ -39,6 +39,10 @@ public class Main {
 			System.out.println(tienda.getMisProductos().get(i).getCantInicial()+"  <--Cantidad Inicial");
 			System.out.println(tienda.getMisProductos().get(i).getCantReal()+"  <--Cantidad Real");
 		}
+		
+		System.out.println(tienda.indexFactura("001"));
+		
+		tienda.eleminarFactura("001");
 		/*System.out.println(tienda.getMisFacturas().get(0).getMisProductos().get(0).compra);
 		System.out.println();
 		System.out.println(tienda.getMisProductos().get(0).getCantReal());

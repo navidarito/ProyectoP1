@@ -18,6 +18,7 @@ import logica.Producto;
 import logica.TarjetaMadre;
 import logica.Tienda;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 import javax.swing.JScrollPane;
@@ -87,7 +88,7 @@ public class ListarProducto extends JDialog {
 				panel.add(scrollPane);
 				{
 					
-					String[] columnNames = {"Número de serie","Marca","Modelo","Tipo","Cantidad Inicial","Cantidad Real"};
+					String[] columnNames = {"Número de serie","Marca","Modelo","Tipo","Cantidad Inicial","Cantidad Real","Precio Unitario"};
 					table = new JTable();
 					table.addMouseListener(new MouseAdapter() {
 						@Override
@@ -124,8 +125,14 @@ public class ListarProducto extends JDialog {
 					
 					if(cbOpcion.getSelectedIndex() == 0){
 						//Todo
-						String[] columnNames = {"Número de serie","Marca","Modelo","Tipo","Cantidad Inicial","Cantidad Real"};
-						model = new DefaultTableModel();
+						String[] columnNames = {"Número de serie","Marca","Modelo","Tipo","Cantidad Inicial","Cantidad Real","Precio Unitario"};
+						model = new DefaultTableModel(){
+
+							@Override
+							public boolean isCellEditable(int row, int column){
+								return false;
+							}
+						};
 						model.setColumnIdentifiers(columnNames);
 						table.setModel(model);
 						loadTable();
@@ -135,7 +142,13 @@ public class ListarProducto extends JDialog {
 					else if(cbOpcion.getSelectedIndex() == 1){
 						//Tarjeta Madre
 						String[] columnNames = {"Número de serie","Marca","Modelo","Tipo Conector Micro","Tipo de Ram","Tipo de Disco Duro"};
-						model = new DefaultTableModel();
+						model = new DefaultTableModel(){
+
+							@Override
+							public boolean isCellEditable(int row, int column){
+								return false;
+							}
+						};
 						model.setColumnIdentifiers(columnNames);
 						table.setModel(model);
 						loadTabletTarjeta();
@@ -144,7 +157,13 @@ public class ListarProducto extends JDialog {
 					else if(cbOpcion.getSelectedIndex() == 2){
 						//Microprocesador
 						String[] columnNames = {"Número de serie","Marca","Modelo","Tipo Socket","Velocidad de procesamiento(MHz)"};
-						model = new DefaultTableModel();
+						model = new DefaultTableModel(){
+
+							@Override
+							public boolean isCellEditable(int row, int column){
+								return false;
+							}
+						};
 						model.setColumnIdentifiers(columnNames);
 						table.setModel(model);
 						loadTableMicro();
@@ -153,7 +172,13 @@ public class ListarProducto extends JDialog {
 					else if(cbOpcion.getSelectedIndex() == 3){
 						//Memoria Ram
 						String[] columnNames = {"Número de serie","Marca","Modelo","Capacidad (MB)","Tipo Memoria"};
-						model = new DefaultTableModel();
+						model = new DefaultTableModel(){
+
+							@Override
+							public boolean isCellEditable(int row, int column){
+								return false;
+							}
+						};
 						model.setColumnIdentifiers(columnNames);
 						table.setModel(model);
 						loadTableMemoriaRam();
@@ -163,7 +188,13 @@ public class ListarProducto extends JDialog {
 					else if(cbOpcion.getSelectedIndex() == 4){
 						//Disco Duro
 						String[] columnNames = {"Número de serie","Marca","Modelo","Capacidad (GB)","Tipo Conexión"};
-						model = new DefaultTableModel();
+						model = new DefaultTableModel(){
+
+							@Override
+							public boolean isCellEditable(int row, int column){
+								return false;
+							}
+						};
 						model.setColumnIdentifiers(columnNames);
 						table.setModel(model);
 						loadTableDiscoDuro();
@@ -262,6 +293,7 @@ public class ListarProducto extends JDialog {
 			}
 			fila[4] = tienda.getMisProductos().get(i).getCantInicial();
 			fila[5] = tienda.getMisProductos().get(i).getCantReal();
+			fila[6] = tienda.getMisProductos().get(i).getPrecio();
 			
 	
 			model.addRow(fila);
@@ -290,6 +322,11 @@ public class ListarProducto extends JDialog {
 			columModel.getColumn(3).setPreferredWidth(110);
 			columModel.getColumn(4).setPreferredWidth(126);
 			columModel.getColumn(5).setPreferredWidth(126);
+			DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+			centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+			for (int i = 0; i < table.getColumnCount(); i++) {
+				table.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+			}
 		
 	}
 	
@@ -297,7 +334,7 @@ public class ListarProducto extends JDialog {
 	private void loadTabletTarjeta() {
 		model.setRowCount(0);
 		fila = new Object[model.getColumnCount()];
-		for (Producto aux : Tienda.getInstance().getMisProductos()) {
+		for (Producto aux : tienda.getMisProductos()) {
 		 if(aux instanceof TarjetaMadre){
 				fila[0] = aux.getNumeroSerie();
 				fila[1] = aux.getMarca();
@@ -320,12 +357,17 @@ public class ListarProducto extends JDialog {
 			columModel.getColumn(3).setPreferredWidth(131);
 			columModel.getColumn(4).setPreferredWidth(118);
 			columModel.getColumn(5).setPreferredWidth(123);
+			DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+			centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+			for (int i = 0; i < table.getColumnCount(); i++) {
+				table.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+			}
 		
 	}
 	private void loadTableMicro() {
 		model.setRowCount(0);
 		fila = new Object[model.getColumnCount()];
-		for (Producto aux : Tienda.getInstance().getMisProductos()) {
+		for (Producto aux : tienda.getMisProductos()) {
 			if(aux instanceof Microprocesador){
 				fila[0] = aux.getNumeroSerie();
 				fila[1] = aux.getMarca();
@@ -347,13 +389,18 @@ public class ListarProducto extends JDialog {
 			columModel.getColumn(2).setPreferredWidth(130);
 			columModel.getColumn(3).setPreferredWidth(150);
 			columModel.getColumn(4).setPreferredWidth(207);
+			DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+			centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+			for (int i = 0; i < table.getColumnCount(); i++) {
+				table.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+			}
 		
 		
 	}
 	private void loadTableMemoriaRam() {
 		model.setRowCount(0);
 		fila = new Object[model.getColumnCount()];
-		for (Producto aux : Tienda.getInstance().getMisProductos()) {
+		for (Producto aux : tienda.getMisProductos()) {
 			if(aux instanceof MemoriaRam){
 				fila[0] = aux.getNumeroSerie();
 				fila[1] = aux.getMarca();
@@ -375,12 +422,17 @@ public class ListarProducto extends JDialog {
 			columModel.getColumn(2).setPreferredWidth(137);
 			columModel.getColumn(3).setPreferredWidth(150);
 			columModel.getColumn(4).setPreferredWidth(150);
+			DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+			centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+			for (int i = 0; i < table.getColumnCount(); i++) {
+				table.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+			}
 		
 	}
 	private void loadTableDiscoDuro() {
 		model.setRowCount(0);
 		fila = new Object[model.getColumnCount()];
-		for (Producto aux : Tienda.getInstance().getMisProductos()) {
+		for (Producto aux : tienda.getMisProductos()) {
 			if(aux instanceof DiscoDuro){
 				fila[0] = aux.getNumeroSerie();
 				fila[1] = aux.getMarca();
@@ -402,6 +454,11 @@ public class ListarProducto extends JDialog {
 			columModel.getColumn(2).setPreferredWidth(140);
 			columModel.getColumn(3).setPreferredWidth(150);
 			columModel.getColumn(4).setPreferredWidth(152);
+			DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+			centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+			for (int i = 0; i < table.getColumnCount(); i++) {
+				table.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+			}
 		
 	}
 }

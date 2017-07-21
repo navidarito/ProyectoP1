@@ -70,6 +70,7 @@ public class Tienda implements Serializable{
 	
 	public void InsertarFactura(Factura factu){
 		misFacturas.add(factu);
+		misFacturas.get(misFacturas.size()-1).setCodigo("00"+misFacturas.size());
 	}
 	
 	public double TotalVentas(){
@@ -99,9 +100,20 @@ public class Tienda implements Serializable{
 		}
 		return ind;
 	}
+	
+	public Factura indexFactura(String codigo){
+		Factura ind = null;
+		for (Factura aux : misFacturas) {
+			if(aux.getCodigo().equalsIgnoreCase(codigo)){
+				ind = aux;
+			}
+		}
+		return ind;
+	}
 
 	public void eliminiarProducto(String numeroSerie) {
 		Producto index = indexProducto(numeroSerie);
+		
 			misProductos.remove(index);
 	}
 
@@ -109,6 +121,12 @@ public class Tienda implements Serializable{
 		Cliente index =indexCliente(cedula);
 		misClientes.remove(index);
 		
+	}
+	
+	public void eleminarFactura(String codigo){
+		Factura index = indexFactura(codigo);
+		misFacturas.remove(index);
+		System.out.println("Se elimino");
 	}
 	 
 

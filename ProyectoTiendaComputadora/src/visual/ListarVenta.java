@@ -5,10 +5,12 @@ import java.awt.FlowLayout;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
@@ -46,6 +48,7 @@ public class ListarVenta extends JDialog {
 	private static Object[] fila;
 	private static DefaultTableModel models;
 	private String cedula = "";
+	private JButton Detalles;
 	/**
 	 * Launch the application.
 	 */
@@ -83,7 +86,7 @@ public class ListarVenta extends JDialog {
 				panel.add(scrollPane, BorderLayout.CENTER);
 				{
 					table = new JTable();
-					String[] columnNamess = {"Nombre del Cliente","Cédula del Cliente","Cant.Productos","Total"};
+					String[] columnNamess = {"Código","Nombre del Cliente","Cédula del Cliente","Cant.Productos","Total"};
 					models = new DefaultTableModel(){
 
 						@Override
@@ -101,19 +104,17 @@ public class ListarVenta extends JDialog {
 							if(aux>-1){
 								btnEliminar.setEnabled(true);
 								btnModificar.setEnabled(true);
-								 cedula= (String) table.getModel().getValueAt(aux, 0);
-								 tienda.indexCliente(cedula);
+								Detalles.setEnabled(true);
+								
 							}
 							else{
 								btnEliminar.setEnabled(false);
 								btnModificar.setEnabled(false);
+								Detalles.setEnabled(false);
 							}
 						}
 					});
-					String[] columnNames = {"Cédula del Cliente","Nombre del Cliente","Cant. Productos","Dirección"};
-					model = new DefaultTableModel();
-					model.setColumnIdentifiers(columnNames);
-					table.setModel(model);
+					
 					loadVentas();
 					scrollPane.setViewportView(table);
 				}
@@ -128,8 +129,9 @@ public class ListarVenta extends JDialog {
 				btnEliminar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						if(JOptionPane.showConfirmDialog(null,  "Estas seguro de eliminar venta?", "Información", JOptionPane.YES_NO_OPTION)== JOptionPane.YES_OPTION){
-							  if(!cedula.equalsIgnoreCase("")){
-								  tienda.eliminiarCliente(cedula);
+							String codi = (String)table.getModel().getValueAt(table.getSelectedRow(), 0);
+							  if(!codi.equalsIgnoreCase("")){
+								  tienda.eleminarFactura(codi);;
 								  loadVentas();
 								  btnEliminar.setEnabled(false);
 								  btnModificar.setEnabled(false);
@@ -138,6 +140,21 @@ public class ListarVenta extends JDialog {
 					}
 					
 				});
+				{
+					Detalles = new JButton("Ver Detalles");
+					Detalles.setEnabled(false);
+					Detalles.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							int n = table.getModel().getRowCount();
+							System.out.println(n);
+							DetallesFactura zx = new DetallesFactura(tienda.getMisFacturas().get(n-1));
+							zx.setLocationRelativeTo(null);
+							zx.setModal(true);
+							zx.setVisible(true);
+						}
+					});
+					buttonPane.add(Detalles);
+				}
 				btnEliminar.setEnabled(false);
 				btnEliminar.setIcon(new ImageIcon(ListarVenta.class.getResource("/imagenes/cancel.png")));
 				buttonPane.add(btnEliminar);
@@ -175,10 +192,11 @@ public class ListarVenta extends JDialog {
 			/*for (int j = 0; j < tienda.getMisFacturas().get(i).getMisProductos().size(); j++) {
 				
 			}*/
-			fila[0] = tienda.getMisFacturas().get(i).getClient().getNombre();
-			fila[1] = tienda.getMisFacturas().get(i).getClient().getCedula();
-			fila[2] = tienda.getMisFacturas().get(i).getMisProductos().size();
-			fila[3] = tienda.getMisFacturas().get(i).totalFactura();
+			fila[0] = tienda.getMisFacturas().get(i).getCodigo();
+			fila[1] = tienda.getMisFacturas().get(i).getClient().getNombre();
+			fila[2] = tienda.getMisFacturas().get(i).getClient().getCedula();
+			fila[3] = tienda.getMisFacturas().get(i).getMisProductos().size();
+			fila[4] = tienda.getMisFacturas().get(i).totalFactura();
 
 			models.addRow(fila);
 			
@@ -190,6 +208,11 @@ public class ListarVenta extends JDialog {
 		//table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		table.getTableHeader().setReorderingAllowed(false);
 		table.getTableHeader().setResizingAllowed(false);
+		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+		centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+		for (int i = 0; i < table.getColumnCount(); i++) {
+			table.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+		}
 		//TableColumnModel columModel = table.getColumnModel();
 		/*columModel.getColumn(0).setPreferredWidth(100);
 		columModel.getColumn(1).setPreferredWidth(100);

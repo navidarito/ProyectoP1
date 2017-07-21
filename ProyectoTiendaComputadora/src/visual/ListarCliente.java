@@ -5,10 +5,12 @@ import java.awt.FlowLayout;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
@@ -101,7 +103,13 @@ public class ListarCliente extends JDialog {
 						}
 					});
 					String[] columnNames = {"Cédula","Nombre","Teléfono","Dirección"};
-					model = new DefaultTableModel();
+					model = new DefaultTableModel(){
+
+						@Override
+						public boolean isCellEditable(int row, int column){
+							return false;
+						}
+					};
 					model.setColumnIdentifiers(columnNames);
 					table_1.setModel(model);
 					loadTable();
@@ -179,13 +187,18 @@ public class ListarCliente extends JDialog {
 		
 		table_1.setModel(model);
 		//table.setEnabled(false); //deshabilita la seleccion.
-		table_1.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		//table_1.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		table_1.getTableHeader().setReorderingAllowed(false);
 		TableColumnModel columModel = table_1.getColumnModel();
 		columModel.getColumn(0).setPreferredWidth(110);
 		columModel.getColumn(1).setPreferredWidth(120);
 		columModel.getColumn(2).setPreferredWidth(100);
 		columModel.getColumn(3).setPreferredWidth(203);
+		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+		centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+		for (int i = 0; i < table_1.getColumnCount(); i++) {
+			table_1.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+		}
 		
 	}
 
