@@ -142,6 +142,7 @@ public class ListarVenta extends JDialog {
 				});
 				{
 					Detalles = new JButton("Ver Detalles");
+					Detalles.setIcon(new ImageIcon(ListarVenta.class.getResource("/imagenes/detalle.png")));
 					Detalles.setEnabled(false);
 					Detalles.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent e) {

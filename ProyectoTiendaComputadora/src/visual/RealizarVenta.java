@@ -313,6 +313,7 @@ public class RealizarVenta extends JDialog {
 			panel.add(cbCliente);
 
 			JLabel lblCliente = new JLabel("Cliente:");
+			lblCliente.setIcon(new ImageIcon(RealizarVenta.class.getResource("/imagenes/cliente.png")));
 			lblCliente.setBounds(92, 40, 74, 21);
 			panel.add(lblCliente);
 
@@ -321,6 +322,7 @@ public class RealizarVenta extends JDialog {
 			panel.add(lblNombreDelCliente);
 
 			JLabel lblFechaActual = new JLabel("Fecha actual:");
+			lblFechaActual.setIcon(new ImageIcon(RealizarVenta.class.getResource("/imagenes/date1.png")));
 			lblFechaActual.setBounds(714, 40, 101, 21);
 			panel.add(lblFechaActual);
 
@@ -432,7 +434,7 @@ public class RealizarVenta extends JDialog {
 			panel.add(fechaxlabel);
 
 			nombreCliente = new JLabel("");
-			nombreCliente.setBounds(222, 84, 86, 21);
+			nombreCliente.setBounds(222, 84, 142, 21);
 			panel.add(nombreCliente);
 
 			JLabel lblCantidadDeProducto = new JLabel("Cantidad de Producto a comprar o devolver: ");
@@ -445,11 +447,12 @@ public class RealizarVenta extends JDialog {
 			panel.add(spCantComprar);
 			
 			JLabel lblTotalDelCarrito = new JLabel("Total del carrito:");
-			lblTotalDelCarrito.setBounds(714, 610, 101, 21);
+			lblTotalDelCarrito.setIcon(new ImageIcon(RealizarVenta.class.getResource("/imagenes/precio.png")));
+			lblTotalDelCarrito.setBounds(714, 610, 117, 21);
 			panel.add(lblTotalDelCarrito);
 			
 			totallabel = new JLabel("");
-			totallabel.setBounds(858, 610, 101, 21);
+			totallabel.setBounds(858, 610, 176, 21);
 			panel.add(totallabel);
 		}
 	}

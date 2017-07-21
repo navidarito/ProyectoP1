@@ -28,6 +28,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.ImageIcon;
+import java.awt.Toolkit;
 
 public class DetallesFactura extends JDialog {
 
@@ -58,6 +60,8 @@ public class DetallesFactura extends JDialog {
 	 * Create the dialog.
 	 */
 	public DetallesFactura(Factura t) {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(DetallesFactura.class.getResource("/imagenes/factura.png")));
+		setTitle("Factura");
 		fac = t;
 		addWindowListener(new WindowAdapter() {
 			@Override
@@ -109,6 +113,7 @@ public class DetallesFactura extends JDialog {
 		}
 		
 		JLabel lblCliente = new JLabel("Cliente: ");
+		lblCliente.setIcon(new ImageIcon(DetallesFactura.class.getResource("/imagenes/cliente1.png")));
 		lblCliente.setBounds(447, 32, 86, 21);
 		contentPanel.add(lblCliente);
 		
@@ -117,7 +122,8 @@ public class DetallesFactura extends JDialog {
 		contentPanel.add(cliente);
 		{
 			JLabel lblFechaDeCompra = new JLabel("Fecha de Compra:");
-			lblFechaDeCompra.setBounds(173, 32, 115, 21);
+			lblFechaDeCompra.setIcon(new ImageIcon(DetallesFactura.class.getResource("/imagenes/date1.png")));
+			lblFechaDeCompra.setBounds(173, 32, 129, 21);
 			contentPanel.add(lblFechaDeCompra);
 		}
 		{
@@ -127,7 +133,8 @@ public class DetallesFactura extends JDialog {
 		}
 		{
 			JLabel lblCdigo = new JLabel("C\u00F3digo:");
-			lblCdigo.setBounds(28, 32, 58, 21);
+			lblCdigo.setIcon(new ImageIcon(DetallesFactura.class.getResource("/imagenes/codigo.png")));
+			lblCdigo.setBounds(28, 32, 70, 21);
 			contentPanel.add(lblCdigo);
 		}
 		{
@@ -137,12 +144,13 @@ public class DetallesFactura extends JDialog {
 		}
 		{
 			JLabel lblTotal = new JLabel("Total:");
+			lblTotal.setIcon(new ImageIcon(DetallesFactura.class.getResource("/imagenes/precio.png")));
 			lblTotal.setBounds(307, 391, 64, 21);
 			contentPanel.add(lblTotal);
 		}
 		{
 			total = new JLabel("");
-			total.setBounds(395, 391, 64, 21);
+			total.setBounds(395, 391, 219, 21);
 			contentPanel.add(total);
 		}
 		{
@@ -151,6 +159,7 @@ public class DetallesFactura extends JDialog {
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				JButton cancelar = new JButton("Cerrar");
+				cancelar.setIcon(new ImageIcon(DetallesFactura.class.getResource("/imagenes/cancel.png")));
 				cancelar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						dispose();

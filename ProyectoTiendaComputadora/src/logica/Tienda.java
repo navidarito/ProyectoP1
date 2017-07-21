@@ -129,6 +129,60 @@ public class Tienda implements Serializable{
 		System.out.println("Se elimino");
 	}
 	 
+	
+	public float cantTarjetaMadre(){
+		float cantidad=0;
+		for(int i=0; i<misFacturas.size();i++){
+			for(int j=0; i<misFacturas.get(i).getMisProductos().size();j++){
+				if(misFacturas.get(i).getMisProductos().get(j) instanceof TarjetaMadre){
+					cantidad +=misFacturas.get(i).getMisProductos().get(j).getCompra();
+				}
+			}
+		}
+			
+			return cantidad;
+		
+	}
+	public float cantMicroProcesador(){
+		float cantidad=0;
+		for(int i=0; i<misFacturas.size();i++){
+			for(int j=0; i<misFacturas.get(i).getMisProductos().size();j++){
+				if(misFacturas.get(i).getMisProductos().get(j) instanceof Microprocesador){
+					cantidad +=misFacturas.get(i).getMisProductos().get(j).getCompra();
+				}
+			}
+		}
+			
+			return cantidad;
+		
+	}
+	public float cantMemoriaRam(){
+		float cantidad=0;
+		for(int i=0; i<misFacturas.size();i++){
+			for(int j=0; i<misFacturas.get(i).getMisProductos().size();j++){
+				if(misFacturas.get(i).getMisProductos().get(j) instanceof MemoriaRam){
+					cantidad +=misFacturas.get(i).getMisProductos().get(j).getCompra();
+				}
+			}
+		}
+			
+			return cantidad;
+		
+	}
+	public float cantDiscoDuro(){
+		float cantidad=0;
+		for(int i=0; i<misFacturas.size();i++){
+			for(int j=0; i<misFacturas.get(i).getMisProductos().size();j++){
+				if(misFacturas.get(i).getMisProductos().get(j) instanceof DiscoDuro){
+					cantidad +=misFacturas.get(i).getMisProductos().get(j).getCompra();
+				}
+			}
+		}
+			
+			return cantidad;
+		
+	}
+	
 
 	
 	
