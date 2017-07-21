@@ -81,7 +81,7 @@ public class Tienda implements Serializable{
 		}
 		return total;
 	}
-	private Producto indexProducto(String numeroSerie){
+	public Producto indexProducto(String numeroSerie){
 		Producto ind = null;
 		for (Producto aux : misProductos) {
 			if(aux.getNumeroSerie().equalsIgnoreCase(numeroSerie)){
@@ -110,7 +110,7 @@ public class Tienda implements Serializable{
 		misClientes.remove(index);
 		
 	}
-	
+	 
 
 	
 	

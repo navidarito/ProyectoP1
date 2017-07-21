@@ -5,12 +5,14 @@ import java.awt.FlowLayout;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
+import logica.Cliente;
 import logica.DiscoDuro;
 import logica.MemoriaRam;
 import logica.Microprocesador;
@@ -30,15 +32,20 @@ import java.awt.Color;
 
 public class ListarVenta extends JDialog {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6051746858869324547L;
 	private final JPanel contentPanel = new JPanel();
 	private JTable table;
+	private static DefaultTableModel model;
 	private static Tienda tienda;
 	private JButton btnEliminar;
 	private JButton btnCancelar;
 	private JButton btnModificar;
 	private static Object[] fila;
 	private static DefaultTableModel models;
-
+	private String cedula = "";
 	/**
 	 * Launch the application.
 	 */
@@ -94,6 +101,8 @@ public class ListarVenta extends JDialog {
 							if(aux>-1){
 								btnEliminar.setEnabled(true);
 								btnModificar.setEnabled(true);
+								 cedula= (String) table.getModel().getValueAt(aux, 0);
+								 tienda.indexCliente(cedula);
 							}
 							else{
 								btnEliminar.setEnabled(false);
@@ -101,6 +110,10 @@ public class ListarVenta extends JDialog {
 							}
 						}
 					});
+					String[] columnNames = {"Cédula del Cliente","Nombre del Cliente","Cant. Productos","Dirección"};
+					model = new DefaultTableModel();
+					model.setColumnIdentifiers(columnNames);
+					table.setModel(model);
 					loadVentas();
 					scrollPane.setViewportView(table);
 				}
@@ -112,6 +125,19 @@ public class ListarVenta extends JDialog {
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				btnEliminar = new JButton("Eliminar");
+				btnEliminar.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						if(JOptionPane.showConfirmDialog(null,  "Estas seguro de eliminar venta?", "Información", JOptionPane.YES_NO_OPTION)== JOptionPane.YES_OPTION){
+							  if(!cedula.equalsIgnoreCase("")){
+								  tienda.eliminiarCliente(cedula);
+								  loadVentas();
+								  btnEliminar.setEnabled(false);
+								  btnModificar.setEnabled(false);
+							  }
+							}
+					}
+					
+				});
 				btnEliminar.setEnabled(false);
 				btnEliminar.setIcon(new ImageIcon(ListarVenta.class.getResource("/imagenes/cancel.png")));
 				buttonPane.add(btnEliminar);

@@ -48,6 +48,7 @@ public class ListarProducto extends JDialog {
 	private JButton cancelButton;
 	private String numeroSerie = "";
 	private JLabel label;
+	private Producto prod=null;
 
 	/**
 	 * Launch the application.
@@ -96,6 +97,7 @@ public class ListarProducto extends JDialog {
 								btnModificar.setEnabled(true);
 								btnEliminar.setEnabled(true);
 							    numeroSerie  = (String) table.getModel().getValueAt(aux, 0);
+							    prod = tienda.indexProducto(numeroSerie);
 							   
 							}
 							else{
@@ -212,6 +214,12 @@ public class ListarProducto extends JDialog {
 			}
 			{
 				btnModificar = new JButton("Modificar");
+				btnModificar.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						
+						
+					}
+				});
 				btnModificar.setEnabled(false);
 				btnModificar.setIcon(new ImageIcon(ListarProducto.class.getResource("/imagenes/modificar.png")));
 				btnModificar.setActionCommand("OK");

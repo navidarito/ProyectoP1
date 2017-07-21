@@ -10,6 +10,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.text.MaskFormatter;
 
+import logica.Cliente;
 import logica.DiscoDuro;
 import logica.MemoriaRam;
 import logica.Microprocesador;
@@ -37,6 +38,8 @@ import java.awt.Color;
 
 public class RegistrarProducto extends JDialog {
 
+	protected static final String capram = null;
+	protected static final String tipram = null;
 	private final JPanel contentPanel = new JPanel();
 	private JTextField txtmarca;
 	private JTextField txtmodelo;
@@ -59,6 +62,8 @@ public class RegistrarProducto extends JDialog {
 	private JFormattedTextField ftxtNumeroSerie;
 	private JTextField txtPrecioCompra;
 	private static Tienda tienda;
+	private boolean modificar;
+	private JButton btnRegistrar;
 
 
 
@@ -78,12 +83,18 @@ public class RegistrarProducto extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public RegistrarProducto(Tienda t) {
+	public RegistrarProducto(Tienda t, Producto p, boolean modif) {
 		setForeground(Color.BLUE);
 		setResizable(false);
 		tienda=t;
+		modificar =modif;
 		setIconImage(Toolkit.getDefaultToolkit().getImage(RegistrarProducto.class.getResource("/imagenes/pcparts.png")));
-		setTitle("Registrar Producto");
+		if(modificar == true){
+			cargar(p);
+			setTitle("Modificar Producto");
+		}else{
+			setTitle("Registrar Producto");
+		}
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowActivated(WindowEvent e) {
@@ -405,20 +416,22 @@ public class RegistrarProducto extends JDialog {
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				{
-					JButton cancelButton = new JButton("Cancelar");
-					cancelButton.setIcon(new ImageIcon(RegistrarProducto.class.getResource("/imagenes/cancel.png")));
-					cancelButton.addActionListener(new ActionListener() {
+					JButton btnCancelar = new JButton("Cancelar");
+					btnCancelar.setIcon(new ImageIcon(RegistrarProducto.class.getResource("/imagenes/cancel.png")));
+					btnCancelar.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent e) {
 							dispose();
 						}
 					});
-					JButton okButton = new JButton("Registrar");
-					okButton.setSelectedIcon(null);
-					okButton.setIcon(new ImageIcon(RegistrarProducto.class.getResource("/imagenes/savee.png")));
-					okButton.addActionListener(new ActionListener() {
+					btnRegistrar = new JButton("Registrar");
+					if(modificar == true){
+						btnRegistrar = new JButton("Modificar");
+					}					
+					btnRegistrar.setSelectedIcon(null);
+					btnRegistrar.setIcon(new ImageIcon(RegistrarProducto.class.getResource("/imagenes/savee.png")));
+					btnRegistrar.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent e) {
 							boolean poder = true;
-							Producto p = null;
 
 							double prec = Double.parseDouble(txtPrecioCompra.getText());
 							String numserie = ftxtNumeroSerie.getText();
@@ -435,30 +448,30 @@ public class RegistrarProducto extends JDialog {
 								if(cbTipoRam.getSelectedIndex()==0 || cbTipoDisco.getSelectedIndex()==0 || cbTipoSocket.getSelectedIndex()==0){
 									JOptionPane.showMessageDialog(null,  "hay campos que no están seleccionados", "WARNING", JOptionPane.WARNING_MESSAGE);
 
-								}else {
+								}if(modificar==false){
 
 									String tipsock = cbTipoSocket.getSelectedItem().toString();
 									String tipram = cbTipoRam.getSelectedItem().toString();
 									String tipdisc = cbTipoDisco.getSelectedItem().toString();
 									TarjetaMadre t = new TarjetaMadre(prec, cant, numserie, marc, model, tipsock, tipram, tipdisc);
-
 									tienda.InsertarProducto(t);
-									
+									Clean();
+								}
 
 								}
 
-							}else if(cbTipo.getSelectedIndex()==1){
+							 if(cbTipo.getSelectedIndex()==1){
 								//Registrar Microprocesador
-								if(cbtiposocketmicro.getSelectedIndex()==0 || cbVelocidadmicro.getSelectedIndex()==0){
+								if(poder==false &&(cbtiposocketmicro.getSelectedIndex()==0 || cbVelocidadmicro.getSelectedIndex()==0)){
 									JOptionPane.showMessageDialog(null,  "hay campos que no están seleccionados", "WARNING", JOptionPane.WARNING_MESSAGE);
 								}
-								else{
+								if(modificar==false){
 									String velomic = cbVelocidadmicro.getSelectedItem().toString();
 									String tiposockmi = cbtiposocketmicro.getSelectedItem().toString();
 									Microprocesador m = new Microprocesador(prec, cant, numserie, marc, model, velomic,tiposockmi );
 									tienda.InsertarProducto(m);
-
-
+									Clean();
+									 
 								}
 
 							}else if(cbTipo.getSelectedIndex()==2){
@@ -466,15 +479,13 @@ public class RegistrarProducto extends JDialog {
 								if(cbtipodelram.getSelectedIndex()== 0 || cbCapacidadmbRam.getSelectedIndex()==0){
 									JOptionPane.showMessageDialog(null,  "hay campos que no están seleccionados", "WARNING", JOptionPane.WARNING_MESSAGE);
 								}
-								else{
+								if(modificar==false){
 
 									String capram = cbCapacidadmbRam.getSelectedItem().toString();
 									String tipram = cbtipodelram.getSelectedItem().toString();
 									MemoriaRam r = new MemoriaRam(prec, cant, numserie, marc, model, capram, tipram);
 									tienda.InsertarProducto(r);
-
-
-
+									Clean();
 								}
 
 
@@ -483,17 +494,14 @@ public class RegistrarProducto extends JDialog {
 								if(cbCapacidadAlmacenamiento.getSelectedIndex()==0 || cbTipoConexionDisco.getSelectedIndex()==0){
 									JOptionPane.showMessageDialog(null,  "hay campos que no están seleccionados", "WARNING", JOptionPane.WARNING_MESSAGE);
 								}
-								else{
+								if(modificar==false){
 
 									String capdis = cbCapacidadAlmacenamiento.getSelectedItem().toString();
 									String conecdis = cbTipoConexionDisco.getSelectedItem().toString();
 									DiscoDuro d = new DiscoDuro(prec, cant, numserie, marc, model, capdis, conecdis);
 									tienda.InsertarProducto(d);
-
-
+									Clean();
 								}
-
-
 
 							}
 							if(poder){
@@ -507,16 +515,23 @@ public class RegistrarProducto extends JDialog {
 
 
 					});
-					okButton.setSize(77, 20);
-					okButton.setActionCommand("OK");
-					buttonPane.add(okButton);
-					getRootPane().setDefaultButton(okButton);
-					cancelButton.setSize(75, 20);
-					cancelButton.setActionCommand("Cancel");
-					buttonPane.add(cancelButton);
+					btnRegistrar.setSize(77, 20);
+					btnRegistrar.setActionCommand("OK");
+					buttonPane.add(btnRegistrar);
+					getRootPane().setDefaultButton(btnRegistrar);
+					btnCancelar.setSize(75, 20);
+					btnCancelar.setActionCommand("Cancel");
+					buttonPane.add(btnCancelar);
 				}
 			}
 		}
+	}
+	private void cargar(Producto p) {
+		// TODO Auto-generated method stub
+          //if(modificar instanceof TarjetaMadre){
+			
+		//}
+		
 	}
 	private void Clean() {
 		txtmarca.setText("");

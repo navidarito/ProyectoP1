@@ -28,8 +28,11 @@ import java.awt.Color;
 
 public class ListarCliente extends JDialog {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5042929155837818824L;
 	private final JPanel contentPanel = new JPanel();
-	private static JTable table;
 	private static JTable table_1;
 	private static Tienda tienda;
 	private static Object[] fila;
@@ -37,7 +40,6 @@ public class ListarCliente extends JDialog {
 	private JButton btnEliminar;
 	private JButton btnModificar;
 	private String cedula = "";
-	private int ind=0;
 	private Cliente clien = null;
 	//private  String nombreCliente= "";
 
@@ -77,7 +79,7 @@ public class ListarCliente extends JDialog {
 				JScrollPane scrollPane = new JScrollPane();
 				panel.add(scrollPane);
 				{
-					table = new JTable();
+					new JTable();
 					table_1 = new JTable();
 					table_1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 					table_1.addMouseListener(new MouseAdapter() {

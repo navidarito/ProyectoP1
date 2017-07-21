@@ -8,6 +8,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import logica.Producto;
 import logica.Tienda;
 
 import javax.swing.JMenuBar;
@@ -104,10 +105,10 @@ public class Principal extends JFrame {
 		mntmRegistrarProducto.setIcon(new ImageIcon(Principal.class.getResource("/imagenes/productos.png")));
 		mntmRegistrarProducto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				RegistrarProducto p = new RegistrarProducto(tienda);
-				p.setLocationRelativeTo(null);
-				p.setModal(true);
-				p.setVisible(true);
+				RegistrarProducto prod = new RegistrarProducto(tienda, null, false);
+				prod.setLocationRelativeTo(null);
+				prod.setModal(true);
+				prod.setVisible(true);
 			}
 		});
 		mnProducto.add(mntmRegistrarProducto);

@@ -223,8 +223,12 @@ public class RegistrarCliente extends JDialog {
 				buttonPane.add(btnCancelar);
 			}
 		}
+		cargar(clien);
+		
 	}
 	
+
+
 	private void clean() {
 		ftxtTelefono.setText("");
 		txtDireccion.setText("");
@@ -232,10 +236,12 @@ public class RegistrarCliente extends JDialog {
 		ftxtCedula.setText("");
 	}
 	
-	private static void cargar(Cliente clien){
-		ftxtTelefono.setText(""+clien.getTelefono());
-		txtDireccion.setText(""+clien.getDireccion());
-		txtNombre.setText(""+clien.getNombre());
-		ftxtCedula.setText(""+clien.getCedula());
+	private void cargar(Cliente clien){
+		if(modificar){
+		ftxtTelefono.setText(clien.getTelefono());
+		txtDireccion.setText(clien.getDireccion());
+		txtNombre.setText(clien.getNombre());
+		ftxtCedula.setText(clien.getCedula());
+		}
 	}
 }
