@@ -159,20 +159,29 @@ public class Principal extends JFrame {
 		JMenu mnGrficas = new JMenu("Gr\u00E1ficas");
 		menuBar.add(mnGrficas);
 		
-		JMenuItem mntmProductoMsVendido = new JMenuItem("Producto m\u00E1s vendido");
-		mntmProductoMsVendido.addActionListener(new ActionListener() {
+		JMenu mnProductoMsVendido = new JMenu("Producto m\u00E1s vendido");
+		mnGrficas.add(mnProductoMsVendido);
+		
+		JMenuItem mntmPastel = new JMenuItem("Pastel");
+		mntmPastel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(tienda.getMisFacturas().size()>0){
-					Graficos g = new Graficos(tienda);
-					g.setLocationRelativeTo(null);
-					g.setModalExclusionType(null);
-					g.setVisible(false);
-				}else{
-					JOptionPane.showMessageDialog(null,  "No se ha vendido ningún producto", "WARNING", JOptionPane.WARNING_MESSAGE);
-				}
+				Graficos g = new Graficos(tienda);
+				g.setLocationRelativeTo(null);
+				g.setModalExclusionType(null);
 			}
 		});
-		mnGrficas.add(mntmProductoMsVendido);
+		mnProductoMsVendido.add(mntmPastel);
+		
+		JMenuItem mntmBarra = new JMenuItem("Barra");
+		mntmBarra.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				GraficaBarra b = new GraficaBarra(tienda);
+				b.setLocationRelativeTo(null);
+				b.setModalExclusionType(null);
+				b.setVisible(true);
+			}
+		});
+		mnProductoMsVendido.add(mntmBarra);
 		
 		JMenuItem mntmGanancias = new JMenuItem("Ganancias");
 		mnGrficas.add(mntmGanancias);
