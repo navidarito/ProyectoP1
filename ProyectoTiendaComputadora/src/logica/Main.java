@@ -16,7 +16,7 @@ public class Main {
 		//tienda.getMisFacturas().get(0).insertarProducto(p1);
 		Date j1= new Date(1900, 2, 20);
 		Factura f1 = new Factura(c1,j1);
-		f1.insertarProducto(t1,3);
+		f1.insertarProducto(t1,19);
 		f1.insertarProducto(t2, 2);
 		//f1.insertarProducto(t2, 5);
 		tienda.InsertarFactura(f1);
@@ -47,6 +47,12 @@ public class Main {
 		System.out.println("Cantidad MicroProcesador :"+tienda.cantMicroProcesador());
 		System.out.println("");
 		System.out.println("Cantidad % Ram :"+(tienda.cantMemoriaRam()/tienda.totaltodo())*100);
+		for (int i = 0; i < tienda.getMisProductos().size(); i++) {
+			System.out.println(tienda.getMisProductos().get(i).ordencompra());
+		}
+		for (int i = 0; i < tienda.getMisProductos().size(); i++) {
+			System.out.println((int)(tienda.getMisProductos().get(i).getCantInicial()*0.2*2));
+		}
 		/*
 		tienda.eleminarFactura("001");*/
 		/*System.out.println(tienda.getMisFacturas().get(0).getMisProductos().get(0).compra);

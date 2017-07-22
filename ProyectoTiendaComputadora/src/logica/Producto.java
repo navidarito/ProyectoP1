@@ -79,6 +79,11 @@ public abstract class Producto implements Serializable{
 		t = precioVenta()*compra;
 		return t;
 	}
+	public double ordencompra(){
+		float z = 0;
+		z = ((float)cantReal)/((float)cantInicial);
+		return z;
+	}
 
 
 
