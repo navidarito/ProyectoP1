@@ -46,6 +46,7 @@ import javax.swing.SpinnerNumberModel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.Color;
+import java.awt.Font;
 
 public class RealizarVenta extends JDialog {
 	private JTable tableListaCompra;
@@ -54,9 +55,7 @@ public class RealizarVenta extends JDialog {
 	private static Object[] fila;
 	private static DefaultTableModel model;
 	private static DefaultTableModel models;
-	private JComboBox cbCliente;
 	private JLabel fechaxlabel;
-	private JLabel nombreCliente;
 	private JSpinner spCantComprar;
 	private ArrayList<Producto> miCarrito;
 	private ArrayList<Producto> productosEnVenta;
@@ -66,6 +65,14 @@ public class RealizarVenta extends JDialog {
 	private Date current;
 	private JLabel totallabel;
 	private JButton cancelar;
+	private JTable table_clientes;
+	private JTable  table_comp;//Nuevo
+	private DefaultTableModel model_clientes;
+	private JLabel nombreCliente;
+	private JPanel panelinfoCliente;
+	private JLabel cedulaCliente;
+	private JLabel direccionCliente;
+	private JLabel telefonoCliente;
 
 	/**
 	 * Launch the application.
@@ -91,10 +98,6 @@ public class RealizarVenta extends JDialog {
 			public void windowActivated(WindowEvent e) {
 				//ClosePathBuilder<ClosePathBuilder<B>>
 				double z = 0;
-				int n = cbCliente.getSelectedIndex();
-				if(n>-1){
-					nombreCliente.setText(tienda.getMisClientes().get(n).getNombre());
-				}
 				
 				loadCarrito();
 				loadTable();
@@ -108,7 +111,8 @@ public class RealizarVenta extends JDialog {
 				for (int i = 0; i < miCarrito.size(); i++) {
 					z += miCarrito.get(i).precioVXP();
 				}
-				String d = toString().valueOf(z);
+				toString();
+				String d = String.valueOf(z);
 				totallabel.setText(d);
 				/*if(miCarrito.size()>0){
 					cancelar.setEnabled(false);
@@ -167,9 +171,10 @@ public class RealizarVenta extends JDialog {
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				comprarbtn = new JButton("Comprar");
+				comprarbtn.setIcon(new ImageIcon(RealizarVenta.class.getResource("/imagenes/compra1.png")));
 				comprarbtn.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						int n = cbCliente.getSelectedIndex();
+						int n = table_clientes.getSelectedRow();
 						Cliente aux = tienda.getMisClientes().get(n);
 						Factura f1 = new Factura(aux, current);
 						for (int i = 0; i < miCarrito.size(); i++) {
@@ -189,6 +194,7 @@ public class RealizarVenta extends JDialog {
 			}
 			{
 				cancelar = new JButton("Cancelar");
+				cancelar.setIcon(new ImageIcon(RealizarVenta.class.getResource("/imagenes/cancel.png")));
 				cancelar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						if(miCarrito.size()>0){
@@ -234,7 +240,7 @@ public class RealizarVenta extends JDialog {
 
 			JPanel panelCompra = new JPanel();
 			panelCompra.setBorder(new TitledBorder(null, "Lista de Productos a comprar", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-			panelCompra.setBounds(80, 200, 524, 371);
+			panelCompra.setBounds(80, 240, 524, 331);
 			panel.add(panelCompra);
 			panelCompra.setLayout(new BorderLayout(0, 0));
 			{
@@ -273,7 +279,7 @@ public class RealizarVenta extends JDialog {
 
 			JPanel panelCarrito = new JPanel();
 			panelCarrito.setBorder(new TitledBorder(null, "Carrito de compra", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-			panelCarrito.setBounds(711, 200, 524, 371);
+			panelCarrito.setBounds(714, 240, 524, 331);
 			panel.add(panelCarrito);
 			panelCarrito.setLayout(new BorderLayout(0, 0));
 			{
@@ -298,28 +304,7 @@ public class RealizarVenta extends JDialog {
 				});
 				scrollPane.setViewportView(tableCarrito);
 			}
-
-			cbCliente = new JComboBox();
-			for (int i = 0; i < tienda.getMisClientes().size(); i++) {
-				cbCliente.addItem(tienda.getMisClientes().get(i).getCedula());
-			}
-			cbCliente.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					int n = cbCliente.getSelectedIndex();
-					nombreCliente.setText(tienda.getMisClientes().get(n).getNombre());
-				}
-			});
-			cbCliente.setBounds(176, 40, 132, 21);
-			panel.add(cbCliente);
-
-			JLabel lblCliente = new JLabel("Cliente:");
-			lblCliente.setIcon(new ImageIcon(RealizarVenta.class.getResource("/imagenes/cliente.png")));
-			lblCliente.setBounds(92, 40, 74, 21);
-			panel.add(lblCliente);
-
-			JLabel lblNombreDelCliente = new JLabel("Nombre del Cliente:");
-			lblNombreDelCliente.setBounds(91, 84, 117, 21);
-			panel.add(lblNombreDelCliente);
+			
 
 			JLabel lblFechaActual = new JLabel("Fecha actual:");
 			lblFechaActual.setIcon(new ImageIcon(RealizarVenta.class.getResource("/imagenes/date1.png")));
@@ -378,7 +363,7 @@ public class RealizarVenta extends JDialog {
 				}
 			});
 			btnAgregar.setIcon(new ImageIcon(RealizarVenta.class.getResource("/imagenes/agregaralCarrito.png")));
-			btnAgregar.setBounds(602, 274, 101, 21);
+			btnAgregar.setBounds(607, 274, 101, 21);
 			panel.add(btnAgregar);
 
 			btnQuitar = new JButton("Quitar");
@@ -426,24 +411,20 @@ public class RealizarVenta extends JDialog {
 					btnQuitar.setEnabled(false);
 				}
 			});
-			btnQuitar.setBounds(603, 437, 101, 21);
+			btnQuitar.setBounds(607, 437, 101, 21);
 			panel.add(btnQuitar);
 
 			fechaxlabel = new JLabel("");
 			fechaxlabel.setBounds(847, 40, 123, 21);
 			panel.add(fechaxlabel);
 
-			nombreCliente = new JLabel("");
-			nombreCliente.setBounds(222, 84, 142, 21);
-			panel.add(nombreCliente);
-
 			JLabel lblCantidadDeProducto = new JLabel("Cantidad de Producto a comprar o devolver: ");
-			lblCantidadDeProducto.setBounds(93, 135, 271, 21);
+			lblCantidadDeProducto.setBounds(92, 185, 271, 21);
 			panel.add(lblCantidadDeProducto);
 
 			spCantComprar = new JSpinner();
 			spCantComprar.setModel(new SpinnerNumberModel(new Integer(1), new Integer(1), null, new Integer(1)));
-			spCantComprar.setBounds(374, 135, 49, 21);
+			spCantComprar.setBounds(378, 185, 49, 21);
 			panel.add(spCantComprar);
 			
 			JLabel lblTotalDelCarrito = new JLabel("Total del carrito:");
@@ -454,6 +435,104 @@ public class RealizarVenta extends JDialog {
 			totallabel = new JLabel("");
 			totallabel.setBounds(858, 610, 176, 21);
 			panel.add(totallabel);
+			
+			panelinfoCliente = new JPanel();
+			panelinfoCliente.setBorder(new TitledBorder(null, "Info del Cliente", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+			panelinfoCliente.setBounds(80, 11, 346, 163);
+			panel.add(panelinfoCliente);
+			panelinfoCliente.setLayout(null);
+			
+			JLabel labelNombredelCliente = new JLabel("Nombre del Cliente:");
+			labelNombredelCliente.setBounds(10, 59, 117, 21);
+			panelinfoCliente.add(labelNombredelCliente);
+			
+			nombreCliente = new JLabel("");
+			nombreCliente.setBounds(157, 59, 179, 21);
+			panelinfoCliente.add(nombreCliente);
+			
+			JLabel lblCdula = new JLabel("C\u00E9dula:");
+			lblCdula.setBounds(10, 27, 46, 21);
+			panelinfoCliente.add(lblCdula);
+			
+			cedulaCliente = new JLabel("");
+			cedulaCliente.setBounds(157, 27, 179, 21);
+			panelinfoCliente.add(cedulaCliente);
+			
+			JLabel lblDireccin = new JLabel("Direcci\u00F3n :");
+			lblDireccin.setBounds(10, 91, 117, 21);
+			panelinfoCliente.add(lblDireccin);
+			
+			direccionCliente = new JLabel("");
+			direccionCliente.setBounds(157, 91, 179, 21);
+			panelinfoCliente.add(direccionCliente);
+			
+			JLabel lblTlefono = new JLabel("T\u00E9lefono:");
+			lblTlefono.setBounds(10, 123, 117, 21);
+			panelinfoCliente.add(lblTlefono);
+			
+			telefonoCliente = new JLabel("");
+			telefonoCliente.setBounds(157, 123, 179, 21);
+			panelinfoCliente.add(telefonoCliente);
+			
+			table_clientes = new JTable();
+			model_clientes = new DefaultTableModel();
+			String[] columnas = {"Nombre","Cedula","Telefono","Direccion"};
+			model_clientes.setColumnIdentifiers(columnas);
+			table_clientes.setModel(model_clientes);
+			
+			
+			JButton btnBuscarCliente = new JButton("Buscar Cliente");
+			btnBuscarCliente.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					loadTableCliente();
+					int dialogButton=0;
+					int dialogResult = JOptionPane.showConfirmDialog(null, new JScrollPane(table_clientes), "Escoger el  Cliente", dialogButton);
+					if(dialogResult == JOptionPane.OK_CANCEL_OPTION && table_clientes.getSelectedRow()!=-1){
+						int fila = table_clientes.getSelectedRow();
+						String nombre = (String) table_clientes.getModel().getValueAt(fila, 1);
+						String cedula = (String) table_clientes.getModel().getValueAt(fila, 2);
+						String direccion = (String) table_clientes.getModel().getValueAt(fila, 3);
+						String telefono = (String) table_clientes.getModel().getValueAt(fila, 4);
+						Cliente c = new Cliente(nombre, cedula, direccion, telefono);
+						for(int i=0;i<Tienda.getInstance().getMisClientes().size();i++){
+							if(Tienda.getInstance().getMisClientes().get(i).getCedula().equalsIgnoreCase(cedula)){
+								c = Tienda.getInstance().getMisClientes().get(i);
+								nombreCliente.setText(c.getNombre());
+								cedulaCliente.setText(c.getCedula());
+								telefonoCliente.setText(c.getTelefono());
+								direccionCliente.setText(c.getDireccion());
+								
+							}
+					}
+				}
+				}
+
+				private void loadTableCliente() {
+					// TODO Auto-generated method stub
+					model.setRowCount(0);
+					fila = new Object[model.getColumnCount()];
+					for(int i = 0 ; i < tienda.getMisClientes().size(); i++){
+						
+					
+						fila[0] = tienda.getMisClientes().get(i).getCedula();
+						fila[1] = tienda.getMisClientes().get(i).getNombre();
+						fila[2] = tienda.getMisClientes().get(i).getTelefono();
+						fila[3] = tienda.getMisClientes().get(i).getDireccion();
+				
+						model.addRow(fila);
+						
+					}
+					
+				}});
+			btnBuscarCliente.setIcon(new ImageIcon(RealizarVenta.class.getResource("/imagenes/buscarCliente1.png")));
+			btnBuscarCliente.setFont(new Font("Tahoma", Font.BOLD, 11));
+			btnBuscarCliente.setBounds(437, 84, 156, 25);
+			panel.add(btnBuscarCliente);
+			
+			JLabel label = new JLabel("");
+			label.setIcon(new ImageIcon(RealizarVenta.class.getResource("/imagenes/buy (1).png")));
+			label.setBounds(979, 60, 156, 158);
+			panel.add(label);
 		}
 	}
 

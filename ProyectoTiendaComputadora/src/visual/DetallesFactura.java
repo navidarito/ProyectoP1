@@ -79,7 +79,7 @@ public class DetallesFactura extends JDialog {
 			}
 		});
 		
-		setBounds(100, 100, 694, 495);
+		setBounds(100, 100, 694, 680);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new TitledBorder(null, "Informaci\u00F3n de la Factura", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -87,7 +87,7 @@ public class DetallesFactura extends JDialog {
 		{
 			JPanel panel = new JPanel();
 			panel.setBorder(new TitledBorder(null, "Productos comprados", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-			panel.setBounds(10, 86, 658, 303);
+			panel.setBounds(10, 212, 658, 303);
 			contentPanel.add(panel);
 			panel.setLayout(new BorderLayout(0, 0));
 			{
@@ -114,44 +114,50 @@ public class DetallesFactura extends JDialog {
 		
 		JLabel lblCliente = new JLabel("Cliente: ");
 		lblCliente.setIcon(new ImageIcon(DetallesFactura.class.getResource("/imagenes/cliente1.png")));
-		lblCliente.setBounds(447, 32, 86, 21);
+		lblCliente.setBounds(445, 158, 86, 21);
 		contentPanel.add(lblCliente);
 		
 		cliente = new JLabel("");
-		cliente.setBounds(561, 32, 86, 21);
+		cliente.setBounds(541, 158, 127, 21);
 		contentPanel.add(cliente);
 		{
 			JLabel lblFechaDeCompra = new JLabel("Fecha de Compra:");
 			lblFechaDeCompra.setIcon(new ImageIcon(DetallesFactura.class.getResource("/imagenes/date1.png")));
-			lblFechaDeCompra.setBounds(173, 32, 129, 21);
+			lblFechaDeCompra.setBounds(165, 158, 129, 21);
 			contentPanel.add(lblFechaDeCompra);
 		}
 		{
 			fechacompra = new JLabel("");
-			fechacompra.setBounds(298, 32, 121, 21);
+			fechacompra.setBounds(304, 158, 121, 21);
 			contentPanel.add(fechacompra);
 		}
 		{
 			JLabel lblCdigo = new JLabel("C\u00F3digo:");
 			lblCdigo.setIcon(new ImageIcon(DetallesFactura.class.getResource("/imagenes/codigo.png")));
-			lblCdigo.setBounds(28, 32, 70, 21);
+			lblCdigo.setBounds(27, 158, 70, 21);
 			contentPanel.add(lblCdigo);
 		}
 		{
 			codigo = new JLabel("");
-			codigo.setBounds(96, 32, 49, 21);
+			codigo.setBounds(106, 158, 49, 21);
 			contentPanel.add(codigo);
 		}
 		{
 			JLabel lblTotal = new JLabel("Total:");
 			lblTotal.setIcon(new ImageIcon(DetallesFactura.class.getResource("/imagenes/precio.png")));
-			lblTotal.setBounds(307, 391, 64, 21);
+			lblTotal.setBounds(316, 537, 64, 21);
 			contentPanel.add(lblTotal);
 		}
 		{
 			total = new JLabel("");
-			total.setBounds(395, 391, 219, 21);
+			total.setBounds(390, 537, 219, 21);
 			contentPanel.add(total);
+		}
+		{
+			JLabel label = new JLabel("");
+			label.setIcon(new ImageIcon(DetallesFactura.class.getResource("/imagenes/invoice (2).png")));
+			label.setBounds(259, 11, 146, 136);
+			contentPanel.add(label);
 		}
 		{
 			JPanel buttonPane = new JPanel();
