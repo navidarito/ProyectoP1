@@ -14,6 +14,8 @@ import logica.Tienda;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
@@ -153,6 +155,27 @@ public class Principal extends JFrame {
 			}
 		});
 		mnVenta.add(mntmListaDeV);
+		
+		JMenu mnGrficas = new JMenu("Gr\u00E1ficas");
+		menuBar.add(mnGrficas);
+		
+		JMenuItem mntmProductoMsVendido = new JMenuItem("Producto m\u00E1s vendido");
+		mntmProductoMsVendido.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(tienda.getMisFacturas().size()>0){
+					Graficos g = new Graficos(tienda);
+					g.setLocationRelativeTo(null);
+					g.setModalExclusionType(null);
+					g.setVisible(false);
+				}else{
+					JOptionPane.showMessageDialog(null,  "No se ha vendido ningún producto", "WARNING", JOptionPane.WARNING_MESSAGE);
+				}
+			}
+		});
+		mnGrficas.add(mntmProductoMsVendido);
+		
+		JMenuItem mntmGanancias = new JMenuItem("Ganancias");
+		mnGrficas.add(mntmGanancias);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		//contentPane.setBackground("background.png");

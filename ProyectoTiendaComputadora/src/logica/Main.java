@@ -40,9 +40,15 @@ public class Main {
 			System.out.println(tienda.getMisProductos().get(i).getCantReal()+"  <--Cantidad Real");
 		}
 		
-		System.out.println(tienda.indexFactura("001"));
-		
-		tienda.eleminarFactura("001");
+		//System.out.println(tienda.indexFactura("001"));
+		System.out.println("Cantidad Tarjeta :"+tienda.cantTarjetaMadre());
+		System.out.println("Cantidad Disco :"+tienda.cantDiscoDuro());
+		System.out.println("Cantidad Memoria Ram :"+tienda.cantMemoriaRam());
+		System.out.println("Cantidad MicroProcesador :"+tienda.cantMicroProcesador());
+		System.out.println("");
+		System.out.println("Cantidad % Ram :"+(tienda.cantMemoriaRam()/tienda.totaltodo())*100);
+		/*
+		tienda.eleminarFactura("001");*/
 		/*System.out.println(tienda.getMisFacturas().get(0).getMisProductos().get(0).compra);
 		System.out.println();
 		System.out.println(tienda.getMisProductos().get(0).getCantReal());

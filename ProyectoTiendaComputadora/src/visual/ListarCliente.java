@@ -83,6 +83,7 @@ public class ListarCliente extends JDialog {
 				{
 					new JTable();
 					table_1 = new JTable();
+					table_1.setForeground(Color.BLACK);
 					table_1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 					table_1.addMouseListener(new MouseAdapter() {
 						@Override

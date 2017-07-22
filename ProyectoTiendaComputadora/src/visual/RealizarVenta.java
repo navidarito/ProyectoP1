@@ -73,6 +73,7 @@ public class RealizarVenta extends JDialog {
 	private JLabel cedulaCliente;
 	private JLabel direccionCliente;
 	private JLabel telefonoCliente;
+	private int indeclient = -1;
 
 	/**
 	 * Launch the application.
@@ -114,6 +115,12 @@ public class RealizarVenta extends JDialog {
 				toString();
 				String d = String.valueOf(z);
 				totallabel.setText(d);
+				if(indeclient!=-1){
+					cedulaCliente.setText(tienda.getMisClientes().get(indeclient).getCedula());
+					direccionCliente.setText(tienda.getMisClientes().get(indeclient).getDireccion());
+					nombreCliente.setText(tienda.getMisClientes().get(indeclient).getNombre());
+					telefonoCliente.setText(tienda.getMisClientes().get(indeclient).getTelefono());
+				}
 				/*if(miCarrito.size()>0){
 					cancelar.setEnabled(false);
 				}else{
@@ -174,15 +181,15 @@ public class RealizarVenta extends JDialog {
 				comprarbtn.setIcon(new ImageIcon(RealizarVenta.class.getResource("/imagenes/compra1.png")));
 				comprarbtn.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						int n = table_clientes.getSelectedRow();
-						Cliente aux = tienda.getMisClientes().get(n);
+						
+						Cliente aux = tienda.getMisClientes().get(indeclient);
 						Factura f1 = new Factura(aux, current);
 						for (int i = 0; i < miCarrito.size(); i++) {
 							f1.insertarProducto(miCarrito.get(i), miCarrito.get(i).getCompra());
 						}
 						tienda.InsertarFactura(f1);
 						miCarrito.removeAll(miCarrito);
-						JOptionPane.showMessageDialog(null, tienda.getMisClientes().get(n).getNombre()+ " Realizo una compra", "Información", JOptionPane.INFORMATION_MESSAGE);
+						JOptionPane.showMessageDialog(null, tienda.getMisClientes().get(indeclient).getNombre()+ " Realizo una compra", "Información", JOptionPane.INFORMATION_MESSAGE);
 						
 					}
 				});
@@ -475,7 +482,13 @@ public class RealizarVenta extends JDialog {
 			panelinfoCliente.add(telefonoCliente);
 			
 			table_clientes = new JTable();
-			model_clientes = new DefaultTableModel();
+			model_clientes = new DefaultTableModel(){
+
+				@Override
+				public boolean isCellEditable(int row, int column){
+					return false;
+				}
+			};
 			String[] columnas = {"Nombre","Cedula","Telefono","Direccion"};
 			model_clientes.setColumnIdentifiers(columnas);
 			table_clientes.setModel(model_clientes);
@@ -484,46 +497,22 @@ public class RealizarVenta extends JDialog {
 			JButton btnBuscarCliente = new JButton("Buscar Cliente");
 			btnBuscarCliente.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					loadTableCliente();
-					int dialogButton=0;
-					int dialogResult = JOptionPane.showConfirmDialog(null, new JScrollPane(table_clientes), "Escoger el  Cliente", dialogButton);
-					if(dialogResult == JOptionPane.OK_CANCEL_OPTION && table_clientes.getSelectedRow()!=-1){
-						int fila = table_clientes.getSelectedRow();
-						String nombre = (String) table_clientes.getModel().getValueAt(fila, 1);
-						String cedula = (String) table_clientes.getModel().getValueAt(fila, 2);
-						String direccion = (String) table_clientes.getModel().getValueAt(fila, 3);
-						String telefono = (String) table_clientes.getModel().getValueAt(fila, 4);
-						Cliente c = new Cliente(nombre, cedula, direccion, telefono);
-						for(int i=0;i<Tienda.getInstance().getMisClientes().size();i++){
-							if(Tienda.getInstance().getMisClientes().get(i).getCedula().equalsIgnoreCase(cedula)){
-								c = Tienda.getInstance().getMisClientes().get(i);
-								nombreCliente.setText(c.getNombre());
-								cedulaCliente.setText(c.getCedula());
-								telefonoCliente.setText(c.getTelefono());
-								direccionCliente.setText(c.getDireccion());
-								
-							}
+					if(tienda.getMisClientes().size()>0){
+						loadTableCliente();
+						int dialogButton=0;
+						int dialogResult = JOptionPane.showConfirmDialog(null, new JScrollPane(table_clientes), "Escoger el  Cliente", dialogButton);
+						if(dialogResult == JOptionPane.OK_OPTION && table_clientes.getSelectedRow()!=-1){
+							indeclient = table_clientes.getSelectedRow();
+						}
+							
+						}
+					else{
+						JOptionPane.showMessageDialog(null,  "No hay Clientes", "Información", JOptionPane.INFORMATION_MESSAGE);
 					}
-				}
+					
 				}
 
-				private void loadTableCliente() {
-					// TODO Auto-generated method stub
-					model.setRowCount(0);
-					fila = new Object[model.getColumnCount()];
-					for(int i = 0 ; i < tienda.getMisClientes().size(); i++){
-						
-					
-						fila[0] = tienda.getMisClientes().get(i).getCedula();
-						fila[1] = tienda.getMisClientes().get(i).getNombre();
-						fila[2] = tienda.getMisClientes().get(i).getTelefono();
-						fila[3] = tienda.getMisClientes().get(i).getDireccion();
-				
-						model.addRow(fila);
-						
-					}
-					
-				}});
+				});
 			btnBuscarCliente.setIcon(new ImageIcon(RealizarVenta.class.getResource("/imagenes/buscarCliente1.png")));
 			btnBuscarCliente.setFont(new Font("Tahoma", Font.BOLD, 11));
 			btnBuscarCliente.setBounds(437, 84, 156, 25);
@@ -644,5 +633,27 @@ public class RealizarVenta extends JDialog {
 		columModel.getColumn(3).setPreferredWidth(100);
 		columModel.getColumn(4).setPreferredWidth(100);*/
 
+	}
+	private void loadTableCliente() {
+		// TODO Auto-generated method stub
+		model_clientes.setRowCount(0);
+		fila = new Object[model_clientes.getColumnCount()];
+		for(int i = 0 ; i < tienda.getMisClientes().size(); i++){
+			
+		
+			fila[0] = tienda.getMisClientes().get(i).getCedula();
+			fila[1] = tienda.getMisClientes().get(i).getNombre();
+			fila[2] = tienda.getMisClientes().get(i).getTelefono();
+			fila[3] = tienda.getMisClientes().get(i).getDireccion();
+	
+			model_clientes.addRow(fila);
+			
+		}
+		table_clientes.setModel(model_clientes);
+		
+		table_clientes.getTableHeader().setReorderingAllowed(false);
+		TableColumnModel columModel = table_clientes.getColumnModel();
+		
+		
 	}
 }

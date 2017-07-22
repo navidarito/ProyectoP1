@@ -35,6 +35,7 @@ import javax.swing.ListSelectionModel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.Color;
+import javax.swing.UIManager;
 
 public class ListarProducto extends JDialog {
 
@@ -50,6 +51,7 @@ public class ListarProducto extends JDialog {
 	private String numeroSerie = "";
 	private JLabel label;
 	private Producto prod=null;
+	private JTable tablaOrden;
 
 	/**
 	 * Launch the application.
@@ -72,19 +74,19 @@ public class ListarProducto extends JDialog {
 		tienda = t;
 		setIconImage(Toolkit.getDefaultToolkit().getImage(ListarProducto.class.getResource("/imagenes/pcparts.png")));
 		setTitle("Lista de Productos");
-		setBounds(100, 100, 758, 467);
+		setBounds(100, 100, 1200, 500);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(new BorderLayout(0, 0));
 		{
 			JPanel panel = new JPanel();
-			panel.setBorder(new TitledBorder(null, "Informaci\u00F3n de productos", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+			panel.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 			contentPanel.add(panel, BorderLayout.CENTER);
 			panel.setLayout(null);
 			{
 				scrollPane = new JScrollPane();
-				scrollPane.setBounds(6, 77, 720, 301);
+				scrollPane.setBounds(6, 77, 722, 328);
 				panel.add(scrollPane);
 				{
 					
@@ -220,6 +222,34 @@ public class ListarProducto extends JDialog {
 				label.setBounds(697, 15, 25, 36);
 				panel.add(label);
 			}
+			
+			JPanel ordernar = new JPanel();
+			ordernar.setBorder(new TitledBorder(null, "Ordenes de Compra", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(255, 0, 0)));
+			ordernar.setBounds(738, 11, 426, 394);
+			panel.add(ordernar);
+			ordernar.setLayout(null);
+			
+			JPanel panel_1 = new JPanel();
+			panel_1.setBounds(10, 93, 406, 290);
+			ordernar.add(panel_1);
+			panel_1.setLayout(new BorderLayout(0, 0));
+			{
+				JScrollPane scrollPane_1 = new JScrollPane();
+				panel_1.add(scrollPane_1, BorderLayout.CENTER);
+				{
+					tablaOrden = new JTable();
+					scrollPane_1.setViewportView(tablaOrden);
+				}
+			}
+			
+			JButton btnProcesar = new JButton("Procesar");
+			btnProcesar.setEnabled(false);
+			btnProcesar.setBounds(327, 59, 89, 23);
+			ordernar.add(btnProcesar);
+			
+			JLabel lblAlgo = new JLabel("algo");
+			lblAlgo.setBounds(10, 27, 406, 21);
+			ordernar.add(lblAlgo);
 		}
 		{
 			JPanel buttonPane = new JPanel();

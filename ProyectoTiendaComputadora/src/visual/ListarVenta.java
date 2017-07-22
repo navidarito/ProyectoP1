@@ -44,7 +44,6 @@ public class ListarVenta extends JDialog {
 	private static Tienda tienda;
 	private JButton btnEliminar;
 	private JButton btnCancelar;
-	private JButton btnModificar;
 	private static Object[] fila;
 	private static DefaultTableModel models;
 	private String cedula = "";
@@ -103,13 +102,11 @@ public class ListarVenta extends JDialog {
 							int aux=table.getSelectedRow();
 							if(aux>-1){
 								btnEliminar.setEnabled(true);
-								btnModificar.setEnabled(true);
 								Detalles.setEnabled(true);
 								
 							}
 							else{
 								btnEliminar.setEnabled(false);
-								btnModificar.setEnabled(false);
 								Detalles.setEnabled(false);
 							}
 						}
@@ -134,7 +131,7 @@ public class ListarVenta extends JDialog {
 								  tienda.eleminarFactura(codi);;
 								  loadVentas();
 								  btnEliminar.setEnabled(false);
-								  btnModificar.setEnabled(false);
+								  
 							  }
 							}
 					}
@@ -159,14 +156,6 @@ public class ListarVenta extends JDialog {
 				btnEliminar.setEnabled(false);
 				btnEliminar.setIcon(new ImageIcon(ListarVenta.class.getResource("/imagenes/cancel.png")));
 				buttonPane.add(btnEliminar);
-			}
-			{
-				btnModificar = new JButton("Modificar");
-				btnModificar.setEnabled(false);
-				btnModificar.setIcon(new ImageIcon(ListarVenta.class.getResource("/imagenes/modificar.png")));
-				btnModificar.setActionCommand("modidficarButton");
-				buttonPane.add(btnModificar);
-				getRootPane().setDefaultButton(btnModificar);
 			}
 			{
 				btnCancelar = new JButton("Salir");

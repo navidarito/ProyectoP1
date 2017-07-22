@@ -133,7 +133,7 @@ public class Tienda implements Serializable{
 	public float cantTarjetaMadre(){
 		float cantidad=0;
 		for(int i=0; i<misFacturas.size();i++){
-			for(int j=0; i<misFacturas.get(i).getMisProductos().size();j++){
+			for(int j=0; j<misFacturas.get(i).getMisProductos().size();j++){
 				if(misFacturas.get(i).getMisProductos().get(j) instanceof TarjetaMadre){
 					cantidad +=misFacturas.get(i).getMisProductos().get(j).getCompra();
 				}
@@ -146,7 +146,7 @@ public class Tienda implements Serializable{
 	public float cantMicroProcesador(){
 		float cantidad=0;
 		for(int i=0; i<misFacturas.size();i++){
-			for(int j=0; i<misFacturas.get(i).getMisProductos().size();j++){
+			for(int j=0; j<misFacturas.get(i).getMisProductos().size();j++){
 				if(misFacturas.get(i).getMisProductos().get(j) instanceof Microprocesador){
 					cantidad +=misFacturas.get(i).getMisProductos().get(j).getCompra();
 				}
@@ -159,7 +159,7 @@ public class Tienda implements Serializable{
 	public float cantMemoriaRam(){
 		float cantidad=0;
 		for(int i=0; i<misFacturas.size();i++){
-			for(int j=0; i<misFacturas.get(i).getMisProductos().size();j++){
+			for(int j=0; j<misFacturas.get(i).getMisProductos().size();j++){
 				if(misFacturas.get(i).getMisProductos().get(j) instanceof MemoriaRam){
 					cantidad +=misFacturas.get(i).getMisProductos().get(j).getCompra();
 				}
@@ -172,7 +172,7 @@ public class Tienda implements Serializable{
 	public float cantDiscoDuro(){
 		float cantidad=0;
 		for(int i=0; i<misFacturas.size();i++){
-			for(int j=0; i<misFacturas.get(i).getMisProductos().size();j++){
+			for(int j=0; j<misFacturas.get(i).getMisProductos().size();j++){
 				if(misFacturas.get(i).getMisProductos().get(j) instanceof DiscoDuro){
 					cantidad +=misFacturas.get(i).getMisProductos().get(j).getCompra();
 				}
@@ -181,6 +181,11 @@ public class Tienda implements Serializable{
 			
 			return cantidad;
 		
+	}
+	public float totaltodo(){
+		float total = 0;
+		total = cantDiscoDuro()+cantMemoriaRam()+cantMicroProcesador()+cantTarjetaMadre();
+		return total;
 	}
 	
 
