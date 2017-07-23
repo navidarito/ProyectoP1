@@ -25,10 +25,15 @@ import javax.swing.ImageIcon;
 import java.awt.Toolkit;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.Serializable;
 import java.awt.Color;
 
-public class RegistrarCliente extends JDialog {
+public class RegistrarCliente extends JDialog implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
 	private static JTextField txtDireccion;
 	private static JFormattedTextField ftxtCedula;

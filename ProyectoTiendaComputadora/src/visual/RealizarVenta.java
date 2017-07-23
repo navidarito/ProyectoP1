@@ -37,6 +37,7 @@ import java.awt.Toolkit;
 import javax.swing.ImageIcon;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -48,7 +49,11 @@ import java.awt.event.MouseEvent;
 import java.awt.Color;
 import java.awt.Font;
 
-public class RealizarVenta extends JDialog {
+public class RealizarVenta extends JDialog implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JTable tableListaCompra;
 	private JTable tableCarrito;
 	private static Tienda tienda;
@@ -188,7 +193,7 @@ public class RealizarVenta extends JDialog {
 							f1.insertarProducto(miCarrito.get(i), miCarrito.get(i).getCompra());//inserta to lo prodcuto en l factura
 						}
 						tienda.InsertarFactura(f1);//inserta la factura en tienda
-						miCarrito.removeAll(miCarrito);//se borra el carrito entero
+						miCarrito.removeAll(miCarrito);//se borra el carrito entero[[[
 						JOptionPane.showMessageDialog(null, tienda.getMisClientes().get(indeclient).getNombre()+ " Realizo una compra", "Información", JOptionPane.INFORMATION_MESSAGE);
 						
 					}

@@ -3,6 +3,7 @@ package visual;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
+import java.io.Serializable;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -18,8 +19,12 @@ import org.jfree.data.category.DefaultCategoryDataset;
 
 import logica.Tienda;
 
-public class GraficaBarra extends JDialog {
+public class GraficaBarra extends JDialog implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
 	private JPanel panel;
 	private static Tienda tienda;

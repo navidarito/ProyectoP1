@@ -1,7 +1,14 @@
 package logica;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+
 
 public class Tienda implements Serializable{
 	
@@ -20,7 +27,7 @@ public class Tienda implements Serializable{
 		this.cantProductos=0;
 	}
 	
-	public static Tienda getInstance(){
+	public  Tienda getInstance(){
 		if(tienda ==null){
 			tienda = new Tienda();
 		}
@@ -29,6 +36,14 @@ public class Tienda implements Serializable{
 
 	public ArrayList<Producto> getMisProductos() {
 		return misProductos;
+	}
+
+	public static Tienda getTienda() {
+		return tienda;
+	}
+
+	public static void setTienda(Tienda tienda) {
+		Tienda.tienda = tienda;
 	}
 
 	public void setMisProductos(ArrayList<Producto> misProductos) {
@@ -188,11 +203,8 @@ public class Tienda implements Serializable{
 		return total;
 	}
 	
-
+///////////////////////////////////////////////////////////////////////////////////
 	
 	
-		
-		
-	}
 
-
+}

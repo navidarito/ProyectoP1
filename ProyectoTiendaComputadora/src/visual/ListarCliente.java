@@ -22,13 +22,14 @@ import javax.swing.JTable;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.Serializable;
 import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
 import java.awt.Toolkit;
 import javax.swing.ListSelectionModel;
 import java.awt.Color;
 
-public class ListarCliente extends JDialog {
+public class ListarCliente extends JDialog implements Serializable {
 
 	/**
 	 * 

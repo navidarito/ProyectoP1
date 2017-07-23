@@ -34,12 +34,17 @@ import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.awt.Color;
 import javax.swing.UIManager;
 
-public class ListarProducto extends JDialog {
+public class ListarProducto extends JDialog implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
 	private static Tienda tienda;
 	private static JTable table;

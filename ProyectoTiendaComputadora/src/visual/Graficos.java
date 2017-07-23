@@ -2,6 +2,7 @@ package visual;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.io.Serializable;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -16,8 +17,12 @@ import com.sun.javafx.fxml.ParseTraceElement;
 
 import logica.Tienda;
 
-public class Graficos extends JFrame {
+public class Graficos extends JFrame  implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private static Tienda tienda;
 
