@@ -27,7 +27,7 @@ public class Tienda implements Serializable{
 		this.cantProductos=0;
 	}
 	
-	public  Tienda getInstance(){
+	public  static Tienda getInstance(){
 		if(tienda ==null){
 			tienda = new Tienda();
 		}

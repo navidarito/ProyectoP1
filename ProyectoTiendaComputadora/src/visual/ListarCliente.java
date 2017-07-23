@@ -37,7 +37,6 @@ public class ListarCliente extends JDialog implements Serializable {
 	private static final long serialVersionUID = 5042929155837818824L;
 	private final JPanel contentPanel = new JPanel();
 	private static JTable table_1;
-	private static Tienda tienda;
 	private static Object[] fila;
 	private static DefaultTableModel model;
 	private JButton btnEliminar;
@@ -62,12 +61,11 @@ public class ListarCliente extends JDialog implements Serializable {
 	/**
 	 * Create the dialog.
 	 */
-	public ListarCliente(Tienda t ) {
+	public ListarCliente( ) {
 		setBackground(new Color(253, 245, 230));
 		setForeground(Color.BLUE);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(ListarCliente.class.getResource("/imagenes/listCliente.png")));
 		setTitle("Listar Cliente");
-		tienda=t;
 		setBounds(100, 100, 572, 456);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -94,7 +92,7 @@ public class ListarCliente extends JDialog implements Serializable {
 								 btnModificar.setEnabled(true);
 								 btnEliminar.setEnabled(true);
 								 cedula= (String) table_1.getModel().getValueAt(aux, 0);
-								 clien = tienda.indexCliente(cedula);
+								 clien = Tienda.getInstance().indexCliente(cedula);
 								 
 							}
 							else{
@@ -129,7 +127,7 @@ public class ListarCliente extends JDialog implements Serializable {
 					public void actionPerformed(ActionEvent e) {
 						if(JOptionPane.showConfirmDialog(null,  "Estas seguro de eliminar cliente?", "Información", JOptionPane.YES_NO_OPTION)== JOptionPane.YES_OPTION){
 					  if(!cedula.equalsIgnoreCase("")){
-						  tienda.eliminiarCliente(cedula);
+						  Tienda.getInstance().eliminiarCliente(cedula);
 						  loadTable();
 						  btnEliminar.setEnabled(false);
 						  btnModificar.setEnabled(false);
@@ -145,7 +143,7 @@ public class ListarCliente extends JDialog implements Serializable {
 				btnModificar = new JButton("Modificar");
 				btnModificar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						RegistrarCliente cli = new RegistrarCliente(t, clien, true);
+						RegistrarCliente cli = new RegistrarCliente(clien, true);
 						cli.setModal(true);
 						cli.setLocationRelativeTo(null);
 						cli.setVisible(true);
@@ -175,13 +173,13 @@ public class ListarCliente extends JDialog implements Serializable {
 	private void loadTable() {
 		model.setRowCount(0);
 		fila = new Object[model.getColumnCount()];
-		for(int i = 0 ; i < tienda.getMisClientes().size(); i++){
+		for(int i = 0 ; i < Tienda.getInstance().getMisClientes().size(); i++){
 			
 		
-			fila[0] = tienda.getMisClientes().get(i).getCedula();
-			fila[1] = tienda.getMisClientes().get(i).getNombre();
-			fila[2] = tienda.getMisClientes().get(i).getTelefono();
-			fila[3] = tienda.getMisClientes().get(i).getDireccion();
+			fila[0] = Tienda.getInstance().getMisClientes().get(i).getCedula();
+			fila[1] = Tienda.getInstance().getMisClientes().get(i).getNombre();
+			fila[2] = Tienda.getInstance().getMisClientes().get(i).getTelefono();
+			fila[3] = Tienda.getInstance().getMisClientes().get(i).getDireccion();
 	
 			model.addRow(fila);
 			

@@ -56,7 +56,6 @@ public class RealizarVenta extends JDialog implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private JTable tableListaCompra;
 	private JTable tableCarrito;
-	private static Tienda tienda;
 	private static Object[] fila;
 	private static DefaultTableModel model;
 	private static DefaultTableModel models;
@@ -96,7 +95,7 @@ public class RealizarVenta extends JDialog implements Serializable {
 	/**
 	 * Create the dialog.
 	 */
-	public RealizarVenta(Tienda t) {
+	public RealizarVenta() {
 		setForeground(Color.BLUE);
 		addWindowListener(new WindowAdapter() {
 
@@ -121,10 +120,10 @@ public class RealizarVenta extends JDialog implements Serializable {
 				String d = String.valueOf(z);
 				totallabel.setText(d);
 				if(indeclient!=-1){
-					cedulaCliente.setText(tienda.getMisClientes().get(indeclient).getCedula());
-					direccionCliente.setText(tienda.getMisClientes().get(indeclient).getDireccion());
-					nombreCliente.setText(tienda.getMisClientes().get(indeclient).getNombre());
-					telefonoCliente.setText(tienda.getMisClientes().get(indeclient).getTelefono());
+					cedulaCliente.setText(Tienda.getInstance().getMisClientes().get(indeclient).getCedula());
+					direccionCliente.setText(Tienda.getInstance().getMisClientes().get(indeclient).getDireccion());
+					nombreCliente.setText(Tienda.getInstance().getMisClientes().get(indeclient).getNombre());
+					telefonoCliente.setText(Tienda.getInstance().getMisClientes().get(indeclient).getTelefono());
 				}
 				/*if(miCarrito.size()>0){
 					cancelar.setEnabled(false);
@@ -172,7 +171,6 @@ public class RealizarVenta extends JDialog implements Serializable {
 			}
 		});
 		setIconImage(Toolkit.getDefaultToolkit().getImage(RealizarVenta.class.getResource("/imagenes/vender.png")));
-		tienda = t;
 		miCarrito = new ArrayList<Producto>();
 		productosEnVenta = new ArrayList<Producto>();
 		setTitle("Realizar Compra");
@@ -188,14 +186,14 @@ public class RealizarVenta extends JDialog implements Serializable {
 				comprarbtn.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 
-						Cliente aux = tienda.getMisClientes().get(indeclient);//coje la posicion del cliente 
+						Cliente aux = Tienda.getInstance().getMisClientes().get(indeclient);//coje la posicion del cliente 
 						Factura f1 = new Factura(aux, current);//se crea una factura.. el current es la hora actual
 						for (int i = 0; i < miCarrito.size(); i++) {//y esa factura recorre el csarrtio entero
 							f1.insertarProducto(miCarrito.get(i), miCarrito.get(i).getCompra());//inserta to lo prodcuto en l factura
 						}
-						tienda.InsertarFactura(f1);//inserta la factura en tienda
+						Tienda.getInstance().InsertarFactura(f1);//inserta la factura en tienda
 						miCarrito.removeAll(miCarrito);//se borra el carrito entero[[[
-						JOptionPane.showMessageDialog(null, tienda.getMisClientes().get(indeclient).getNombre()+ " Realizo una compra", "Información", JOptionPane.INFORMATION_MESSAGE);
+						JOptionPane.showMessageDialog(null, Tienda.getInstance().getMisClientes().get(indeclient).getNombre()+ " Realizo una compra", "Información", JOptionPane.INFORMATION_MESSAGE);
 
 					}
 				});
@@ -504,7 +502,7 @@ public class RealizarVenta extends JDialog implements Serializable {
 			JButton btnBuscarCliente = new JButton("Buscar Cliente");
 			btnBuscarCliente.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					if(tienda.getMisClientes().size()>0){
+					if(Tienda.getInstance().getMisClientes().size()>0){
 						loadTableCliente();
 						int dialogButton=0;
 						int dialogResult = JOptionPane.showConfirmDialog(null, new JScrollPane(table_clientes), "Escoger el  Cliente", dialogButton);
@@ -538,8 +536,8 @@ public class RealizarVenta extends JDialog implements Serializable {
 		fila = new Object[model.getColumnCount()];
 		//System.out.println(Biblioteca.getInstances().getMisPublicaciones().size());
 		if(productosEnVenta.size()==0){
-			for(int i = 0 ; i < (tienda.getMisProductos().size()); i++){//para agregar si no hay nada en la venta se va abrir to lo producto q tienes
-				productosEnVenta.add(tienda.getMisProductos().get(i));
+			for(int i = 0 ; i < (Tienda.getInstance().getMisProductos().size()); i++){//para agregar si no hay nada en la venta se va abrir to lo producto q tienes
+				productosEnVenta.add(Tienda.getInstance().getMisProductos().get(i));
 
 			}
 		}
@@ -645,13 +643,13 @@ public class RealizarVenta extends JDialog implements Serializable {
 		// TODO Auto-generated method stub
 		model_clientes.setRowCount(0);
 		fila = new Object[model_clientes.getColumnCount()];
-		for(int i = 0 ; i < tienda.getMisClientes().size(); i++){
+		for(int i = 0 ; i < Tienda.getInstance().getMisClientes().size(); i++){
 
 
-			fila[0] = tienda.getMisClientes().get(i).getCedula();
-			fila[1] = tienda.getMisClientes().get(i).getNombre();
-			fila[2] = tienda.getMisClientes().get(i).getTelefono();
-			fila[3] = tienda.getMisClientes().get(i).getDireccion();
+			fila[0] = Tienda.getInstance().getMisClientes().get(i).getCedula();
+			fila[1] = Tienda.getInstance().getMisClientes().get(i).getNombre();
+			fila[2] = Tienda.getInstance().getMisClientes().get(i).getTelefono();
+			fila[3] = Tienda.getInstance().getMisClientes().get(i).getDireccion();
 
 			model_clientes.addRow(fila);
 

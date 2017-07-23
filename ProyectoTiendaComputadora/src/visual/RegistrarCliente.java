@@ -38,8 +38,6 @@ public class RegistrarCliente extends JDialog implements Serializable {
 	private static JTextField txtDireccion;
 	private static JFormattedTextField ftxtCedula;
 	private static JFormattedTextField ftxtTelefono;
-	
-	private static Tienda tienda;
 	private static JTextField txtNombre;
 	private boolean poder;
 	private JButton btnRegistrar;
@@ -61,11 +59,10 @@ public class RegistrarCliente extends JDialog implements Serializable {
 	/**
 	 * Create the dialog.
 	 */
-	public RegistrarCliente(Tienda t, Cliente clien, boolean modif) {
+	public RegistrarCliente(Cliente clien, boolean modif) {
 		setForeground(Color.BLUE);
 		setResizable(false);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(RegistrarCliente.class.getResource("/imagenes/cliente.png")));
-		tienda=t;
 		modificar = modif;
 		
 		if(modificar == true){
@@ -192,9 +189,9 @@ public class RegistrarCliente extends JDialog implements Serializable {
 						if(poder==false){
 							if(modificar == false){
 								Cliente c1 = new Cliente(nom, cedu, dire, tele);
-								tienda.InsertarCliente(c1);
+								Tienda.getInstance().InsertarCliente(c1);
 								JOptionPane.showMessageDialog(null, "Operación Exitosa.", "Información", JOptionPane.INFORMATION_MESSAGE);
-							     tienda.getMisClientes() ;
+								Tienda.getInstance().getMisClientes() ;
 								clean();
 						     }else if(modificar == true){
 								clien.setCedula(cedu);

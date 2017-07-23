@@ -43,7 +43,6 @@ public class ListarVenta extends JDialog implements Serializable {
 	private final JPanel contentPanel = new JPanel();
 	private JTable table;
 	private static DefaultTableModel model;
-	private static Tienda tienda;
 	private JButton btnEliminar;
 	private JButton btnCancelar;
 	private static Object[] fila;
@@ -66,11 +65,11 @@ public class ListarVenta extends JDialog implements Serializable {
 	/**
 	 * Create the dialog.
 	 */
-	public ListarVenta(Tienda t) {
+	public ListarVenta() {
 		setForeground(Color.BLUE);
 		
 		setIconImage(Toolkit.getDefaultToolkit().getImage(ListarVenta.class.getResource("/imagenes/listaVenta.png")));
-		tienda = t;
+		
 		setTitle("Lista de Ventas");
 		setBounds(100, 100, 641, 433);
 		getContentPane().setLayout(new BorderLayout());
@@ -130,7 +129,7 @@ public class ListarVenta extends JDialog implements Serializable {
 						if(JOptionPane.showConfirmDialog(null,  "Estas seguro de eliminar venta?", "Información", JOptionPane.YES_NO_OPTION)== JOptionPane.YES_OPTION){
 							String codi = (String)table.getModel().getValueAt(table.getSelectedRow(), 0);
 							  if(!codi.equalsIgnoreCase("")){
-								  tienda.eleminarFactura(codi);;
+								  Tienda.getInstance().eleminarFactura(codi);;
 								  loadVentas();
 								  btnEliminar.setEnabled(false);
 								  
@@ -147,7 +146,7 @@ public class ListarVenta extends JDialog implements Serializable {
 						public void actionPerformed(ActionEvent e) {
 							int n = table.getModel().getRowCount();
 							System.out.println(n);
-							DetallesFactura zx = new DetallesFactura(tienda.getMisFacturas().get(n-1));
+							DetallesFactura zx = new DetallesFactura(Tienda.getInstance().getMisFacturas().get(n-1));
 							zx.setLocationRelativeTo(null);
 							zx.setModal(true);
 							zx.setVisible(true);
@@ -180,15 +179,15 @@ public class ListarVenta extends JDialog implements Serializable {
 		models.setRowCount(0);
 		fila = new Object[models.getColumnCount()];
 
-		for (int i=0; i<tienda.getMisFacturas().size();i++) {
+		for (int i=0; i<Tienda.getInstance().getMisFacturas().size();i++) {
 			/*for (int j = 0; j < tienda.getMisFacturas().get(i).getMisProductos().size(); j++) {
 				
 			}*/
-			fila[0] = tienda.getMisFacturas().get(i).getCodigo();
-			fila[1] = tienda.getMisFacturas().get(i).getClient().getNombre();
-			fila[2] = tienda.getMisFacturas().get(i).getClient().getCedula();
-			fila[3] = tienda.getMisFacturas().get(i).getMisProductos().size();
-			fila[4] = tienda.getMisFacturas().get(i).totalFactura();
+			fila[0] = Tienda.getInstance().getMisFacturas().get(i).getCodigo();
+			fila[1] = Tienda.getInstance().getMisFacturas().get(i).getClient().getNombre();
+			fila[2] = Tienda.getInstance().getMisFacturas().get(i).getClient().getCedula();
+			fila[3] = Tienda.getInstance().getMisFacturas().get(i).getMisProductos().size();
+			fila[4] = Tienda.getInstance().getMisFacturas().get(i).totalFactura();
 
 			models.addRow(fila);
 			

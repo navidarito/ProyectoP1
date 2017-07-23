@@ -46,7 +46,6 @@ public class ListarProducto extends JDialog implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
-	private static Tienda tienda;
 	private static JTable table;
 	private static Object[] fila;
 	private static DefaultTableModel model;
@@ -76,9 +75,8 @@ public class ListarProducto extends JDialog implements Serializable {
 	/**
 	 * Create the dialog.
 	 */
-	public ListarProducto(Tienda t) {
+	public ListarProducto() {
 		setForeground(Color.BLUE);
-		tienda = t;
 		orden = new ArrayList<Producto>();
 		setIconImage(Toolkit.getDefaultToolkit().getImage(ListarProducto.class.getResource("/imagenes/pcparts.png")));
 		setTitle("Lista de Productos");
@@ -108,7 +106,7 @@ public class ListarProducto extends JDialog implements Serializable {
 								btnModificar.setEnabled(true);
 								btnEliminar.setEnabled(true);
 							    numeroSerie  = (String) table.getModel().getValueAt(aux, 0);
-							    prod = tienda.indexProducto(numeroSerie);
+							    prod = Tienda.getInstance().indexProducto(numeroSerie);
 							   
 							}
 							else{
@@ -246,7 +244,7 @@ public class ListarProducto extends JDialog implements Serializable {
 				panel_1.add(scrollPane_1, BorderLayout.CENTER);
 				{
 					tablaOrden = new JTable();
-					//loadTablex();
+					loadTablex();
 					scrollPane_1.setViewportView(tablaOrden);
 				}
 			}
@@ -270,7 +268,7 @@ public class ListarProducto extends JDialog implements Serializable {
 					public void actionPerformed(ActionEvent e) {
 						if(JOptionPane.showConfirmDialog(null,  "Estas seguro de eliminar producto?", "Información", JOptionPane.YES_NO_OPTION)== JOptionPane.YES_OPTION){
 						if(!numeroSerie.equalsIgnoreCase("")){
-						 tienda.eliminiarProducto(numeroSerie);
+							Tienda.getInstance().eliminiarProducto(numeroSerie);
 						    loadTable();
 						    btnEliminar.setEnabled(false);
 						    btnModificar.setEnabled(false);
@@ -319,40 +317,42 @@ public class ListarProducto extends JDialog implements Serializable {
 		tablaOrden.setModel(model);
 		model.setRowCount(0);
 		fila = new Object[model.getColumnCount()];
-		for(int i = 0 ; i < tienda.getMisProductos().size(); i++){
-			if(tienda.getMisProductos().get(i).ordencompra()<0.2){
-				orden.add(tienda.getMisProductos().get(i));
-				orden.get(orden.size()-1).setCantInicial((int)(tienda.getMisProductos().get(i).getCantInicial()*0.2*2));
-				orden.get(orden.size()-1).setCantReal((int)(tienda.getMisProductos().get(i).getCantInicial()*0.2*2));
+		for(int i = 0 ; i < Tienda.getInstance().getMisProductos().size(); i++){
+			if(Tienda.getInstance().getMisProductos().get(i).ordencompra()<0.2){
+				orden.add(Tienda.getInstance().getMisProductos().get(i));
+				orden.get(orden.size()-1).setCantInicial((int)(Tienda.getInstance().getMisProductos().get(i).getCantInicial()*0.2*2));
+				orden.get(orden.size()-1).setCantReal((int)(Tienda.getInstance().getMisProductos().get(i).getCantInicial()*0.2*2));
 			}
 		}
 		
-		for(int i = 0 ; i < orden.size(); i++){
-			fila[0] = orden.get(i).getNumeroSerie();
-			fila[1] = orden.get(i).getMarca();
-			fila[2] = orden.get(i).getModelo();
-			
-			if(orden.get(i) instanceof TarjetaMadre){
-				fila[3] = "Tarjeta Madre";
-			}
-			else if(orden.get(i) instanceof Microprocesador){
-				fila[3] = "Microprocesador";
-			}
-			else if(orden.get(i) instanceof MemoriaRam){
-				fila[3] = "MemoriaRam";
-			}
-			else if(orden.get(i) instanceof DiscoDuro){
-				fila[3] = "Disco Duro";
-			}
-			fila[4] = tienda.getMisProductos().get(i).getCantInicial();
-			
-			
-	
-			model.addRow(fila);
-			
-			
-			
-			}
+		if(orden.size()>0){
+			for(int i = 0 ; i < orden.size(); i++){
+				fila[0] = orden.get(i).getNumeroSerie();
+				fila[1] = orden.get(i).getMarca();
+				fila[2] = orden.get(i).getModelo();
+				
+				if(orden.get(i) instanceof TarjetaMadre){
+					fila[3] = "Tarjeta Madre";
+				}
+				else if(orden.get(i) instanceof Microprocesador){
+					fila[3] = "Microprocesador";
+				}
+				else if(orden.get(i) instanceof MemoriaRam){
+					fila[3] = "MemoriaRam";
+				}
+				else if(orden.get(i) instanceof DiscoDuro){
+					fila[3] = "Disco Duro";
+				}
+				fila[4] = orden.get(i).getCantInicial();
+				
+				
+		
+				model.addRow(fila);
+				
+				
+				
+				}
+		}
 	
 		tablaOrden.setModel(model);
 			//table.setEnabled(false); //deshabilita la seleccion.
@@ -370,26 +370,26 @@ public class ListarProducto extends JDialog implements Serializable {
 		model.setRowCount(0);
 		fila = new Object[model.getColumnCount()];
 		
-		for(int i = 0 ; i < tienda.getMisProductos().size(); i++){
-			fila[0] = tienda.getMisProductos().get(i).getNumeroSerie();
-			fila[1] = tienda.getMisProductos().get(i).getMarca();
-			fila[2] = tienda.getMisProductos().get(i).getModelo();
+		for(int i = 0 ; i < Tienda.getInstance().getMisProductos().size(); i++){
+			fila[0] = Tienda.getInstance().getMisProductos().get(i).getNumeroSerie();
+			fila[1] = Tienda.getInstance().getMisProductos().get(i).getMarca();
+			fila[2] = Tienda.getInstance().getMisProductos().get(i).getModelo();
 			
-			if(tienda.getMisProductos().get(i) instanceof TarjetaMadre){
+			if(Tienda.getInstance().getMisProductos().get(i) instanceof TarjetaMadre){
 				fila[3] = "Tarjeta Madre";
 			}
-			else if(tienda.getMisProductos().get(i) instanceof Microprocesador){
+			else if(Tienda.getInstance().getMisProductos().get(i) instanceof Microprocesador){
 				fila[3] = "Microprocesador";
 			}
-			else if(tienda.getMisProductos().get(i) instanceof MemoriaRam){
+			else if(Tienda.getInstance().getMisProductos().get(i) instanceof MemoriaRam){
 				fila[3] = "MemoriaRam";
 			}
-			else if(tienda.getMisProductos().get(i) instanceof DiscoDuro){
+			else if(Tienda.getInstance().getMisProductos().get(i) instanceof DiscoDuro){
 				fila[3] = "Disco Duro";
 			}
-			fila[4] = tienda.getMisProductos().get(i).getCantInicial();
-			fila[5] = tienda.getMisProductos().get(i).getCantReal();
-			fila[6] = tienda.getMisProductos().get(i).getPrecio();
+			fila[4] = Tienda.getInstance().getMisProductos().get(i).getCantInicial();
+			fila[5] = Tienda.getInstance().getMisProductos().get(i).getCantReal();
+			fila[6] = Tienda.getInstance().getMisProductos().get(i).getPrecio();
 			
 	
 			model.addRow(fila);
@@ -421,7 +421,7 @@ public class ListarProducto extends JDialog implements Serializable {
 	private void loadTabletTarjeta() {
 		model.setRowCount(0);
 		fila = new Object[model.getColumnCount()];
-		for (Producto aux : tienda.getMisProductos()) {
+		for (Producto aux : Tienda.getInstance().getMisProductos()) {
 		 if(aux instanceof TarjetaMadre){
 				fila[0] = aux.getNumeroSerie();
 				fila[1] = aux.getMarca();
@@ -454,7 +454,7 @@ public class ListarProducto extends JDialog implements Serializable {
 	private void loadTableMicro() {
 		model.setRowCount(0);
 		fila = new Object[model.getColumnCount()];
-		for (Producto aux : tienda.getMisProductos()) {
+		for (Producto aux : Tienda.getInstance().getMisProductos()) {
 			if(aux instanceof Microprocesador){
 				fila[0] = aux.getNumeroSerie();
 				fila[1] = aux.getMarca();
@@ -487,7 +487,7 @@ public class ListarProducto extends JDialog implements Serializable {
 	private void loadTableMemoriaRam() {
 		model.setRowCount(0);
 		fila = new Object[model.getColumnCount()];
-		for (Producto aux : tienda.getMisProductos()) {
+		for (Producto aux : Tienda.getInstance().getMisProductos()) {
 			if(aux instanceof MemoriaRam){
 				fila[0] = aux.getNumeroSerie();
 				fila[1] = aux.getMarca();
@@ -519,7 +519,7 @@ public class ListarProducto extends JDialog implements Serializable {
 	private void loadTableDiscoDuro() {
 		model.setRowCount(0);
 		fila = new Object[model.getColumnCount()];
-		for (Producto aux : tienda.getMisProductos()) {
+		for (Producto aux : Tienda.getInstance().getMisProductos()) {
 			if(aux instanceof DiscoDuro){
 				fila[0] = aux.getNumeroSerie();
 				fila[1] = aux.getMarca();

@@ -66,7 +66,6 @@ public class RegistrarProducto extends JDialog implements Serializable{
 	private JComboBox cbtiposocketmicro;
 	private JFormattedTextField ftxtNumeroSerie;
 	private JTextField txtPrecioCompra;
-	private static Tienda tienda;
 	private boolean modificar;
 	private JButton btnRegistrar;
 
@@ -88,10 +87,9 @@ public class RegistrarProducto extends JDialog implements Serializable{
 	/**
 	 * Create the dialog.
 	 */
-	public RegistrarProducto(Tienda t, Producto p, boolean modif) {
+	public RegistrarProducto(Producto p, boolean modif) {
 		setForeground(Color.BLUE);
 		setResizable(false);
-		tienda=t;
 		modificar =modif;
 		setIconImage(Toolkit.getDefaultToolkit().getImage(RegistrarProducto.class.getResource("/imagenes/pcparts.png")));
 		if(modificar == true){
@@ -459,7 +457,7 @@ public class RegistrarProducto extends JDialog implements Serializable{
 									String tipram = cbTipoRam.getSelectedItem().toString();
 									String tipdisc = cbTipoDisco.getSelectedItem().toString();
 									TarjetaMadre t = new TarjetaMadre(prec, cant, numserie, marc, model, tipsock, tipram, tipdisc);
-									tienda.InsertarProducto(t);
+									Tienda.getInstance().InsertarProducto(t);
 									Clean();
 								}
 
@@ -474,7 +472,7 @@ public class RegistrarProducto extends JDialog implements Serializable{
 									String velomic = cbVelocidadmicro.getSelectedItem().toString();
 									String tiposockmi = cbtiposocketmicro.getSelectedItem().toString();
 									Microprocesador m = new Microprocesador(prec, cant, numserie, marc, model, velomic,tiposockmi );
-									tienda.InsertarProducto(m);
+									Tienda.getInstance().InsertarProducto(m);
 									Clean();
 									 
 								}
@@ -489,7 +487,7 @@ public class RegistrarProducto extends JDialog implements Serializable{
 									String capram = cbCapacidadmbRam.getSelectedItem().toString();
 									String tipram = cbtipodelram.getSelectedItem().toString();
 									MemoriaRam r = new MemoriaRam(prec, cant, numserie, marc, model, capram, tipram);
-									tienda.InsertarProducto(r);
+									Tienda.getInstance().InsertarProducto(r);
 									Clean();
 								}
 
@@ -504,7 +502,7 @@ public class RegistrarProducto extends JDialog implements Serializable{
 									String capdis = cbCapacidadAlmacenamiento.getSelectedItem().toString();
 									String conecdis = cbTipoConexionDisco.getSelectedItem().toString();
 									DiscoDuro d = new DiscoDuro(prec, cant, numserie, marc, model, capdis, conecdis);
-									tienda.InsertarProducto(d);
+									Tienda.getInstance().InsertarProducto(d);
 									Clean();
 								}
 
@@ -512,7 +510,7 @@ public class RegistrarProducto extends JDialog implements Serializable{
 							if(poder){
 								
 								Clean();
-								System.out.println(tienda.getMisProductos().get(0).getMarca());
+								System.out.println(Tienda.getInstance().getMisProductos().get(0).getMarca());
 								JOptionPane.showMessageDialog(null, "Se ha registrado satisfactoriamente", null, JOptionPane.INFORMATION_MESSAGE);
 							}
 

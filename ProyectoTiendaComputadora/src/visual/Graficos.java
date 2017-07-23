@@ -24,7 +24,7 @@ public class Graficos extends JFrame  implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private static Tienda tienda;
+
 
 	/**
 	 * Launch the application.
@@ -46,8 +46,8 @@ public class Graficos extends JFrame  implements Serializable{
 	/**
 	 * Create the frame.
 	 */
-	public Graficos(Tienda t) {
-		tienda = t;
+	public Graficos() {
+
 		pastel();
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -60,10 +60,10 @@ public class Graficos extends JFrame  implements Serializable{
 	private void pastel(){
 		 // Fuente de Datos
         DefaultPieDataset data = new DefaultPieDataset();
-        float disco = tienda.cantDiscoDuro()/tienda.totaltodo();
-        float memo = tienda.cantMemoriaRam()/tienda.totaltodo();
-        float micro = tienda.cantMicroProcesador()/tienda.totaltodo();
-        float madre = tienda.cantTarjetaMadre()/tienda.totaltodo();
+        float disco = Tienda.getInstance().cantDiscoDuro()/Tienda.getInstance().totaltodo();
+        float memo = Tienda.getInstance().cantMemoriaRam()/Tienda.getInstance().totaltodo();
+        float micro = Tienda.getInstance().cantMicroProcesador()/Tienda.getInstance().totaltodo();
+        float madre = Tienda.getInstance().cantTarjetaMadre()/Tienda.getInstance().totaltodo();
         if(disco>0){
         	data.setValue("Disco Duro", disco);
         }

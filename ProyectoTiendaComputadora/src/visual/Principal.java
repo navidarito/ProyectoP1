@@ -38,7 +38,6 @@ public class Principal extends JFrame  implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private static Tienda tienda;
 	private Dimension dim;
 	
 
@@ -50,7 +49,7 @@ public class Principal extends JFrame  implements Serializable {
 			public void run() {
 				try {
 					Tienda tz = new Tienda();
-					Principal frame = new Principal(tz);
+					Principal frame = new Principal();
 					frame.setLocationRelativeTo(null);
 					frame.setVisible(true);
 				} catch (Exception e) {
@@ -63,18 +62,17 @@ public class Principal extends JFrame  implements Serializable {
 	/**
 	 * Create the frame.
 	 */
-	public Principal( Tienda t1)  {
-		tienda=t1;
-		
+	public Principal()  {
+		Tienda.getInstance();
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
-				tienda.guardarTienda(tienda);
+				Tienda.getInstance().guardarTienda(Tienda.getInstance());
 				e.getWindow().dispose();
 			
 			}
 		});
-		tienda.cargarTienda(tienda.getInstance());
+		Tienda.getInstance().cargarTienda(Tienda.getInstance());
 	
 		
 
@@ -102,7 +100,7 @@ public class Principal extends JFrame  implements Serializable {
 		mntmRegistrarCliente.setIcon(new ImageIcon(Principal.class.getResource("/imagenes/registrarCliente.png")));
 		mntmRegistrarCliente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				RegistrarCliente r1 = new RegistrarCliente(tienda, null, false);
+				RegistrarCliente r1 = new RegistrarCliente(null, false);
 				r1.setLocationRelativeTo(null);
 				r1.setModal(true);
 				r1.setVisible(true);
@@ -114,7 +112,7 @@ public class Principal extends JFrame  implements Serializable {
 		mntmListarCliente.setIcon(new ImageIcon(Principal.class.getResource("/imagenes/listar.png")));
 		mntmListarCliente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ListarCliente l1 = new ListarCliente(tienda);
+				ListarCliente l1 = new ListarCliente();
 				l1.setLocationRelativeTo(null);
 				l1.setModal(true);
 				l1.setVisible(true);
@@ -130,7 +128,7 @@ public class Principal extends JFrame  implements Serializable {
 		mntmRegistrarProducto.setIcon(new ImageIcon(Principal.class.getResource("/imagenes/productos.png")));
 		mntmRegistrarProducto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				RegistrarProducto prod = new RegistrarProducto(tienda, null, false);
+				RegistrarProducto prod = new RegistrarProducto(null, false);
 				prod.setLocationRelativeTo(null);
 				prod.setModal(true);
 				prod.setVisible(true);
@@ -142,7 +140,7 @@ public class Principal extends JFrame  implements Serializable {
 		mntmListaDeProducto.setIcon(new ImageIcon(Principal.class.getResource("/imagenes/listar.png")));
 		mntmListaDeProducto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ListarProducto p = new ListarProducto(tienda);
+				ListarProducto p = new ListarProducto();
 				p.setLocationRelativeTo(null);
 				p.setModal(true);
 				p.setVisible(true);
@@ -158,7 +156,7 @@ public class Principal extends JFrame  implements Serializable {
 		mntmRealizarVenta.setIcon(new ImageIcon(Principal.class.getResource("/imagenes/compra.png")));
 		mntmRealizarVenta.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				RealizarVenta r = new RealizarVenta(tienda);
+				RealizarVenta r = new RealizarVenta();
 				
 				r.setLocationRelativeTo(null);
 				r.setModal(true);
@@ -172,7 +170,7 @@ public class Principal extends JFrame  implements Serializable {
 		mntmListaDeV.setIcon(new ImageIcon(Principal.class.getResource("/imagenes/listar.png")));
 		mntmListaDeV.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ListarVenta v = new ListarVenta(tienda);
+				ListarVenta v = new ListarVenta();
 				v.setLocationRelativeTo(null);
 				v.setModal(true);
 				v.setVisible(true);
@@ -189,7 +187,7 @@ public class Principal extends JFrame  implements Serializable {
 		JMenuItem mntmPastel = new JMenuItem("Pastel");
 		mntmPastel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Graficos g = new Graficos(tienda);
+				Graficos g = new Graficos();
 				g.setLocationRelativeTo(null);
 				g.setModalExclusionType(null);
 			}
@@ -199,7 +197,7 @@ public class Principal extends JFrame  implements Serializable {
 		JMenuItem mntmBarra = new JMenuItem("Barra");
 		mntmBarra.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				GraficaBarra b = new GraficaBarra(tienda);
+				GraficaBarra b = new GraficaBarra();
 				b.setLocationRelativeTo(null);
 				b.setModalExclusionType(null);
 				b.setVisible(true);
