@@ -8,6 +8,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+
 import logica.Producto;
 import logica.Tienda;
 
@@ -63,20 +64,23 @@ public class Principal extends JFrame  implements Serializable {
 	 * Create the frame.
 	 */
 	public Principal( Tienda t1)  {
+		tienda=t1;
+		
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
-				
+				tienda.guardarTienda(tienda);
+				e.getWindow().dispose();
 			
 			}
 		});
-		
+		tienda.cargarTienda(tienda.getInstance());
 	
 		
 
 		setForeground(Color.BLUE);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Principal.class.getResource("/imagenes/pc.png")));
-		tienda=t1;
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 613, 387);
 		dim = super.getToolkit().getScreenSize();
@@ -155,6 +159,7 @@ public class Principal extends JFrame  implements Serializable {
 		mntmRealizarVenta.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				RealizarVenta r = new RealizarVenta(tienda);
+				
 				r.setLocationRelativeTo(null);
 				r.setModal(true);
 				r.setVisible(true);

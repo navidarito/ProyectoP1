@@ -102,14 +102,14 @@ public class RealizarVenta extends JDialog implements Serializable {
 
 			@Override
 			public void windowActivated(WindowEvent e) {
-				//ClosePathBuilder<ClosePathBuilder<B>>
+
 				double z = 0;
-				
+
 				loadCarrito();
 				loadTable();
 				current = new Date();
 				SimpleDateFormat d1 = new SimpleDateFormat("dd/MM/yyyy, HH:mm:ss");
-				System.out.println(d1.format(current));
+				//System.out.println(d1.format(current));
 				fechaxlabel.setText(d1.format(current));
 				if(miCarrito.size()>0 && nombreCliente.getText()!=""){
 					comprarbtn.setEnabled(true);
@@ -140,31 +140,32 @@ public class RealizarVenta extends JDialog implements Serializable {
 			@Override
 			public void windowClosing(WindowEvent e) {
 				if(miCarrito.size()>0){
-					
-					if(JOptionPane.showConfirmDialog(null,  "Estas seguro de salir", "Información", JOptionPane.YES_NO_OPTION)== JOptionPane.YES_OPTION){
+
+					//if(JOptionPane.showConfirmDialog(null,  "Estas seguro de salir", "Información", JOptionPane.YES_NO_OPTION)== JOptionPane.YES_OPTION){
 						for (int i = 0; i < miCarrito.size(); i++) {
-									for (int j = 0; j < productosEnVenta.size(); j++) {
-										if(miCarrito.get(i).getNumeroSerie().equalsIgnoreCase(productosEnVenta.get(j).getNumeroSerie())){
-											productosEnVenta.get(j).setCantReal(productosEnVenta.get(j).getCantReal()+miCarrito.get(i).getCompra());
-											miCarrito.get(i).setCompra(0);
-											break;
+							for (int j = 0; j < productosEnVenta.size(); j++) {
+								if(miCarrito.get(i).getNumeroSerie().equalsIgnoreCase(productosEnVenta.get(j).getNumeroSerie())){
+									productosEnVenta.get(j).setCantReal(productosEnVenta.get(j).getCantReal()+miCarrito.get(i).getCompra());
+									miCarrito.get(i).setCompra(0);
+									break;
 
-										}else if(j==productosEnVenta.size()-1){
-											productosEnVenta.add(miCarrito.get(i));
-											productosEnVenta.get(productosEnVenta.size()-1).setCantReal(miCarrito.get(i).getCompra());
-											miCarrito.get(i).setCompra(0);
-											break;
+								}else if(j==productosEnVenta.size()-1){
+									productosEnVenta.add(miCarrito.get(i));
+									productosEnVenta.get(productosEnVenta.size()-1).setCantReal(miCarrito.get(i).getCompra());
+									miCarrito.get(i).setCompra(0);
+									break;
 
-										}
-									}
-								
-
+								}
 							}
+
+
 						}
 						miCarrito.removeAll(miCarrito);
-						
+
 						dispose();
-					}
+					//}
+
+				}
 				else{
 					dispose();
 				}
@@ -186,7 +187,7 @@ public class RealizarVenta extends JDialog implements Serializable {
 				comprarbtn.setIcon(new ImageIcon(RealizarVenta.class.getResource("/imagenes/compra1.png")));
 				comprarbtn.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						
+
 						Cliente aux = tienda.getMisClientes().get(indeclient);//coje la posicion del cliente 
 						Factura f1 = new Factura(aux, current);//se crea una factura.. el current es la hora actual
 						for (int i = 0; i < miCarrito.size(); i++) {//y esa factura recorre el csarrtio entero
@@ -195,7 +196,7 @@ public class RealizarVenta extends JDialog implements Serializable {
 						tienda.InsertarFactura(f1);//inserta la factura en tienda
 						miCarrito.removeAll(miCarrito);//se borra el carrito entero[[[
 						JOptionPane.showMessageDialog(null, tienda.getMisClientes().get(indeclient).getNombre()+ " Realizo una compra", "Información", JOptionPane.INFORMATION_MESSAGE);
-						
+
 					}
 				});
 				comprarbtn.setEnabled(false);
@@ -210,31 +211,32 @@ public class RealizarVenta extends JDialog implements Serializable {
 				cancelar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						if(miCarrito.size()>0){// se verifica si hay producto en carrito
-							
+
 							if(JOptionPane.showConfirmDialog(null,  "Estas seguro de salir", "Información", JOptionPane.YES_NO_OPTION)== JOptionPane.YES_OPTION){
 								for (int i = 0; i < miCarrito.size(); i++) {
-											for (int j = 0; j < productosEnVenta.size(); j++) {
-												if(miCarrito.get(i).getNumeroSerie().equalsIgnoreCase(productosEnVenta.get(j).getNumeroSerie())){
-													productosEnVenta.get(j).setCantReal(productosEnVenta.get(j).getCantReal()+miCarrito.get(i).getCompra());
-													miCarrito.get(i).setCompra(0);
-													break;
+									for (int j = 0; j < productosEnVenta.size(); j++) {
+										if(miCarrito.get(i).getNumeroSerie().equalsIgnoreCase(productosEnVenta.get(j).getNumeroSerie())){
+											productosEnVenta.get(j).setCantReal(productosEnVenta.get(j).getCantReal()+miCarrito.get(i).getCompra());
+											miCarrito.get(i).setCompra(0);
+											break;
 
-												}else if(j==productosEnVenta.size()-1){
-													productosEnVenta.add(miCarrito.get(i));
-													productosEnVenta.get(productosEnVenta.size()-1).setCantReal(miCarrito.get(i).getCompra());
-													miCarrito.get(i).setCompra(0);
-													break;
+										}else if(j==productosEnVenta.size()-1){
+											productosEnVenta.add(miCarrito.get(i));
+											productosEnVenta.get(productosEnVenta.size()-1).setCantReal(miCarrito.get(i).getCompra());
+											miCarrito.get(i).setCompra(0);
+											break;
 
-												}
-											}
-										
-
+										}
 									}
+
+
 								}
 								miCarrito.removeAll(miCarrito);
-								
+
 								dispose();
 							}
+							
+						}
 						else{
 							dispose();
 						}
@@ -316,7 +318,7 @@ public class RealizarVenta extends JDialog implements Serializable {
 				});
 				scrollPane.setViewportView(tableCarrito);
 			}
-			
+
 
 			JLabel lblFechaActual = new JLabel("Fecha actual:");
 			lblFechaActual.setIcon(new ImageIcon(RealizarVenta.class.getResource("/imagenes/date1.png")));
@@ -438,54 +440,54 @@ public class RealizarVenta extends JDialog implements Serializable {
 			spCantComprar.setModel(new SpinnerNumberModel(new Integer(1), new Integer(1), null, new Integer(1)));
 			spCantComprar.setBounds(378, 185, 49, 21);
 			panel.add(spCantComprar);
-			
+
 			JLabel lblTotalDelCarrito = new JLabel("Total del carrito:");
 			lblTotalDelCarrito.setIcon(new ImageIcon(RealizarVenta.class.getResource("/imagenes/precio.png")));
 			lblTotalDelCarrito.setBounds(714, 610, 117, 21);
 			panel.add(lblTotalDelCarrito);
-			
+
 			totallabel = new JLabel("");
 			totallabel.setBounds(858, 610, 176, 21);
 			panel.add(totallabel);
-			
+
 			panelinfoCliente = new JPanel();
 			panelinfoCliente.setBorder(new TitledBorder(null, "Info del Cliente", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 			panelinfoCliente.setBounds(80, 11, 346, 163);
 			panel.add(panelinfoCliente);
 			panelinfoCliente.setLayout(null);
-			
+
 			JLabel labelNombredelCliente = new JLabel("Nombre del Cliente:");
 			labelNombredelCliente.setBounds(10, 59, 117, 21);
 			panelinfoCliente.add(labelNombredelCliente);
-			
+
 			nombreCliente = new JLabel("");
 			nombreCliente.setBounds(157, 59, 179, 21);
 			panelinfoCliente.add(nombreCliente);
-			
+
 			JLabel lblCdula = new JLabel("C\u00E9dula:");
 			lblCdula.setBounds(10, 27, 46, 21);
 			panelinfoCliente.add(lblCdula);
-			
+
 			cedulaCliente = new JLabel("");
 			cedulaCliente.setBounds(157, 27, 179, 21);
 			panelinfoCliente.add(cedulaCliente);
-			
+
 			JLabel lblDireccin = new JLabel("Direcci\u00F3n :");
 			lblDireccin.setBounds(10, 91, 117, 21);
 			panelinfoCliente.add(lblDireccin);
-			
+
 			direccionCliente = new JLabel("");
 			direccionCliente.setBounds(157, 91, 179, 21);
 			panelinfoCliente.add(direccionCliente);
-			
+
 			JLabel lblTlefono = new JLabel("T\u00E9lefono:");
 			lblTlefono.setBounds(10, 123, 117, 21);
 			panelinfoCliente.add(lblTlefono);
-			
+
 			telefonoCliente = new JLabel("");
 			telefonoCliente.setBounds(157, 123, 179, 21);
 			panelinfoCliente.add(telefonoCliente);
-			
+
 			table_clientes = new JTable();
 			model_clientes = new DefaultTableModel(){
 
@@ -497,8 +499,8 @@ public class RealizarVenta extends JDialog implements Serializable {
 			String[] columnas = {"Nombre","Cedula","Telefono","Direccion"};
 			model_clientes.setColumnIdentifiers(columnas);
 			table_clientes.setModel(model_clientes);
-			
-			
+
+
 			JButton btnBuscarCliente = new JButton("Buscar Cliente");
 			btnBuscarCliente.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -509,20 +511,20 @@ public class RealizarVenta extends JDialog implements Serializable {
 						if(dialogResult == JOptionPane.OK_OPTION && table_clientes.getSelectedRow()!=-1){
 							indeclient = table_clientes.getSelectedRow();
 						}
-							
-						}
+
+					}
 					else{
 						JOptionPane.showMessageDialog(null,  "No hay Clientes", "Información", JOptionPane.INFORMATION_MESSAGE);
 					}
-					
+
 				}
 
-				});
+			});
 			btnBuscarCliente.setIcon(new ImageIcon(RealizarVenta.class.getResource("/imagenes/buscarCliente1.png")));
 			btnBuscarCliente.setFont(new Font("Tahoma", Font.BOLD, 11));
 			btnBuscarCliente.setBounds(437, 84, 156, 25);
 			panel.add(btnBuscarCliente);
-			
+
 			JLabel label = new JLabel("");
 			label.setIcon(new ImageIcon(RealizarVenta.class.getResource("/imagenes/buy (1).png")));
 			label.setBounds(979, 60, 156, 158);
@@ -561,13 +563,13 @@ public class RealizarVenta extends JDialog implements Serializable {
 
 				model.addRow(fila);
 			}else{
-				
-				
+
+
 			}
 			if(aux!=-1){
 				productosEnVenta.remove(i);
 			}
-			
+
 		}
 
 		tableListaCompra.setModel(model);
@@ -644,21 +646,21 @@ public class RealizarVenta extends JDialog implements Serializable {
 		model_clientes.setRowCount(0);
 		fila = new Object[model_clientes.getColumnCount()];
 		for(int i = 0 ; i < tienda.getMisClientes().size(); i++){
-			
-		
+
+
 			fila[0] = tienda.getMisClientes().get(i).getCedula();
 			fila[1] = tienda.getMisClientes().get(i).getNombre();
 			fila[2] = tienda.getMisClientes().get(i).getTelefono();
 			fila[3] = tienda.getMisClientes().get(i).getDireccion();
-	
+
 			model_clientes.addRow(fila);
-			
+
 		}
 		table_clientes.setModel(model_clientes);
-		
+
 		table_clientes.getTableHeader().setReorderingAllowed(false);
 		TableColumnModel columModel = table_clientes.getColumnModel();
-		
-		
+
+
 	}
 }

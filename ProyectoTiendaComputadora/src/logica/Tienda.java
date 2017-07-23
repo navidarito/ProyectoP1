@@ -204,7 +204,39 @@ public class Tienda implements Serializable{
 	}
 	
 ///////////////////////////////////////////////////////////////////////////////////
-	
+	public void cargarTienda(Tienda tx){
+		try {
+			FileInputStream file= new FileInputStream("Tienda.dat");
+			ObjectInputStream object = new ObjectInputStream(file);
+			Tienda comp=(Tienda)object.readObject();
+			Tienda.setTienda(comp);
+			object.close();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	public void guardarTienda(Tienda comp){
+		File file= new File("Tienda.dat");
+		FileOutputStream fo= null;
+		ObjectOutputStream ob =null;
+		
+		try {
+			fo= new FileOutputStream(file);
+			ob = new ObjectOutputStream(fo);
+			ob.writeObject(comp);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		finally{
+			try{
+				if(ob!=null)
+					ob.close();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+	}
 	
 
 }
