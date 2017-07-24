@@ -187,9 +187,13 @@ public class Principal extends JFrame  implements Serializable {
 		JMenuItem mntmPastel = new JMenuItem("Pastel");
 		mntmPastel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Graficos g = new Graficos();
-				g.setLocationRelativeTo(null);
-				g.setModalExclusionType(null);
+				if(Tienda.getInstance().getMisFacturas().size()>0){
+					Graficos g = new Graficos();
+					g.setLocationRelativeTo(null);
+					g.setModalExclusionType(null);
+				}else{
+					JOptionPane.showMessageDialog(null, "No se ha vendido ningún Producto", "Información", JOptionPane.WARNING_MESSAGE);
+				}
 			}
 		});
 		mnProductoMsVendido.add(mntmPastel);
@@ -197,10 +201,14 @@ public class Principal extends JFrame  implements Serializable {
 		JMenuItem mntmBarra = new JMenuItem("Barra");
 		mntmBarra.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				GraficaBarra b = new GraficaBarra();
-				b.setLocationRelativeTo(null);
-				b.setModalExclusionType(null);
-				b.setVisible(true);
+				if(Tienda.getInstance().getMisFacturas().size()>0){
+					GraficaBarra b = new GraficaBarra();
+					b.setLocationRelativeTo(null);
+					b.setModalExclusionType(null);
+					b.setVisible(true);
+				}else{
+					JOptionPane.showMessageDialog(null, "No se ha vendido ningún Producto", "Información", JOptionPane.WARNING_MESSAGE);
+				}
 			}
 		});
 		mnProductoMsVendido.add(mntmBarra);

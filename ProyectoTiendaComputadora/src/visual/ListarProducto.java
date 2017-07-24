@@ -351,7 +351,7 @@ public class ListarProducto extends JDialog implements Serializable {
 						for (int j = 0; j <  Tienda.getInstance().getMisProductos().size(); j++) {
 							if(orden.get(i).getNumeroSerie().equalsIgnoreCase( Tienda.getInstance().getMisProductos().get(j).getNumeroSerie())){
 								 //Tienda.getInstance().getMisProductos().get(j).setCantInicial(Tienda.getInstance().getMisProductos().get(j));
-								 Tienda.getInstance().getMisProductos().get(j).setCantReal(Tienda.getInstance().getMisProductos().get(j).getCantReal()+orden.get(i).getCantReal());
+								 Tienda.getInstance().getMisProductos().get(j).setCantReal(Tienda.getInstance().getMisProductos().get(j).getCantReal()+orden.get(i).getCantInicial());
 								 break;
 							}
 						}

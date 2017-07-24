@@ -62,10 +62,15 @@ public class GraficaBarra extends JDialog implements Serializable {
         getContentPane().add(panel);
         // Fuente de Datos
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-        dataset.setValue(Tienda.getInstance().cantDiscoDuro(), "Disco Duro", "Disco Duro");
-        dataset.setValue(Tienda.getInstance().cantMicroProcesador(), "Microprocesador", "Microprocesador");
-        dataset.setValue(Tienda.getInstance().cantTarjetaMadre(), "Tarjeta Madre", "Tarjeta Madre");
-        dataset.setValue(Tienda.getInstance().cantMemoriaRam(), "Memoria Ram", "Memoria Ram");
+        int disco = ((int)Tienda.getInstance().cantDiscoDuro());
+        int memoriaRam = ((int)Tienda.getInstance().cantMemoriaRam());
+        int tarjetaMadre = ((int)Tienda.getInstance().cantTarjetaMadre());
+        int microprocesador = ((int)Tienda.getInstance().cantMicroProcesador());
+        dataset.setValue(disco, "Disco Duro", "Disco Duro");
+        dataset.setValue(microprocesador, "Microprocesador", "Microprocesador");
+        dataset.setValue(tarjetaMadre, "Tarjeta Madre", "Tarjeta Madre");
+        dataset.setValue(memoriaRam, "Memoria Ram", "Memoria Ram");
+        System.out.println(microprocesador);
         //dataset.setValue(6, "ROW", "Colum");
         // dataset.setValue(value, rowKey, columnKey); row es leyenda column es eje X
         // Creando el Grafico
