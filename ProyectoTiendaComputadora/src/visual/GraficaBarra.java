@@ -70,7 +70,7 @@ public class GraficaBarra extends JDialog implements Serializable {
         dataset.setValue(microprocesador, "Microprocesador", "Microprocesador");
         dataset.setValue(tarjetaMadre, "Tarjeta Madre", "Tarjeta Madre");
         dataset.setValue(memoriaRam, "Memoria Ram", "Memoria Ram");
-        System.out.println(microprocesador);
+        //System.out.println(microprocesador);
         //dataset.setValue(6, "ROW", "Colum");
         // dataset.setValue(value, rowKey, columnKey); row es leyenda column es eje X
         // Creando el Grafico
