@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 
@@ -285,7 +286,8 @@ public class Tienda implements Serializable{
 					if(misFacturas.get(i).getCodigo()==codigo){
 						System.out.println("Entro: ");
 						Factura aux = (Factura) lector.readObject();
-						writter.write("Código de la factura: "+aux.getCodigo()+"\n");
+						SimpleDateFormat d1 = new SimpleDateFormat("dd/MM/yyyy, HH:mm:ss");
+						writter.write("Código de la factura: "+aux.getCodigo()+", Fecha de compra: "+d1.format(aux.getFechaCompra())+", Cliente: "+aux.getClient().getNombre()+"\n");
 						int total = 0;
 						for (int j = 0; j < aux.getMisProductos().size(); j++) {
 							total += aux.getMisProductos().get(j).getCompra();
@@ -297,6 +299,7 @@ public class Tienda implements Serializable{
 							writter.write("Número de serie: "+aux.getMisProductos().get(j).numeroSerie+", Cantidad del producto:"+aux.getMisProductos().get(j).getCompra()+", Precio Unitario: "+aux.getMisProductos().get(j).precioVenta()+"\n");
 							
 						}
+						writter.write("----------------------------------------------------------------\n");
 						writter.write("Total : "+aux.totalFactura()+"\n");
 						writter.write("----------------------------------------------------------------\n");
 						writter.write("\n");

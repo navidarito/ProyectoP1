@@ -220,9 +220,9 @@ public class RegistrarProducto extends JDialog implements Serializable{
 							&& ((c < 'A')||(c > 'Z'))) {
 							e.consume();
 							}
-							if (c == '.' && txtPrecioCompra.getText().contains(".")) {
+							/*if (c == '.' && txtPrecioCompra.getText().contains(".")) {
 							e.consume();
-							}
+							}*/
 							
 						}
 					});

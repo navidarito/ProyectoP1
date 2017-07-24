@@ -360,7 +360,7 @@ public class RealizarVenta extends JDialog implements Serializable {
 											miCarrito.get(miCarrito.size()-1).setCompra(n);
 											Tienda.getInstance().getMisProductos().get(i).setCantReal(Tienda.getInstance().getMisProductos().get(i).getCantReal()-n);
 											//loadCarrito();
-											JOptionPane.showMessageDialog(null,  "Se agregó exitosamente-1", "Información", JOptionPane.INFORMATION_MESSAGE);
+											JOptionPane.showMessageDialog(null,  "Se agregó exitosamente", "Información", JOptionPane.INFORMATION_MESSAGE);
 											//loadCarrito();
 											break;
 
@@ -371,7 +371,7 @@ public class RealizarVenta extends JDialog implements Serializable {
 									miCarrito.get(miCarrito.size()-1).setCompra(n);
 									Tienda.getInstance().getMisProductos().get(i).setCantReal(Tienda.getInstance().getMisProductos().get(i).getCantReal()-n);
 									//loadCarrito();
-									JOptionPane.showMessageDialog(null,  "Se agregó exitosamente-0", "Información", JOptionPane.INFORMATION_MESSAGE);
+									JOptionPane.showMessageDialog(null,  "Se agregó exitosamente", "Información", JOptionPane.INFORMATION_MESSAGE);
 									//loadCarrito();
 									break;
 
