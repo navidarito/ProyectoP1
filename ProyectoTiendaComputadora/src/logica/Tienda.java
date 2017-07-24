@@ -284,7 +284,7 @@ public class Tienda implements Serializable{
 				int index = lector.readInt();
 				for (int i = 0; i < index; i++) {
 					if(misFacturas.get(i).getCodigo()==codigo){
-						System.out.println("Entro: ");
+						//System.out.println("Entro: ");
 						Factura aux = (Factura) lector.readObject();
 						SimpleDateFormat d1 = new SimpleDateFormat("dd/MM/yyyy, HH:mm:ss");
 						writter.write("Código de la factura: "+aux.getCodigo()+", Fecha de compra: "+d1.format(aux.getFechaCompra())+", Cliente: "+aux.getClient().getNombre()+"\n");

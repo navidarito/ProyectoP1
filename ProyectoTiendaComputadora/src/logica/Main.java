@@ -53,6 +53,11 @@ public class Main {
 		for (int i = 0; i < tienda.getMisProductos().size(); i++) {
 			System.out.println((int)(tienda.getMisProductos().get(i).getCantInicial()*0.2*2));
 		}
+		System.out.println("");
+		double er = 20;
+		double erz = 8;
+		double tox = erz/er;
+		System.out.println(tox);
 		/*
 		tienda.eleminarFactura("001");*/
 		/*System.out.println(tienda.getMisFacturas().get(0).getMisProductos().get(0).compra);

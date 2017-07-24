@@ -48,7 +48,7 @@ public class Principal extends JFrame  implements Serializable {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Tienda tz = new Tienda();
+					//Tienda tz = new Tienda();
 					Principal frame = new Principal();
 					frame.setLocationRelativeTo(null);
 					frame.setVisible(true);

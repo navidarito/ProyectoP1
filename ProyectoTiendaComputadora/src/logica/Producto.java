@@ -80,8 +80,8 @@ public abstract class Producto implements Serializable{
 		return t;
 	}
 	public double ordencompra(){
-		float z = 0;
-		z = ((float)cantReal)/((float)cantInicial);
+		double z = 0;
+		z = ((double)cantReal)/((double)cantInicial);
 		return z;
 	}
 

@@ -350,7 +350,7 @@ public class ListarProducto extends JDialog implements Serializable {
 						for (int j = 0; j <  Tienda.getInstance().getMisProductos().size(); j++) {
 							if(Tienda.getInstance().getMisOrdenes().get(i).getNumeroSerie().equalsIgnoreCase( Tienda.getInstance().getMisProductos().get(j).getNumeroSerie())){
 								 //Tienda.getInstance().getMisProductos().get(j).setCantInicial(Tienda.getInstance().getMisProductos().get(j));
-								 Tienda.getInstance().getMisProductos().get(j).setCantReal(Tienda.getInstance().getMisProductos().get(j).getCantReal()+Tienda.getInstance().getMisOrdenes().get(i).getCantInicial());
+								 Tienda.getInstance().getMisProductos().get(j).setCantReal(Tienda.getInstance().getMisProductos().get(j).getCantReal()+Tienda.getInstance().getMisOrdenes().get(i).getCantReal());
 								 break;
 							}
 						}
@@ -406,15 +406,21 @@ public class ListarProducto extends JDialog implements Serializable {
 		String[] columnNamex = {"Número de serie","Marca","Modelo","Producto","Cant. a Comprar"};
 		
 		//tablaOrden.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		model = new DefaultTableModel();
+		model = new DefaultTableModel(){
+
+			@Override
+			public boolean isCellEditable(int row, int column){
+				return false;
+			}
+		};
 		model.setColumnIdentifiers(columnNamex);
 		tablaOrden.setModel(model);
 		model.setRowCount(0);
 		fila = new Object[model.getColumnCount()];
 		for(int i = 0 ; i < Tienda.getInstance().getMisProductos().size(); i++){
-			if(Tienda.getInstance().getMisProductos().get(i).ordencompra()<0.2){
+			if(Tienda.getInstance().getMisProductos().get(i).ordencompra()<0.3){
 				Tienda.getInstance().getMisOrdenes().add(Tienda.getInstance().getMisProductos().get(i));
-				Tienda.getInstance().getMisOrdenes().get(Tienda.getInstance().getMisOrdenes().size()-1).setCantInicial((int)(Tienda.getInstance().getMisProductos().get(i).getCantInicial()*0.2*2));
+				//Tienda.getInstance().getMisOrdenes().get(Tienda.getInstance().getMisOrdenes().size()-1).setCantInicial((int)(Tienda.getInstance().getMisProductos().get(i).getCantInicial()*0.2*2));
 				Tienda.getInstance().getMisOrdenes().get(Tienda.getInstance().getMisOrdenes().size()-1).setCantReal((int)(Tienda.getInstance().getMisProductos().get(i).getCantInicial()*0.2*2));
 			}
 		}
@@ -437,7 +443,7 @@ public class ListarProducto extends JDialog implements Serializable {
 				else if(Tienda.getInstance().getMisOrdenes().get(i) instanceof DiscoDuro){
 					fila[3] = "Disco Duro";
 				}
-				fila[4] = Tienda.getInstance().getMisOrdenes().get(i).getCantInicial();
+				fila[4] = Tienda.getInstance().getMisOrdenes().get(i).getCantReal();
 				
 				
 		
