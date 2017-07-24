@@ -59,7 +59,7 @@ public class ListarProducto extends JDialog implements Serializable {
 	private JLabel label;
 	private Producto prod=null;
 	private JTable tablaOrden;
-	private ArrayList<Producto> orden;
+	//private ArrayList<Producto> orden;
 	private JButton btnProcesar;
 	private JLabel lblAlgo;
 	private JComboBox cbOpcion;
@@ -84,7 +84,8 @@ public class ListarProducto extends JDialog implements Serializable {
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowActivated(WindowEvent e) {
-				if(orden.size()>0){
+				loadTablex();
+				if(Tienda.getInstance().getMisOrdenes().size()>0){
 					btnProcesar.setEnabled(true);
 					lblAlgo.setText("Hay ordenes para procesar");
 				}else{
@@ -173,7 +174,6 @@ public class ListarProducto extends JDialog implements Serializable {
 			}
 		});
 		setForeground(Color.BLUE);
-		orden = new ArrayList<Producto>();
 		setIconImage(Toolkit.getDefaultToolkit().getImage(ListarProducto.class.getResource("/imagenes/pcparts.png")));
 		setTitle("Lista de Productos");
 		setBounds(100, 100, 1300, 500);
@@ -339,24 +339,26 @@ public class ListarProducto extends JDialog implements Serializable {
 				JScrollPane scrollPane_1 = new JScrollPane();
 				panel_1.add(scrollPane_1, BorderLayout.CENTER);
 				{
+					System.out.println(Tienda.getInstance().getMisOrdenes().size());
 					tablaOrden = new JTable();
 					loadTablex();
+				
 					scrollPane_1.setViewportView(tablaOrden);
 				}
 			}
 			btnProcesar = new JButton("Procesar");
 			btnProcesar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					for (int i = 0; i < orden.size(); i++) {
+					for (int i = 0; i < Tienda.getInstance().getMisOrdenes().size(); i++) {
 						for (int j = 0; j <  Tienda.getInstance().getMisProductos().size(); j++) {
-							if(orden.get(i).getNumeroSerie().equalsIgnoreCase( Tienda.getInstance().getMisProductos().get(j).getNumeroSerie())){
+							if(Tienda.getInstance().getMisOrdenes().get(i).getNumeroSerie().equalsIgnoreCase( Tienda.getInstance().getMisProductos().get(j).getNumeroSerie())){
 								 //Tienda.getInstance().getMisProductos().get(j).setCantInicial(Tienda.getInstance().getMisProductos().get(j));
-								 Tienda.getInstance().getMisProductos().get(j).setCantReal(Tienda.getInstance().getMisProductos().get(j).getCantReal()+orden.get(i).getCantInicial());
+								 Tienda.getInstance().getMisProductos().get(j).setCantReal(Tienda.getInstance().getMisProductos().get(j).getCantReal()+Tienda.getInstance().getMisOrdenes().get(i).getCantInicial());
 								 break;
 							}
 						}
 					}
-					orden.removeAll(orden);
+					Tienda.getInstance().getMisOrdenes().removeAll(Tienda.getInstance().getMisOrdenes());
 					JOptionPane.showMessageDialog(null, "Productos procesados", "Información", JOptionPane.INFORMATION_MESSAGE);
 				}
 			});
@@ -428,31 +430,31 @@ public class ListarProducto extends JDialog implements Serializable {
 		fila = new Object[model.getColumnCount()];
 		for(int i = 0 ; i < Tienda.getInstance().getMisProductos().size(); i++){
 			if(Tienda.getInstance().getMisProductos().get(i).ordencompra()<0.2){
-				orden.add(Tienda.getInstance().getMisProductos().get(i));
-				orden.get(orden.size()-1).setCantInicial((int)(Tienda.getInstance().getMisProductos().get(i).getCantInicial()*0.2*2));
-				orden.get(orden.size()-1).setCantReal((int)(Tienda.getInstance().getMisProductos().get(i).getCantInicial()*0.2*2));
+				Tienda.getInstance().getMisOrdenes().add(Tienda.getInstance().getMisProductos().get(i));
+				Tienda.getInstance().getMisOrdenes().get(Tienda.getInstance().getMisOrdenes().size()-1).setCantInicial((int)(Tienda.getInstance().getMisProductos().get(i).getCantInicial()*0.2*2));
+				Tienda.getInstance().getMisOrdenes().get(Tienda.getInstance().getMisOrdenes().size()-1).setCantReal((int)(Tienda.getInstance().getMisProductos().get(i).getCantInicial()*0.2*2));
 			}
 		}
 		
-		if(orden.size()>0){
-			for(int i = 0 ; i < orden.size(); i++){
-				fila[0] = orden.get(i).getNumeroSerie();
-				fila[1] = orden.get(i).getMarca();
-				fila[2] = orden.get(i).getModelo();
+		//if(Tienda.getInstance().getMisOrdenes().size()>0){
+			for(int i = 0 ; i < Tienda.getInstance().getMisOrdenes().size(); i++){
+				fila[0] = Tienda.getInstance().getMisOrdenes().get(i).getNumeroSerie();
+				fila[1] = Tienda.getInstance().getMisOrdenes().get(i).getMarca();
+				fila[2] = Tienda.getInstance().getMisOrdenes().get(i).getModelo();
 				
-				if(orden.get(i) instanceof TarjetaMadre){
+				if(Tienda.getInstance().getMisOrdenes().get(i) instanceof TarjetaMadre){
 					fila[3] = "Tarjeta Madre";
 				}
-				else if(orden.get(i) instanceof Microprocesador){
+				else if(Tienda.getInstance().getMisOrdenes().get(i) instanceof Microprocesador){
 					fila[3] = "Microprocesador";
 				}
-				else if(orden.get(i) instanceof MemoriaRam){
+				else if(Tienda.getInstance().getMisOrdenes().get(i) instanceof MemoriaRam){
 					fila[3] = "MemoriaRam";
 				}
-				else if(orden.get(i) instanceof DiscoDuro){
+				else if(Tienda.getInstance().getMisOrdenes().get(i) instanceof DiscoDuro){
 					fila[3] = "Disco Duro";
 				}
-				fila[4] = orden.get(i).getCantInicial();
+				fila[4] = Tienda.getInstance().getMisOrdenes().get(i).getCantInicial();
 				
 				
 		
@@ -461,7 +463,7 @@ public class ListarProducto extends JDialog implements Serializable {
 				
 				
 				}
-		}
+		//}
 	
 		tablaOrden.setModel(model);
 			//table.setEnabled(false); //deshabilita la seleccion.

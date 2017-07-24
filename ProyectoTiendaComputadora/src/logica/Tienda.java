@@ -14,6 +14,7 @@ public class Tienda implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	private ArrayList<Producto> misProductos;
+	private ArrayList<Producto> misOrdenes;
 	private int cantProductos=0;
 	private ArrayList<Cliente> misClientes;
 	private ArrayList<Factura> misFacturas;
@@ -24,6 +25,7 @@ public class Tienda implements Serializable{
 		misProductos = new ArrayList<Producto>();
 		misClientes = new ArrayList<Cliente>();
 		misFacturas = new ArrayList<Factura>();
+		misOrdenes = new ArrayList<Producto>();
 		this.cantProductos=0;
 	}
 	
@@ -32,6 +34,15 @@ public class Tienda implements Serializable{
 			tienda = new Tienda();
 		}
 		return tienda;
+	}
+	
+
+	public ArrayList<Producto> getMisOrdenes() {
+		return misOrdenes;
+	}
+
+	public void setMisOrdenes(ArrayList<Producto> misOrdenes) {
+		this.misOrdenes = misOrdenes;
 	}
 
 	public ArrayList<Producto> getMisProductos() {

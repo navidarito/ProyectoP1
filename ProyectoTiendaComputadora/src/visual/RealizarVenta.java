@@ -190,8 +190,15 @@ public class RealizarVenta extends JDialog implements Serializable {
 						for (int i = 0; i < miCarrito.size(); i++) {//y esa factura recorre el csarrtio entero
 							f1.insertarProducto(miCarrito.get(i), miCarrito.get(i).getCompra());//inserta to lo prodcuto en l factura
 						}
+						for (int j = 0; j < Tienda.getInstance().getMisProductos().size(); j++) {
+							System.out.println("Cantidad inicial del producto : "+j+Tienda.getInstance().getMisProductos().get(j).getCantInicial() );
+						}
 						Tienda.getInstance().InsertarFactura(f1);//inserta la factura en tienda
 						miCarrito.removeAll(miCarrito);//se borra el carrito entero[[[
+						/*int zx = miCarrito.size();
+						for (int k = 0; k < zx; k++) {
+							miCarrito.remove(k);
+						}*/
 						JOptionPane.showMessageDialog(null, Tienda.getInstance().getMisClientes().get(indeclient).getNombre()+ " Realizo una compra", "Información", JOptionPane.INFORMATION_MESSAGE);
 
 					}
@@ -275,7 +282,7 @@ public class RealizarVenta extends JDialog implements Serializable {
 					@Override
 					public void mouseClicked(MouseEvent e) {
 						int aux = tableListaCompra.getSelectedRow();
-						if(aux>-1){
+						if(aux>-1 && (cedulaCliente.getText()!="")){
 							btnAgregar.setEnabled(true);
 							btnQuitar.setEnabled(false);
 						}

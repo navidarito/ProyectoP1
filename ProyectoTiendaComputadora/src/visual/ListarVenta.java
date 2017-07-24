@@ -183,10 +183,14 @@ public class ListarVenta extends JDialog implements Serializable {
 			/*for (int j = 0; j < tienda.getMisFacturas().get(i).getMisProductos().size(); j++) {
 				
 			}*/
+			int total = 0;
 			fila[0] = Tienda.getInstance().getMisFacturas().get(i).getCodigo();
 			fila[1] = Tienda.getInstance().getMisFacturas().get(i).getClient().getNombre();
 			fila[2] = Tienda.getInstance().getMisFacturas().get(i).getClient().getCedula();
-			fila[3] = Tienda.getInstance().getMisFacturas().get(i).getMisProductos().size();
+			for (int j = 0; j <Tienda.getInstance().getMisFacturas().get(i).getMisProductos().size(); j++) {
+				total += Tienda.getInstance().getMisFacturas().get(i).getMisProductos().get(j).getCompra();
+			}
+			fila[3] = total;
 			fila[4] = Tienda.getInstance().getMisFacturas().get(i).totalFactura();
 
 			models.addRow(fila);
