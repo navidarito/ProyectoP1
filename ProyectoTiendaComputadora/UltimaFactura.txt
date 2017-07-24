@@ -1,0 +1,8 @@
+Código de la factura: 001, Fecha de compra: 24/07/2017, 09:11:42, Cliente: Lopez
+Cantidad de Productos:3
+----------------------------------------------------------------
+Número de serie: 32ADS2F2, Cantidad del producto:3, Precio Unitario: 240.0
+----------------------------------------------------------------
+Total : 720.0
+----------------------------------------------------------------
+
