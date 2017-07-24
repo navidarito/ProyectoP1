@@ -38,6 +38,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.awt.Color;
 import javax.swing.UIManager;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class ListarProducto extends JDialog implements Serializable {
 
@@ -58,6 +60,9 @@ public class ListarProducto extends JDialog implements Serializable {
 	private Producto prod=null;
 	private JTable tablaOrden;
 	private ArrayList<Producto> orden;
+	private JButton btnProcesar;
+	private JLabel lblAlgo;
+	private JComboBox cbOpcion;
 
 	/**
 	 * Launch the application.
@@ -76,6 +81,97 @@ public class ListarProducto extends JDialog implements Serializable {
 	 * Create the dialog.
 	 */
 	public ListarProducto() {
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowActivated(WindowEvent e) {
+				if(orden.size()>0){
+					btnProcesar.setEnabled(true);
+					lblAlgo.setText("Hay ordenes para procesar");
+				}else{
+					btnProcesar.setEnabled(false);
+					lblAlgo.setText("No hay ordenes para procesar");
+				}
+				if(cbOpcion.getSelectedIndex() == 0){
+					//Todo
+					String[] columnNames = {"Número de serie","Marca","Modelo","Tipo","Cantidad Inicial","Cantidad Real","Precio Unitario"};
+					model = new DefaultTableModel(){
+
+						@Override
+						public boolean isCellEditable(int row, int column){
+							return false;
+						}
+					};
+					model.setColumnIdentifiers(columnNames);
+					table.setModel(model);
+					loadTable();
+					scrollPane.setViewportView(table);
+					
+				}
+				else if(cbOpcion.getSelectedIndex() == 1){
+					//Tarjeta Madre
+					String[] columnNames = {"Número de serie","Marca","Modelo","Tipo Conector Micro","Tipo de Ram","Tipo de Disco Duro"};
+					model = new DefaultTableModel(){
+
+						@Override
+						public boolean isCellEditable(int row, int column){
+							return false;
+						}
+					};
+					model.setColumnIdentifiers(columnNames);
+					table.setModel(model);
+					loadTabletTarjeta();
+					scrollPane.setViewportView(table);
+				}
+				else if(cbOpcion.getSelectedIndex() == 2){
+					//Microprocesador
+					String[] columnNames = {"Número de serie","Marca","Modelo","Tipo Socket","Velocidad de procesamiento(MHz)"};
+					model = new DefaultTableModel(){
+
+						@Override
+						public boolean isCellEditable(int row, int column){
+							return false;
+						}
+					};
+					model.setColumnIdentifiers(columnNames);
+					table.setModel(model);
+					loadTableMicro();
+					scrollPane.setViewportView(table);
+				}
+				else if(cbOpcion.getSelectedIndex() == 3){
+					//Memoria Ram
+					String[] columnNames = {"Número de serie","Marca","Modelo","Capacidad (MB)","Tipo Memoria"};
+					model = new DefaultTableModel(){
+
+						@Override
+						public boolean isCellEditable(int row, int column){
+							return false;
+						}
+					};
+					model.setColumnIdentifiers(columnNames);
+					table.setModel(model);
+					loadTableMemoriaRam();
+					scrollPane.setViewportView(table);
+
+				}
+				else if(cbOpcion.getSelectedIndex() == 4){
+					//Disco Duro
+					String[] columnNames = {"Número de serie","Marca","Modelo","Capacidad (GB)","Tipo Conexión"};
+					model = new DefaultTableModel(){
+
+						@Override
+						public boolean isCellEditable(int row, int column){
+							return false;
+						}
+					};
+					model.setColumnIdentifiers(columnNames);
+					table.setModel(model);
+					loadTableDiscoDuro();
+					scrollPane.setViewportView(table);
+
+				}
+				
+			}
+		});
 		setForeground(Color.BLUE);
 		orden = new ArrayList<Producto>();
 		setIconImage(Toolkit.getDefaultToolkit().getImage(ListarProducto.class.getResource("/imagenes/pcparts.png")));
@@ -126,7 +222,7 @@ public class ListarProducto extends JDialog implements Serializable {
 				}
 			}
 			
-			JComboBox cbOpcion = new JComboBox();
+			cbOpcion = new JComboBox();
 			cbOpcion.setModel(new DefaultComboBoxModel(new String[] {"Todo", "Tarjeta Madre", "Microprocesador", "Memoria Ram", "Disco Duro"}));
 			cbOpcion.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -248,14 +344,27 @@ public class ListarProducto extends JDialog implements Serializable {
 					scrollPane_1.setViewportView(tablaOrden);
 				}
 			}
-			
-			JButton btnProcesar = new JButton("Procesar");
+			btnProcesar = new JButton("Procesar");
+			btnProcesar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					for (int i = 0; i < orden.size(); i++) {
+						for (int j = 0; j <  Tienda.getInstance().getMisProductos().size(); j++) {
+							if(orden.get(i).getNumeroSerie().equalsIgnoreCase( Tienda.getInstance().getMisProductos().get(j).getNumeroSerie())){
+								 //Tienda.getInstance().getMisProductos().get(j).setCantInicial(Tienda.getInstance().getMisProductos().get(j));
+								 Tienda.getInstance().getMisProductos().get(j).setCantReal(Tienda.getInstance().getMisProductos().get(j).getCantReal()+orden.get(i).getCantReal());
+								 break;
+							}
+						}
+					}
+					orden.removeAll(orden);
+					JOptionPane.showMessageDialog(null, "Productos procesados", "Información", JOptionPane.INFORMATION_MESSAGE);
+				}
+			});
 			btnProcesar.setEnabled(false);
 			btnProcesar.setBounds(427, 58, 89, 23);
 			ordernar.add(btnProcesar);
-			
-			JLabel lblAlgo = new JLabel("algo");
-			lblAlgo.setBounds(10, 27, 406, 21);
+			lblAlgo = new JLabel("");
+			lblAlgo.setBounds(10, 27, 506, 21);
 			ordernar.add(lblAlgo);
 		}
 		{

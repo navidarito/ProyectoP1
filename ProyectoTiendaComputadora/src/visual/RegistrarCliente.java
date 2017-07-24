@@ -112,7 +112,7 @@ public class RegistrarCliente extends JDialog implements Serializable {
 				ftxtCedula.setBounds(95, 27, 244, 21);
 				panel.add(ftxtCedula);
 				
-				MaskFormatter mask1 = new MaskFormatter("????????????????????");
+				//MaskFormatter mask1 = new MaskFormatter("????????????????????");
 				
 				MaskFormatter mask2 = new MaskFormatter("(###)-###-####");
 				ftxtTelefono = new JFormattedTextField(mask2);
@@ -172,6 +172,7 @@ public class RegistrarCliente extends JDialog implements Serializable {
 						String cedu = ftxtCedula.getText();
 						String dire = txtDireccion.getText();
 						String tele = ftxtTelefono.getText();
+						poder = true;
 						
 						if(txtNombre.getText().equalsIgnoreCase("") || ftxtCedula.getText().equalsIgnoreCase("   -       - ")  || txtDireccion.getText().equalsIgnoreCase("") || ftxtTelefono.getText().equalsIgnoreCase("(   )-   -    ") ){
 							JOptionPane.showMessageDialog(null, "No dejes campos vacios", "Información", JOptionPane.WARNING_MESSAGE);
@@ -186,7 +187,7 @@ public class RegistrarCliente extends JDialog implements Serializable {
 								clean();
 							}
 						}*/
-						if(poder==false){
+						if(poder==true){
 							if(modificar == false){
 								Cliente c1 = new Cliente(nom, cedu, dire, tele);
 								Tienda.getInstance().InsertarCliente(c1);

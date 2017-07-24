@@ -64,10 +64,10 @@ public class RegistrarProducto extends JDialog implements Serializable{
 	private JComboBox cbCapacidadmbRam;
 	private JComboBox cbTipoDisco;
 	private JComboBox cbtiposocketmicro;
-	private JFormattedTextField ftxtNumeroSerie;
 	private JTextField txtPrecioCompra;
 	private boolean modificar;
 	private JButton btnRegistrar;
+	private JTextField numeroserie;
 
 
 
@@ -187,10 +187,7 @@ public class RegistrarProducto extends JDialog implements Serializable{
 
 					//MaskFormatter mask1 = new MaskFormatter("????????????????????");
 
-					MaskFormatter mask2 = new MaskFormatter("###-#########-##");
-					ftxtNumeroSerie = new JFormattedTextField(mask2);
-					ftxtNumeroSerie.setBounds(120, 95, 182, 23);
-					panelGeneral.add(ftxtNumeroSerie);
+					
 					{
 						txtPrecioCompra = new JTextField();	
 						txtPrecioCompra.addKeyListener(new KeyAdapter() {
@@ -213,6 +210,25 @@ public class RegistrarProducto extends JDialog implements Serializable{
 						panelGeneral.add(txtPrecioCompra);
 						txtPrecioCompra.setColumns(10);
 					}
+					
+					numeroserie = new JTextField();
+					numeroserie.addKeyListener(new KeyAdapter() {
+						@Override
+						public void keyTyped(KeyEvent e) {
+							char c = e.getKeyChar();
+							if (((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)
+							&& ((c < 'a') || (c>'z')) && ((c < 'A')||(c > 'Z'))) {
+							e.consume();
+							}
+							if (c == '.' && txtPrecioCompra.getText().contains(".")) {
+							e.consume();
+							}
+							
+						}
+					});
+					numeroserie.setBounds(120, 93, 182, 23);
+					panelGeneral.add(numeroserie);
+					numeroserie.setColumns(10);
 
 				} catch (Exception e) {
 					// TODO: handle exception
@@ -435,23 +451,31 @@ public class RegistrarProducto extends JDialog implements Serializable{
 					btnRegistrar.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent e) {
 							boolean poder = true;
+							boolean cedul = true;
 
 							double prec = Double.parseDouble(txtPrecioCompra.getText());
-							String numserie = ftxtNumeroSerie.getText();
+							String numserie = numeroserie.getText();
 							String marc = txtmarca.getText();
 							String model = txtmodelo.getText();
 							int cant = (int) spcantidad.getValue();
-							if(ftxtNumeroSerie.getText().equalsIgnoreCase("") || txtmodelo.getText().equalsIgnoreCase("") || txtmarca.getText().equalsIgnoreCase("") || spcantidad.getValue().equals("")){
-								JOptionPane.showMessageDialog(null, " revise si hay campos vacíos y vuelve a intentarlo", "ERROR", JOptionPane.WARNING_MESSAGE);
+							if(numeroserie.getText().equalsIgnoreCase("") || txtmodelo.getText().equalsIgnoreCase("") || txtmarca.getText().equalsIgnoreCase("") || spcantidad.getValue().equals("")){
+								JOptionPane.showMessageDialog(null, " Revise si hay campos vacíos y vuelve a intentarlo", "ERROR", JOptionPane.WARNING_MESSAGE);
 								poder = false;
+							}
+							for (int i = 0; i < Tienda.getInstance().getMisProductos().size(); i++) {
+								if(numeroserie.getText().equalsIgnoreCase(Tienda.getInstance().getMisProductos().get(i).getNumeroSerie())){
+									JOptionPane.showMessageDialog(null, " Ya existe este número de serie", "ERROR", JOptionPane.WARNING_MESSAGE);
+									cedul = false;
+									numeroserie.setText("");
+								}
 							}
 
 							if(cbTipo.getSelectedIndex()==0){
 								//Registrar Tarjeta Madre
 								if(cbTipoRam.getSelectedIndex()==0 || cbTipoDisco.getSelectedIndex()==0 || cbTipoSocket.getSelectedIndex()==0){
-									JOptionPane.showMessageDialog(null,  "hay campos que no están seleccionados", "WARNING", JOptionPane.WARNING_MESSAGE);
+									JOptionPane.showMessageDialog(null,  " Hay campos que no están seleccionados", "WARNING", JOptionPane.WARNING_MESSAGE);
 
-								}if(modificar==false){
+								}if(modificar==false && poder ==true && cedul == true){
 
 									String tipsock = cbTipoSocket.getSelectedItem().toString();
 									String tipram = cbTipoRam.getSelectedItem().toString();
@@ -466,9 +490,9 @@ public class RegistrarProducto extends JDialog implements Serializable{
 							 if(cbTipo.getSelectedIndex()==1){
 								//Registrar Microprocesador
 								if(poder==false &&(cbtiposocketmicro.getSelectedIndex()==0 || cbVelocidadmicro.getSelectedIndex()==0)){
-									JOptionPane.showMessageDialog(null,  "hay campos que no están seleccionados", "WARNING", JOptionPane.WARNING_MESSAGE);
+									JOptionPane.showMessageDialog(null,  "Hay campos que no están seleccionados", "WARNING", JOptionPane.WARNING_MESSAGE);
 								}
-								if(modificar==false){
+								if(modificar==false && poder ==true && cedul == true){
 									String velomic = cbVelocidadmicro.getSelectedItem().toString();
 									String tiposockmi = cbtiposocketmicro.getSelectedItem().toString();
 									Microprocesador m = new Microprocesador(prec, cant, numserie, marc, model, velomic,tiposockmi );
@@ -482,7 +506,7 @@ public class RegistrarProducto extends JDialog implements Serializable{
 								if(cbtipodelram.getSelectedIndex()== 0 || cbCapacidadmbRam.getSelectedIndex()==0){
 									JOptionPane.showMessageDialog(null,  "hay campos que no están seleccionados", "WARNING", JOptionPane.WARNING_MESSAGE);
 								}
-								if(modificar==false){
+								if(modificar==false  && poder ==true && cedul == true){
 
 									String capram = cbCapacidadmbRam.getSelectedItem().toString();
 									String tipram = cbtipodelram.getSelectedItem().toString();
@@ -495,9 +519,9 @@ public class RegistrarProducto extends JDialog implements Serializable{
 							}else if(cbTipo.getSelectedIndex()==3){
 								//Registrar Disco Duro
 								if(cbCapacidadAlmacenamiento.getSelectedIndex()==0 || cbTipoConexionDisco.getSelectedIndex()==0){
-									JOptionPane.showMessageDialog(null,  "hay campos que no están seleccionados", "WARNING", JOptionPane.WARNING_MESSAGE);
+									JOptionPane.showMessageDialog(null,  "Hay campos que no están seleccionados", "WARNING", JOptionPane.WARNING_MESSAGE);
 								}
-								if(modificar==false){
+								if(modificar==false  && poder ==true && cedul == true){
 
 									String capdis = cbCapacidadAlmacenamiento.getSelectedItem().toString();
 									String conecdis = cbTipoConexionDisco.getSelectedItem().toString();
@@ -507,7 +531,7 @@ public class RegistrarProducto extends JDialog implements Serializable{
 								}
 
 							}
-							if(poder){
+							if(poder== true && cedul == true){
 								
 								Clean();
 								System.out.println(Tienda.getInstance().getMisProductos().get(0).getMarca());
@@ -540,7 +564,7 @@ public class RegistrarProducto extends JDialog implements Serializable{
 		txtmarca.setText("");
 		txtmodelo.setText("");
 		txtPrecioCompra.setText("");
-		ftxtNumeroSerie.setText(null);
+		numeroserie.setText("");
 		spcantidad.setValue(1);
 		cbCapacidadAlmacenamiento.setSelectedIndex(0);
 		cbCapacidadmbRam.setSelectedIndex(0);
