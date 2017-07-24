@@ -53,7 +53,6 @@ public class ListarProducto extends JDialog implements Serializable {
 	private static DefaultTableModel model;
 	private JScrollPane scrollPane;
 	private JButton btnEliminar;
-	private JButton btnModificar;
 	private JButton cancelButton;
 	private String numeroSerie = "";
 	private JLabel label;
@@ -199,7 +198,6 @@ public class ListarProducto extends JDialog implements Serializable {
 						public void mouseClicked(MouseEvent e) {
 							int aux=table.getSelectedRow();
 							if(aux>-1){
-								btnModificar.setEnabled(true);
 								btnEliminar.setEnabled(true);
 							    numeroSerie  = (String) table.getModel().getValueAt(aux, 0);
 							    prod = Tienda.getInstance().indexProducto(numeroSerie);
@@ -207,7 +205,6 @@ public class ListarProducto extends JDialog implements Serializable {
 							}
 							else{
 								btnEliminar.setEnabled(false);
-								btnModificar.setEnabled(false);
 								numeroSerie = "";
 							}
 						
@@ -382,7 +379,7 @@ public class ListarProducto extends JDialog implements Serializable {
 							Tienda.getInstance().eliminiarProducto(numeroSerie);
 						    loadTable();
 						    btnEliminar.setEnabled(false);
-						    btnModificar.setEnabled(false);
+						 
 						}
 						}
 					}
@@ -390,20 +387,6 @@ public class ListarProducto extends JDialog implements Serializable {
 				btnEliminar.setEnabled(false);
 				btnEliminar.setIcon(new ImageIcon(ListarProducto.class.getResource("/imagenes/cancel.png")));
 				buttonPane.add(btnEliminar);
-			}
-			{
-				btnModificar = new JButton("Modificar");
-				btnModificar.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						
-						
-					}
-				});
-				btnModificar.setEnabled(false);
-				btnModificar.setIcon(new ImageIcon(ListarProducto.class.getResource("/imagenes/modificar.png")));
-				btnModificar.setActionCommand("OK");
-				buttonPane.add(btnModificar);
-				getRootPane().setDefaultButton(btnModificar);
 			}
 			{
 				cancelButton = new JButton("Salir");

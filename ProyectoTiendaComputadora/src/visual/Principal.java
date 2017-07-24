@@ -212,9 +212,6 @@ public class Principal extends JFrame  implements Serializable {
 			}
 		});
 		mnProductoMsVendido.add(mntmBarra);
-		
-		JMenuItem mntmGanancias = new JMenuItem("Ganancias");
-		mnGrficas.add(mntmGanancias);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		//contentPane.setBackground("background.png");

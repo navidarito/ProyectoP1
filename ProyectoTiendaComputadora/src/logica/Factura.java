@@ -68,7 +68,6 @@ public class Factura implements Serializable{
 		misProductos.add(p1);
 		System.out.println(p1.cantReal);
 		p1.setCompra(cant);
-		p1.setCantReal(p1.getCantReal()-cant);
 
 	}
 	public double totalFactura(){

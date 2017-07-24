@@ -217,7 +217,7 @@ public class RegistrarProducto extends JDialog implements Serializable{
 						public void keyTyped(KeyEvent e) {
 							char c = e.getKeyChar();
 							if (((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)
-							&& ((c < 'a') || (c>'z')) && ((c < 'A')||(c > 'Z'))) {
+							&& ((c < 'A')||(c > 'Z'))) {
 							e.consume();
 							}
 							if (c == '.' && txtPrecioCompra.getText().contains(".")) {

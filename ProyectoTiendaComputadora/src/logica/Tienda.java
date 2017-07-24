@@ -2,7 +2,9 @@ package logica;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -227,7 +229,7 @@ public class Tienda implements Serializable{
 			e.printStackTrace();
 		}
 	}
-	public void guardarTienda(Tienda comp){
+	public void guardarTienda(Tienda tz){
 		File file= new File("Tienda.dat");
 		FileOutputStream fo= null;
 		ObjectOutputStream ob =null;
@@ -235,7 +237,7 @@ public class Tienda implements Serializable{
 		try {
 			fo= new FileOutputStream(file);
 			ob = new ObjectOutputStream(fo);
-			ob.writeObject(comp);
+			ob.writeObject(tz);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -246,6 +248,75 @@ public class Tienda implements Serializable{
 			}catch(Exception e){
 				e.printStackTrace();
 			}
+		}
+	}
+	
+	public void crearFichero1() throws IOException{
+		FileOutputStream file = new FileOutputStream("Tiendaz.dat");
+		ObjectOutputStream escritor = new ObjectOutputStream(file);
+		escritor.writeInt(misFacturas.size());
+		for (Factura fac : misFacturas) 
+			escritor.writeObject(fac);	
+		escritor.close();
+		file.close();
+	}
+	
+	public void txtFichero1(String codigo){
+		FileInputStream file;
+		ObjectInputStream lector;
+		ObjectOutputStream escritor;
+		FileOutputStream salida;
+		FileWriter writter = null;
+		File archivo = new File("UltimaFactura.txt");
+		try {
+			writter = new FileWriter(archivo);
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		try {
+			file = new FileInputStream("Tiendaz.dat");
+			salida = new FileOutputStream("UltimaFactura1.txt");
+			try {
+				lector = new ObjectInputStream(file);
+				escritor = new ObjectOutputStream(salida);
+				int index = lector.readInt();
+				for (int i = 0; i < index; i++) {
+					if(misFacturas.get(i).getCodigo()==codigo){
+						System.out.println("Entro: ");
+						Factura aux = (Factura) lector.readObject();
+						writter.write("Código de la factura: "+aux.getCodigo()+"\n");
+						int total = 0;
+						for (int j = 0; j < aux.getMisProductos().size(); j++) {
+							total += aux.getMisProductos().get(j).getCompra();
+						}
+						writter.write("Cantidad de Productos:"+String.valueOf(total)+"\n");
+						writter.write("----------------------------------------------------------------\n");
+						for (int j = 0; j < aux.getMisProductos().size(); j++) {
+	
+							writter.write("Número de serie: "+aux.getMisProductos().get(j).numeroSerie+", Cantidad del producto:"+aux.getMisProductos().get(j).getCompra()+", Precio Unitario: "+aux.getMisProductos().get(j).precioVenta()+"\n");
+							
+						}
+						writter.write("Total : "+aux.totalFactura()+"\n");
+						writter.write("----------------------------------------------------------------\n");
+						writter.write("\n");
+					}
+					
+					
+				}
+				writter.close();
+				lector.close();
+				escritor.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 	

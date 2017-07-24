@@ -37,6 +37,7 @@ import java.awt.Toolkit;
 import javax.swing.ImageIcon;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.IOException;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -185,22 +186,28 @@ public class RealizarVenta extends JDialog implements Serializable {
 				comprarbtn.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 
-						Cliente aux = Tienda.getInstance().getMisClientes().get(indeclient);//coje la posicion del cliente 
-						Factura f1 = new Factura(aux, current);//se crea una factura.. el current es la hora actual
-						for (int i = 0; i < miCarrito.size(); i++) {//y esa factura recorre el csarrtio entero
-							f1.insertarProducto(miCarrito.get(i), miCarrito.get(i).getCompra());//inserta to lo prodcuto en l factura
+						Cliente aux = Tienda.getInstance().getMisClientes().get(indeclient);
+						Factura f1 = new Factura(aux, current);
+						for (int i = 0; i < miCarrito.size(); i++) {
+							f1.insertarProducto(miCarrito.get(i), miCarrito.get(i).getCompra());
+							
+						
+						Tienda.getInstance().InsertarFactura(f1);
+						try {
+							Tienda.getInstance().crearFichero1();
+						} catch (IOException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
 						}
-						for (int j = 0; j < Tienda.getInstance().getMisProductos().size(); j++) {
-							System.out.println("Cantidad inicial del producto : "+j+Tienda.getInstance().getMisProductos().get(j).getCantInicial() );
-						}
-						Tienda.getInstance().InsertarFactura(f1);//inserta la factura en tienda
-						miCarrito.removeAll(miCarrito);//se borra el carrito entero[[[
+						Tienda.getInstance().txtFichero1(Tienda.getInstance().getMisFacturas().get(Tienda.getInstance().getMisFacturas().size()-1).getCodigo());
+						miCarrito.removeAll(miCarrito);
 						/*int zx = miCarrito.size();
 						for (int k = 0; k < zx; k++) {
 							miCarrito.remove(k);
 						}*/
 						JOptionPane.showMessageDialog(null, Tienda.getInstance().getMisClientes().get(indeclient).getNombre()+ " Realizo una compra", "Información", JOptionPane.INFORMATION_MESSAGE);
 
+					}
 					}
 				});
 				comprarbtn.setEnabled(false);
@@ -214,7 +221,7 @@ public class RealizarVenta extends JDialog implements Serializable {
 				cancelar.setIcon(new ImageIcon(RealizarVenta.class.getResource("/imagenes/cancel.png")));
 				cancelar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						if(miCarrito.size()>0){// se verifica si hay producto en carrito
+						if(miCarrito.size()>0){
 
 							if(JOptionPane.showConfirmDialog(null,  "Estas seguro de salir", "Información", JOptionPane.YES_NO_OPTION)== JOptionPane.YES_OPTION){
 								for (int i = 0; i < miCarrito.size(); i++) {
@@ -333,25 +340,25 @@ public class RealizarVenta extends JDialog implements Serializable {
 			btnAgregar.setEnabled(false);
 			btnAgregar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					int n = (int)spCantComprar.getValue();//se cogio la cantidad
-					if(n>(int)tableListaCompra.getModel().getValueAt(tableListaCompra.getSelectedRow(), 0)){//se verifica si esa cantidad es mayor que la cantidad de producto real q hay
+					int n = (int)spCantComprar.getValue();
+					if(n>(int)tableListaCompra.getModel().getValueAt(tableListaCompra.getSelectedRow(), 0)){
 						JOptionPane.showMessageDialog(null,  "La cantidad que pide\nes mayor a lo disponible", "WARNING", JOptionPane.WARNING_MESSAGE);
 					}else{
-						for (int i = 0; i < Tienda.getInstance().getMisProductos().size(); i++) {//coge to lo producto
-							if(Tienda.getInstance().getMisProductos().get(i).getNumeroSerie().equalsIgnoreCase((String)tableListaCompra.getModel().getValueAt(tableListaCompra.getSelectedRow(), 4))){// si el producto es igual al numero serie del click de la tabla .. es para cojerlo
-								if(miCarrito.size()>0){//si hay producto
-									for (int j = 0; j < miCarrito.size(); j++) {//recorre el carrito
-										if(Tienda.getInstance().getMisProductos().get(i).getNumeroSerie().equalsIgnoreCase(miCarrito.get(j).getNumeroSerie())){//si ya hay un producto de lo q agregas
-											miCarrito.get(j).setCompra(miCarrito.get(j).getCompra()+n);// en vez de estar agregando aumentamos la cantidad
-											Tienda.getInstance().getMisProductos().get(i).setCantReal(Tienda.getInstance().getMisProductos().get(i).getCantReal()-n);// se reducr la cantidad de la venta
+						for (int i = 0; i < Tienda.getInstance().getMisProductos().size(); i++) {
+							if(Tienda.getInstance().getMisProductos().get(i).getNumeroSerie().equalsIgnoreCase((String)tableListaCompra.getModel().getValueAt(tableListaCompra.getSelectedRow(), 4))){
+								if(miCarrito.size()>0){
+									for (int j = 0; j < miCarrito.size(); j++) {
+										if(Tienda.getInstance().getMisProductos().get(i).getNumeroSerie().equalsIgnoreCase(miCarrito.get(j).getNumeroSerie())){
+											miCarrito.get(j).setCompra(miCarrito.get(j).getCompra()+n);
+											Tienda.getInstance().getMisProductos().get(i).setCantReal(Tienda.getInstance().getMisProductos().get(i).getCantReal()-n);
 											//loadCarrito();
 											JOptionPane.showMessageDialog(null,  "Se agregó de nuevo exitosamente", "Información", JOptionPane.INFORMATION_MESSAGE);
-											break; //hay q poner break sino va a seguir y no va a parar
+											break; 
 
-										}else if(j==miCarrito.size()-1){//ocurrira despues de recorrer 
+										}else if(j==miCarrito.size()-1){
 											miCarrito.add(Tienda.getInstance().getMisProductos().get(i));
-											miCarrito.get(miCarrito.size()-1).setCompra(n);//size-1 siempre sera el ultimo y sepone la canridad de compra que se eligio
-											Tienda.getInstance().getMisProductos().get(i).setCantReal(Tienda.getInstance().getMisProductos().get(i).getCantReal()-n);//reducir el valor de la venta.
+											miCarrito.get(miCarrito.size()-1).setCompra(n);
+											Tienda.getInstance().getMisProductos().get(i).setCantReal(Tienda.getInstance().getMisProductos().get(i).getCantReal()-n);
 											//loadCarrito();
 											JOptionPane.showMessageDialog(null,  "Se agregó exitosamente-1", "Información", JOptionPane.INFORMATION_MESSAGE);
 											//loadCarrito();
@@ -360,7 +367,7 @@ public class RealizarVenta extends JDialog implements Serializable {
 										}
 									}
 								}else{
-									miCarrito.add(Tienda.getInstance().getMisProductos().get(i));// la misma que el anterior.. el primero para despues.. el segundo para agregar nuevo producto pasa solo una vez
+									miCarrito.add(Tienda.getInstance().getMisProductos().get(i));
 									miCarrito.get(miCarrito.size()-1).setCompra(n);
 									Tienda.getInstance().getMisProductos().get(i).setCantReal(Tienda.getInstance().getMisProductos().get(i).getCantReal()-n);
 									//loadCarrito();
@@ -373,7 +380,7 @@ public class RealizarVenta extends JDialog implements Serializable {
 							}
 						}
 					}
-					System.out.println(miCarrito.size()+"<---Tamano del carrito");
+					//System.out.println(miCarrito.size()+"<---Tamano del carrito");
 					//loadCarrito();
 					//loadTable();
 					//JOptionPane.showMessageDialog(null,  "Se agregó exitosamente-0", "Información", JOptionPane.INFORMATION_MESSAGE);
@@ -396,9 +403,9 @@ public class RealizarVenta extends JDialog implements Serializable {
 						for (int i = 0; i < miCarrito.size(); i++) {
 							if(miCarrito.get(i).getNumeroSerie().equalsIgnoreCase((String)tableCarrito.getModel().getValueAt(tableCarrito.getSelectedRow(), 4))){
 								if(Tienda.getInstance().getMisProductos().size()>0){
-									for (int j = 0; j < Tienda.getInstance().getMisProductos().size(); j++) {// en vez de recorre el carrito se recorre la venta
+									for (int j = 0; j < Tienda.getInstance().getMisProductos().size(); j++) {
 										if(miCarrito.get(i).getNumeroSerie().equalsIgnoreCase(Tienda.getInstance().getMisProductos().get(j).getNumeroSerie())){
-											Tienda.getInstance().getMisProductos().get(j).setCantReal(Tienda.getInstance().getMisProductos().get(j).getCantReal()+n);//ahi aumenta la cntidd real de ese producto
+											Tienda.getInstance().getMisProductos().get(j).setCantReal(Tienda.getInstance().getMisProductos().get(j).getCantReal()+n);
 											miCarrito.get(i).setCompra(miCarrito.get(i).getCompra()-n);
 											JOptionPane.showMessageDialog(null,  "Se devolvio de nuevo exitosamente", "Información", JOptionPane.INFORMATION_MESSAGE);
 											break;
@@ -424,7 +431,7 @@ public class RealizarVenta extends JDialog implements Serializable {
 							}
 						}
 					}
-					System.out.println(miCarrito.size()+"<---Tamano del carrito");
+					//System.out.println(miCarrito.size()+"<---Tamano del carrito");
 					//loadCarrito();
 					btnQuitar.setEnabled(false);
 				}
@@ -549,7 +556,7 @@ public class RealizarVenta extends JDialog implements Serializable {
 		}
 */
 		for (int i = 0; i < Tienda.getInstance().getMisProductos().size(); i++) {
-			if(Tienda.getInstance().getMisProductos().get(i).getCantReal()>0){//si cantidad es mayor q cero visualiza todo
+			if(Tienda.getInstance().getMisProductos().get(i).getCantReal()>0){
 				fila[0] = Tienda.getInstance().getMisProductos().get(i).getCantReal();
 				if(Tienda.getInstance().getMisProductos().get(i) instanceof TarjetaMadre){
 					fila[1] = "Tarjeta Madre";
@@ -606,7 +613,7 @@ public class RealizarVenta extends JDialog implements Serializable {
 		fila = new Object[models.getColumnCount()];
 
 		for (int i=0; i<miCarrito.size();i++) {
-			if(miCarrito.get(i).getCompra()>0){//si hay mas de un producto se visualiza
+			if(miCarrito.get(i).getCompra()>0){
 				fila[0] = miCarrito.get(i).getCompra();
 				if(miCarrito.get(i) instanceof TarjetaMadre){
 					fila[1] = "Tarjeta Madre";
@@ -625,12 +632,12 @@ public class RealizarVenta extends JDialog implements Serializable {
 				fila[4] = miCarrito.get(i).getNumeroSerie();
 
 				models.addRow(fila);
-			}else{//si hay producto q no tiene cantidad entra aqui
-				aux = i;//aux va a poner en esa posicion q no tiene nada
+			}else{
+				aux = i;
 			}
 		}
 		if(aux!=-1){
-			miCarrito.remove(aux);//quita ese producto.. si lo dejo ahi siempre se va a poner en menos 1
+			miCarrito.remove(aux);
 		}
 		aux = -1;
 
